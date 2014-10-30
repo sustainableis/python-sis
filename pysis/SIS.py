@@ -22,6 +22,10 @@ class SIS(object):
         
 if __name__ == "__main__":
     s = SIS(token="1a765a554a2359feb69c62b8b73576376c236fca")
-    data = s.organizations.getAll()
+    data = s.organizations.get()
     for org in data:
         print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)
+        
+    print("---------\n")
+    org1 = s.organizations.get(id=1)
+    print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)

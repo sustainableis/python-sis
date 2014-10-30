@@ -35,8 +35,8 @@ class Service(object):
 
     def _get(self, request, **kwargs):
         
-        reqURL = "%s%s" % (self.config['base_url'], request.uri)
-        response = self._client.get(reqURL, headers={'authorization' : 'Bearer 1a765a554a2359feb69c62b8b73576376c236fca'})
+        request.uri = "%s%s" % (self.config['base_url'], request.uri)
+        response = self._client.get(request, headers={'authorization' : 'Bearer 1a765a554a2359feb69c62b8b73576376c236fca'})
         return request.resource.loads(response[1])
     
     #TODO: Add other types of requests (PUT, POST, DELETE, PATCH, etc...)

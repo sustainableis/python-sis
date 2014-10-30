@@ -4,8 +4,12 @@ from pysis.reqs.base import Request
 from pysis.resources.organizations import Organizations
 
 class Get(Request):
-    uri = 'organizations/'
+    uri = 'organizations/{id}'
     resource = Organizations
+    
+    def clean_uri(self):
+        if not self.id:
+            return 'organizations'
 
 #TODO: implement these
 

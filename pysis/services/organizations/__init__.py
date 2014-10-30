@@ -9,12 +9,16 @@ class Organizations(Service):
 
     def __init__(self, **config):
         super(Organizations, self).__init__(**config)
-        
-    def getAll(self):
-        """ Get all organizations
+    
+    def get(self, id=None):
+        """ Get a specific organization or all of them if id=None
         
         :returns A :doc:`result`
         """
-        
-        request = self.request_builder('organizations.get')
+        if id is None:
+            request = self.request_builder('organizations.get')
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('organizations.get', id=1)
+            
         return self._get(request)

@@ -10,6 +10,8 @@ else:
     http.client = http
     import urllib as urllib
     urllib.parse = urllib
+    
+from reqs.base import Request
 
 _default_headers = {
     #TODO: Header field names MUST be lowercase; this is not checked
@@ -96,9 +98,9 @@ class Client(object):
         url += self.urlencode(params)
         return self.request('HEAD', url, None, headers)
 
-    def get(self, url, headers={}, **params):
-        url += self.urlencode(params)
-        response =  self.request('GET', url, None, headers)
+    def get(self, request, headers={}, **params):
+        request.uri += self.urlencode(params)
+        response =  self.request('GET', str(request), None, headers)
         assert response[0] == 200
         return response
 
