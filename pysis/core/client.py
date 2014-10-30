@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 import json
-import base64
 import sys
 if sys.version_info[0:2] > (3,0):
     import http.client
@@ -16,27 +15,8 @@ from reqs.base import Request
 _default_headers = {
     #TODO: Header field names MUST be lowercase; this is not checked
     #TODO: what should user agent be?
-    'user-agent': 'chetisawesome/v1'
+    'user-agent': 'PySISUserAgent/v1'
     }
-
-class ConnectionProperties(object):
-    __slots__ = ['api_url', 'secure_http', 'extra_headers']
-
-    def __init__(self, **props):#api_url = None, secure_http = None, extra_headers = None):
-        # Initialize attribute slots
-        for key in self.__slots__:
-            setattr(self, key, None)
-            
-        #self.api_url = api_url
-        #self.secure_http = secure_http
-        #self.extra_headers = extra_headers
-
-        # Fill attribute slots with custom values
-        for key, val in props.items():
-            if key not in ConnectionProperties.__slots__:
-                raise TypeError("Invalid connection property: " + str(key))
-            else:
-                setattr(self, key, val)
                 
 class Client(object):
     http_methods = (
@@ -51,54 +31,40 @@ class Client(object):
     default_headers = {}
     headers = None
 
-    def __init__(self, username=None,
-            password=None, token=None,
-            connection_properties=None
-            ):
+    def __init__(self, **kwargs):
 
-        # Set up connection properties
-        if connection_properties is not None:
-            self.setConnectionProperties(connection_properties)
+        #TODO: Add check for base_url in kwargs
+        self.config = {
+            'api_domain' : '',
+            'base_url' : '',
+            'token' : '',
+            'extra_headers' : {'accept' : '*/*'}
+        }
+        
+        self.config.update(kwargs)
 
-        # Set up authentication
-        self.username = username
-        if username is not None:
-            if password is None and token is None:
-                raise TypeError("You need a password to authenticate as " + username)
-            if password is not None and token is not None:
-                raise TypeError("You cannot use both password and oauth token authentication")
-
-            self.auth_header = None
-            if password is not None:
-                self.auth_header = self.hash_pass(password)
-            elif token is not None:
-                self.auth_header = 'Bearer %s' % token #self.auth_header = 'Token %s' % token
-
-    def setConnectionProperties(self, props):
-        '''
-        Initialize the connection properties. This must be called
-        (either by passing connection_properties=... to __init__ or
-        directly) before any request can be sent.
-        '''
-        if type(props) is not ConnectionProperties:
-            raise TypeError("Client.setConnectionProperties: Expected ConnectionProperties object")
-
-        self.prop = props
-        if self.prop.extra_headers is not None:
-            self.default_headers = _default_headers.copy()
-            self.default_headers.update(self.prop.extra_headers)
-
+        #Save OAauth2 token
+        assert self.config['token'] != ''
+        self.auth_header = 'Bearer %s' % self.config['token']
+        self.default_headers['authorization'] = self.auth_header
+            
+        #TODO: All for extra connection properties
+        #if self.config.extra_headers is not None:
+        #    self.default_headers = _default_headers.copy()
+        #    self.default_headers.update(self.config.extra_headers)  
+        
         # Enforce case restrictions on self.default_headers
-        tmp_dict = {}
-        for k,v in self.default_headers.items():
-            tmp_dict[k.lower()] = v
-        self.default_headers = tmp_dict
+        #tmp_dict = {}
+        #for k,v in self.default_headers.items():
+        #    tmp_dict[k.lower()] = v
+        #self.default_headers = tmp_dict      
 
     def head(self, url, headers={}, **params):
         url += self.urlencode(params)
         return self.request('HEAD', url, None, headers)
 
     def get(self, request, headers={}, **params):
+        request.uri = "%s%s" % (self.config['base_url'], request.uri)
         request.uri += self.urlencode(params)
         response =  self.request('GET', str(request), None, headers)
         assert response[0] == 200
@@ -137,19 +103,15 @@ class Client(object):
         '''Low-level networking. All HTTP-method methods call this'''
 
         headers = self._fix_headers(headers)
-
-        #if self.username:
-        #headers['authorization'] = self.auth_header
-
-        #TODO: Context manager
+        
         conn = self.get_connection()
         conn.request(method, url, body, headers)
         response = conn.getresponse()
         status = response.status
         content = Content(response)
         self.headers = response.getheaders()
-
         conn.close()
+        
         return status, content.processBody()
 
     def _fix_headers(self, headers):
@@ -170,26 +132,8 @@ class Client(object):
             return ''
         return '?' + urllib.parse.urlencode(params)
 
-    def hash_pass(self, password):
-        auth_str = ('%s:%s' % (self.username, password)).encode('utf-8')
-        return 'Basic '.encode('utf-8') + base64.b64encode(auth_str).strip()
-
     def get_connection(self):
-        if self.prop.secure_http:
-            conn = http.client.HTTPSConnection(self.prop.api_url)
-        elif self.username is None:
-            conn = http.client.HTTPConnection(self.prop.api_url)
-        else:
-            conn = http.client.HTTPConnection(self.prop.api_url)
-            #===================================================================
-            # 
-            # #TODO - ConnectionError
-            # raise ValueError('Refusing to authenticate over'
-            #         ' non-secure  (HTTP) connection. To override, edit'
-            #         ' the source'
-            #         )
-            #===================================================================
-
+        conn = http.client.HTTPConnection(self.config['api_domain'])
         return conn
     
 class Content(object):

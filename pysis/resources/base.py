@@ -22,16 +22,8 @@ class Resource(object):
 
     @classmethod
     def loads(self, resource_chunk):
-        isMultiItem = True
         
-        for raw_resource in resource_chunk:
-            if isinstance(raw_resource, dict):
-                continue
-            else:
-                isMultiItem = False
-                break
-            
-        if isMultiItem:
+        if isinstance(resource_chunk, list):
             return [self.__load(raw_resource) for raw_resource in resource_chunk]
         else:
             return self.__load(resource_chunk)

@@ -2,6 +2,9 @@
 # -*- encoding: utf-8 -*-
 
 class SIS(object):
+    __BASE_URL__ = 'http://api.sustainableis.com/v1/'
+    __API_DOMAIN__ = 'api.sustainableis.com'
+    
     """
     You can preconfigure all services globally with a ``config`` dict. See
     :attr:`~pysis.services.base.Service`
@@ -13,6 +16,15 @@ class SIS(object):
 
     def __init__(self, **config):
         from pysis.services.organizations import Organizations
+        
+        if 'token' not in config:
+            raise ValueError("token must be passed in. ex- SIS(token='xyz...')")
+        
+        if 'api_domain' not in config:
+            config['api_domain'] = self.__API_DOMAIN__
+        
+        if 'base_url' not in config:
+            config['base_url'] = self.__BASE_URL__
         
         self._organizations = Organizations(**config)
 
