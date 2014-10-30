@@ -70,12 +70,15 @@ class Client(object):
         assert response[0] == 200
         return response
 
-    def post(self, url, body=None, headers={}, **params):
-        url += self.urlencode(params)
+    def post(self, request, body=None, headers={}, **params):
+        request.uri = "%s%s" % (self.config['base_url'], request.uri)
+        request.uri += self.urlencode(params)
         if not 'content-type' in headers:
             # We're doing a json.dumps of body, so let's set the content-type to json
             headers['content-type'] = 'application/json'
-        return self.request('POST', url, json.dumps(body), headers)
+        response = self.request('POST', str(request), json.dumps(body), headers)
+        assert response[0] == 201
+        return response
 
     def put(self, url, body=None, headers={}, **params):
         url += self.urlencode(params)

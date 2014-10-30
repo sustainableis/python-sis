@@ -29,4 +29,9 @@ class Service(object):
         response = self._client.get(request)
         return request.resource.loads(response[1])
     
+    def _post(self, request, **kwargs):
+        
+        response = self._client.post(request, request.body.content)
+        return response
+    
     #TODO: Add other types of requests (PUT, POST, DELETE, PATCH, etc...)

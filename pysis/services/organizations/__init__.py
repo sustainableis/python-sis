@@ -22,3 +22,12 @@ class Organizations(Service):
             request = self.request_builder('organizations.get', id=1)
             
         return self._get(request)
+    
+    def create(self, data):
+        """ Create an organization
+        
+        """
+        #TODO: Make sure name is not '' if the node server doesn't
+        request = self.request_builder('organizations.create', body=data)
+        return self._post(request)
+        
