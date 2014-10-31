@@ -19,7 +19,7 @@ class Organizations(Service):
             request = self.request_builder('organizations.get')
         else:
             assert isinstance(id, int)
-            request = self.request_builder('organizations.get', id=1)
+            request = self.request_builder('organizations.get', id=id)
             
         return self._get(request)
     
@@ -30,4 +30,13 @@ class Organizations(Service):
         #TODO: Make sure name is not '' if the node server doesn't
         request = self.request_builder('organizations.create', body=data)
         return self._post(request)
+    
+    def delete(self, id):
+        """ Delete an organizaiton
+        
+        """
+        request = self.request_builder('organizations.delete', id=id)
+        return self._delete(request)
+        
+        
         

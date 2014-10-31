@@ -10,6 +10,7 @@ class Get(Request):
     def clean_uri(self):
         if not self.id:
             return 'organizations'
+        
 class Create(Request):
     uri = 'organizations'
     resource = Organizations
@@ -18,3 +19,7 @@ class Create(Request):
         'schema' : ('name'),
         'required' : ('name')   
     }
+    
+class Delete(Request):
+    uri = 'organizations/{id}'
+    resource = Organizations

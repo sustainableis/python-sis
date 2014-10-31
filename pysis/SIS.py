@@ -39,9 +39,10 @@ if __name__ == "__main__":
         print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)
         
     print("---------\n")
-    org1 = s.organizations.get(id=1)
+    org1 = s.organizations.get(id=30)
     print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
     
-    #s.organizations.create({'name': 'Really Long name with numb3rs 123 59'})
+    #s.organizations.delete(26)
+    #s.organizations.create({'name': 'Sample Organization'})
     
     

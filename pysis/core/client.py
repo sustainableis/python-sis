@@ -87,9 +87,12 @@ class Client(object):
             headers['content-type'] = 'application/json'
         return self.request('PUT', url, json.dumps(body), headers)
 
-    def delete(self, url, headers={}, **params):
-        url += self.urlencode(params)
-        return self.request('DELETE', url, None, headers)
+    def delete(self, request, headers={}, **params):
+        request.uri = "%s%s" % (self.config['base_url'], request.uri)
+        request.uri += self.urlencode(params)
+        response = self.request('DELETE', str(request), None, headers)
+        assert response[0] == 204
+        return response
 
     def patch(self, url, body=None, headers={}, **params):
         """
