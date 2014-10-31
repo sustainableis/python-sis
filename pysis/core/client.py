@@ -80,12 +80,15 @@ class Client(object):
         assert response[0] == 201
         return response
 
-    def put(self, url, body=None, headers={}, **params):
-        url += self.urlencode(params)
+    def put(self, request, body=None, headers={}, **params):
+        request.uri = "%s%s" % (self.config['base_url'], request.uri)
+        request.uri += self.urlencode(params)
         if not 'content-type' in headers:
             # We're doing a json.dumps of body, so let's set the content-type to json
             headers['content-type'] = 'application/json'
-        return self.request('PUT', url, json.dumps(body), headers)
+        response = self.request('PUT', str(request), json.dumps(body), headers)
+        assert response[0] == 204
+        return response
 
     def delete(self, request, headers={}, **params):
         request.uri = "%s%s" % (self.config['base_url'], request.uri)

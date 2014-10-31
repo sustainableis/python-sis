@@ -39,4 +39,9 @@ class Service(object):
         response = self._client.delete(request)
         return response
     
+    def _put(self, request, **kwargs):
+        
+        response = self._client.put(request, request.body.content)
+        return response
+    
     #TODO: Add other types of requests (PUT, POST, DELETE, PATCH, etc...)

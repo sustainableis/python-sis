@@ -5,6 +5,13 @@ from pysis.services.base import Service
 class Organizations(Service):
     """ 
     Consume `Organizations API <http://api.sustainableis.com/v1/organizations>`_ 
+    
+    Example uses:
+    ------------
+    s.organizations.create({'name': 'Sample Organization'})
+    org = s.organizations.get(id=30)
+    s.organizations.update(30, {'name': 'Org Name'})
+    s.organizations.delete(30)
     """
 
     def __init__(self, **config):
@@ -35,8 +42,17 @@ class Organizations(Service):
         """ Delete an organizaiton
         
         """
+        assert isinstance(id, int)
         request = self.request_builder('organizations.delete', id=id)
         return self._delete(request)
+    
+    def update(self, id, data):
+        """ Update an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.update', id=id, body=data)
+        return self._put(request)
         
         
         

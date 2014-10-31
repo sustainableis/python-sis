@@ -42,6 +42,10 @@ if __name__ == "__main__":
     org1 = s.organizations.get(id=30)
     print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
     
+    #s.organizations.update(30, {'name': 'PutTestPython1'})
+    #org1 = s.organizations.get(id=30)
+    #print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)    
+    
     #s.organizations.delete(26)
     #s.organizations.create({'name': 'Sample Organization'})
     

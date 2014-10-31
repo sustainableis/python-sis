@@ -23,3 +23,9 @@ class Create(Request):
 class Delete(Request):
     uri = 'organizations/{id}'
     resource = Organizations
+
+class Update(Request):   
+    uri = 'organizations/{id}'
+    resource = Organizations
+    
+    
