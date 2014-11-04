@@ -16,6 +16,7 @@ class SIS(object):
 
     def __init__(self, **config):
         from pysis.services.organizations import Organizations
+        from pysis.services.facilities import Facilities
         
         if 'token' not in config:
             raise ValueError("token must be passed in. ex- SIS(token='xyz...')")
@@ -27,10 +28,15 @@ class SIS(object):
             config['base_url'] = self.__BASE_URL__
         
         self._organizations = Organizations(**config)
+        self._facilities = Facilities(**config)
 
     @property
     def organizations(self):
         return self._organizations
+    
+    @property
+    def facilities(self):
+        return self._facilities
         
 if __name__ == "__main__":
     s = SIS(token="1a765a554a2359feb69c62b8b73576376c236fca")
@@ -42,9 +48,25 @@ if __name__ == "__main__":
     org1 = s.organizations.get(id=30)
     print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
     
-    #s.organizations.update(30, {'name': 'PutTestPython1'})
-    #org1 = s.organizations.get(id=30)
-    #print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)    
+    print("---------")
+    print("---------\n")
+    
+    data = s.facilities.get()
+    for fac in data:
+        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
+        
+    print("---------\n")
+    fac = s.facilities.get(id=30)
+    print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
+    
+    print("---------")
+    print("---------\n")
+    
+    data = s.organizations.getFacilities(1)
+    for fac in data:
+        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
+    
+    
     
     #s.organizations.delete(26)
     #s.organizations.create({'name': 'Sample Organization'})

@@ -54,5 +54,12 @@ class Organizations(Service):
         request = self.request_builder('organizations.update', id=id, body=data)
         return self._put(request)
         
+    def getFacilities(self, id):
+        """ Get the facilities of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getFacilities', id=id)
+        return self._get(request)
         
         

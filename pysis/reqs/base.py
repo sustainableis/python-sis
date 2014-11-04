@@ -102,13 +102,14 @@ class Factory(object):
         def wrapper(self, request_uri, **kwargs):
             #if not Factory.import_pattern.match(request_uri):
             #    raise UriInvalid("'%s' isn't valid form" % request_uri)
-            return func(self, request_uri.lower(), **kwargs)
+            return func(self, request_uri, **kwargs)
         return wrapper
 
     @validate
     def __call__(self, request_uri, **kwargs):
         module_chunk, s, request_chunk = request_uri.rpartition('.')
-        request_chunk = request_chunk.capitalize()
+        #request_chunk = request_chunk.capitalize()
+        request_chunk = request_chunk[0].upper() + request_chunk[1:]
         try:
             #  TODO: CamelCase and under_score support, now only Class Name
             module = import_module('%s.%s' % (ABS_IMPORT_PREFIX, module_chunk))
