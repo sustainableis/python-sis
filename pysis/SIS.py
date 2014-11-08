@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+from pysis.core.client import Client
+
 class SIS(object):
     __BASE_URL__ = 'http://api.sustainableis.com/v1/'
     __API_DOMAIN__ = 'api.sustainableis.com'
@@ -26,9 +28,11 @@ class SIS(object):
         
         if 'base_url' not in config:
             config['base_url'] = self.__BASE_URL__
+            
+        self._client = Client(**config)
         
-        self._organizations = Organizations(**config)
-        self._facilities = Facilities(**config)
+        self._organizations = Organizations(self._client)
+        self._facilities = Facilities(self._client)
 
     @property
     def organizations(self):
@@ -65,8 +69,11 @@ if __name__ == "__main__":
     data = s.organizations.getFacilities(1)
     for fac in data:
         print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
-    
-    
+        
+    org1 = s.organizations.get(1)
+    data = org1.getFacilities()
+    for fac in data:
+        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
     
     #s.organizations.delete(26)
     #s.organizations.create({'name': 'Sample Organization'})

@@ -30,17 +30,16 @@ class Client(object):
 
     default_headers = {}
     headers = None
-
-    def __init__(self, **kwargs):
-
-        #TODO: Add check for base_url in kwargs
-        self.config = {
+    config = {
             'api_domain' : '',
             'base_url' : '',
             'token' : '',
             'extra_headers' : {'accept' : '*/*'}
         }
-        
+
+    def __init__(self, **kwargs):
+
+        #TODO: Add check for base_url
         self.config.update(kwargs)
 
         #Save OAauth2 token

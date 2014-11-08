@@ -93,19 +93,6 @@ class Request(object):
 class Factory(object):
     """ Request builder """
 
-    import_pattern = re.compile(r'^(\w+\.)+\w+$')
-
-    def validate(func):
-        """ Decorator to check if request_uri
-        has valid format: 'from.path.module.class' """
-
-        def wrapper(self, request_uri, **kwargs):
-            #if not Factory.import_pattern.match(request_uri):
-            #    raise UriInvalid("'%s' isn't valid form" % request_uri)
-            return func(self, request_uri, **kwargs)
-        return wrapper
-
-    @validate
     def __call__(self, request_uri, **kwargs):
         module_chunk, s, request_chunk = request_uri.rpartition('.')
         #request_chunk = request_chunk.capitalize()

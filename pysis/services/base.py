@@ -17,8 +17,8 @@ class Service(object):
     python-requests.org/en/v0.10.6/user/advanced/#verbose-logging>`_
     """
 
-    def __init__(self, **config):
-        self._client = Client(**config)
+    def __init__(self, client):
+        self._client = client
         self.request_builder = Factory()
     
     def _request(self, verb, request, **kwargs):

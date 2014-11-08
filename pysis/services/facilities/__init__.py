@@ -10,8 +10,8 @@ class Facilities(Service):
     ------------
     """
 
-    def __init__(self, **config):
-        super(Facilities, self).__init__(**config)
+    def __init__(self, client):
+        super(Facilities, self).__init__(client)
     
     def get(self, id=None):
         """ Get a specific facility or all of them if id=None

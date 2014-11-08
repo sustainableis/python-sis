@@ -14,8 +14,8 @@ class Organizations(Service):
     s.organizations.delete(30)
     """
 
-    def __init__(self, **config):
-        super(Organizations, self).__init__(**config)
+    def __init__(self, client):
+        super(Organizations, self).__init__(client)
     
     def get(self, id=None):
         """ Get a specific organization or all of them if id=None
