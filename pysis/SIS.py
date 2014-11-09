@@ -19,6 +19,9 @@ class SIS(object):
     def __init__(self, **config):
         from pysis.services.organizations import Organizations
         from pysis.services.facilities import Facilities
+        from pysis.services.outputs import Outputs
+        from pysis.services.buildings import Buildings
+        from pysis.services.users import Users
         
         if 'token' not in config:
             raise ValueError("token must be passed in. ex- SIS(token='xyz...')")
@@ -33,6 +36,9 @@ class SIS(object):
         
         self._organizations = Organizations(self._client)
         self._facilities = Facilities(self._client)
+        self._outputs = Outputs(self._client)
+        self._buildings = Buildings(self._client)
+        self._users = Users(self._client)
 
     @property
     def organizations(self):
@@ -41,6 +47,19 @@ class SIS(object):
     @property
     def facilities(self):
         return self._facilities
+    
+    @property
+    def outputs(self):
+        return self._outputs
+    
+    @property
+    def buildings(self):
+        return self._buildings
+    
+    @property
+    def users(self):
+        return self._users
+    
         
 if __name__ == "__main__":
     s = SIS(token="1a765a554a2359feb69c62b8b73576376c236fca")
@@ -74,6 +93,27 @@ if __name__ == "__main__":
     data = org1.getFacilities()
     for fac in data:
         print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
+        
+    print("---------")
+    print("---------\n")
+    
+    data = s.outputs.get()
+    for output in data:
+        print(str(output.id) + ' : ' + output.label + ' : ' + output.created_at)
+       
+    print("---------")
+    print("---------\n")
+     
+    data = s.buildings.get()
+    for output in data:
+        print(str(output.id) + ' : ' + output.label + ' : ' + output.created_at)
+        
+    print("---------")
+    print("---------\n")
+     
+    data = s.users.get()
+    for output in data:
+        print(str(output.id) + ' : ' + output.first_name + ' : ' + output.created_at)
     
     #s.organizations.delete(26)
     #s.organizations.create({'name': 'Sample Organization'})
