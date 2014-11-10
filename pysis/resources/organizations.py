@@ -6,72 +6,20 @@ from .base import Resource
 __service__ = 'Organizations'
 
 class Organizations(Resource):
-        
+             
     def __str__(self):
         return '<Organizations>'
     
-    def getFacilities(self, id=None):  
-        
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
+    def __getattr__(self, attr):
         
         service = self.importService(__service__)
-        return service.getFacilities(_id)
+        if hasattr(service, attr):
+            def wrapper(*args, **kw):
+                if not hasattr(self, 'id'): 
+                    raise AttributeError(str(self.id), "Service must have id")
+                return getattr(service, attr)(self.id)
+            return wrapper
+        else:
+            raise AttributeError(attr)
     
-    def getBuildings(self, id=None):
-
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
-        
-        service = self.importService(__service__)
-        return service.getBuildings(_id)
     
-    def getUsers(self, id=None):
-
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
-        
-        service = self.importService(__service__)
-        return service.getUsers(_id)
-    
-    def getFeeds(self, id=None):
-
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
-        
-        service = self.importService(__service__)
-        return service.getFeeds(_id)
-    
-    def getOutputs(self, id=None):
-
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
-        
-        service = self.importService(__service__)
-        return service.getOutputs(_id)
-    
-    def getBlastcells(self, id=None):
-
-        if hasattr(self, 'id'):
-            _id = self.id
-        else:
-            _id = id 
-        assert isinstance(_id, int)
-        
-        service = self.importService(__service__)
-        return service.getBlastcells(_id)
