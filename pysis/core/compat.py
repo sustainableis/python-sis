@@ -22,7 +22,6 @@ def import_module(module_uri):
 
     return callback(module_uri)
 
-
 class _OrderedDict(dict, MutableMapping):
     """
     Src: http://code.activestate.com/recipes/576669/

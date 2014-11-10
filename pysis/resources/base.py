@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+from pysis.core.compat import import_module
+from pysis.exceptions import (RequestDoesNotExist, UriInvalid,
+                                  ValidationError, InvalidBodySchema)
 class Resource(object):
 
     _dates = ()
@@ -19,6 +21,19 @@ class Resource(object):
 
     def __repr__(self):
         return self.__str__()
+    
+    def importService(self, service):
+        from pysis.core.client import Client
+
+        try:
+            moduleName = 'pysis.services.' + service.lower()
+            module = import_module(moduleName)
+            service_class = getattr(module, service)
+            service = service_class(Client())
+        except ImportError:
+            raise RequestDoesNotExist("'%s' module does not exist" % moduleName)
+        
+        return service
 
     @classmethod
     def loads(self, resource_chunk):

@@ -2,12 +2,8 @@
 # -*- encoding: utf-8 -*-
 
 from .base import Resource
-from pysis.core.client import Client
-from pysis.core.compat import import_module
-from pysis.exceptions import (RequestDoesNotExist, UriInvalid,
-                                  ValidationError, InvalidBodySchema)
 
-__all__ = ('Organizations', )
+__service__ = 'Organizations'
 
 class Organizations(Resource):
         
@@ -22,9 +18,60 @@ class Organizations(Resource):
             _id = id 
         assert isinstance(_id, int)
         
-        
-        module = import_module('pysis.services.organizations')
-        service_class = getattr(module, 'Organizations')
-        service = service_class(Client())
+        service = self.importService(__service__)
         return service.getFacilities(_id)
+    
+    def getBuildings(self, id=None):
 
+        if hasattr(self, 'id'):
+            _id = self.id
+        else:
+            _id = id 
+        assert isinstance(_id, int)
+        
+        service = self.importService(__service__)
+        return service.getBuildings(_id)
+    
+    def getUsers(self, id=None):
+
+        if hasattr(self, 'id'):
+            _id = self.id
+        else:
+            _id = id 
+        assert isinstance(_id, int)
+        
+        service = self.importService(__service__)
+        return service.getUsers(_id)
+    
+    def getFeeds(self, id=None):
+
+        if hasattr(self, 'id'):
+            _id = self.id
+        else:
+            _id = id 
+        assert isinstance(_id, int)
+        
+        service = self.importService(__service__)
+        return service.getFeeds(_id)
+    
+    def getOutputs(self, id=None):
+
+        if hasattr(self, 'id'):
+            _id = self.id
+        else:
+            _id = id 
+        assert isinstance(_id, int)
+        
+        service = self.importService(__service__)
+        return service.getOutputs(_id)
+    
+    def getBlastcells(self, id=None):
+
+        if hasattr(self, 'id'):
+            _id = self.id
+        else:
+            _id = id 
+        assert isinstance(_id, int)
+        
+        service = self.importService(__service__)
+        return service.getBlastcells(_id)

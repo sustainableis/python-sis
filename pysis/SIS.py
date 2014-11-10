@@ -21,7 +21,9 @@ class SIS(object):
         from pysis.services.facilities import Facilities
         from pysis.services.outputs import Outputs
         from pysis.services.buildings import Buildings
+        from pysis.services.feeds import Feeds
         from pysis.services.users import Users
+        from pysis.services.blastcells import Blastcells
         
         if 'token' not in config:
             raise ValueError("token must be passed in. ex- SIS(token='xyz...')")
@@ -38,7 +40,9 @@ class SIS(object):
         self._facilities = Facilities(self._client)
         self._outputs = Outputs(self._client)
         self._buildings = Buildings(self._client)
+        self._feeds = Feeds(self._client)
         self._users = Users(self._client)
+        self._blastcells = Blastcells(self._client)
 
     @property
     def organizations(self):
@@ -60,7 +64,15 @@ class SIS(object):
     def users(self):
         return self._users
     
-        
+    @property
+    def feeds(self):
+        return self._feeds
+    
+    @property
+    def blastcells(self):
+        return self._blastcells
+    
+    
 if __name__ == "__main__":
     s = SIS(token="1a765a554a2359feb69c62b8b73576376c236fca")
     data = s.organizations.get()
@@ -114,6 +126,20 @@ if __name__ == "__main__":
     data = s.users.get()
     for output in data:
         print(str(output.id) + ' : ' + output.first_name + ' : ' + output.created_at)
+        
+    print("---------")
+    print("---------\n")
+     
+    data = s.feeds.get()
+    for feed in data:
+        print(str(feed.id) + ' : ' + feed.key + ' : ' + feed.created_at)
+        
+    print("---------")
+    print("---------\n")
+     
+    data = s.blastcells.get()
+    for cell in data:
+        print(str(cell.id) + ' : ' + cell.label + ' : ' + cell.created_at)
     
     #s.organizations.delete(26)
     #s.organizations.create({'name': 'Sample Organization'})

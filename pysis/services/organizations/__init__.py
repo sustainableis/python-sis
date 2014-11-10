@@ -61,5 +61,46 @@ class Organizations(Service):
         assert isinstance(id, int)
         request = self.request_builder('organizations.getFacilities', id=id)
         return self._get(request)
+    
+    def getBuildings(self, id):
+        """ Get the buildings of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getBuildings', id=id)
+        return self._get(request)
+    
+    def getUsers(self, id):
+        """ Get the users of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getUsers', id=id)
+        return self._get(request)
+    
+    def getFeeds(self, id):
+        """ Get the feeds of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getFeeds', id=id)
+        return self._get(request)
+    
+    def getOutputs(self, id):
+        """ Get the outputs of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getOutputs', id=id)
+        return self._get(request)
+    
+    def getBlastcells(self, id):
+        """ Get the blastcells of an organization
+        
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('organizations.getBlastcells', id=id)
+        return self._get(request)
+    
         
         
