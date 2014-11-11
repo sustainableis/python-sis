@@ -10,4 +10,8 @@ class Get(Request):
     def clean_uri(self):
         if not self.id:
             return 'outputs'
+        
+class GetRefrigerationData(Request):
+    uri = 'outputs/{id}/refrigerationData'
+    resource = Outputs
     

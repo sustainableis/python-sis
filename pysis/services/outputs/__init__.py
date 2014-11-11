@@ -30,3 +30,15 @@ class Outputs(Service):
             request = self.request_builder('outputs.get', id=id)
             
         return self._get(request)
+    
+    def getRefrigerationData(self, id=None):
+        """ Get the refrigeration data of an output
+        
+        :returns A :doc:`response`
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('outputs.getRefrigerationData', id=id)
+        return self._get(request)
+        
+        
+        

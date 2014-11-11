@@ -1,8 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-from pysis.core.client import Client
-from pysis.core.errors import NotFound
-from pysis.core.result import base
 from pysis.reqs.base import Factory
 
 
