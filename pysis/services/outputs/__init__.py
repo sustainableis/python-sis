@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from pysis.services.base import Service
+from datetime import datetime
 
 class Outputs(Service):
     """ 
@@ -64,13 +65,28 @@ class Outputs(Service):
         request = self.request_builder('outputs.getFields', id=id)
         return self._get(request)
     
-    def getRefrigerationData(self, id):
+    def getRefrigerationData(self, id, timeStart, timeEnd, window, fields):
         """ Get the refrigeration data of an output
         
         :returns A :doc:`response`
         """
         assert isinstance(id, int)
-        request = self.request_builder('outputs.getRefrigerationData', id=id)
+        assert isinstance(timeStart, (datetime, type(None)))
+        assert isinstance(timeEnd, (datetime, type(None)))
+        assert isinstance(window, (int, type(None)))
+        assert isinstance(fields, list)
+        
+        if timeStart is not None: 
+            timeStart = int((timeStart - datetime(1970,1,1)).total_seconds())
+        if timeEnd is not None: 
+            timeEnd = int((timeEnd - datetime(1970,1,1)).total_seconds())
+        
+        request = self.request_builder('outputs.getRefrigerationData', 
+                                       id=id,
+                                       timeStart=timeStart, 
+                                       timeEnd=timeEnd, 
+                                       window=window, 
+                                       fields=fields)
         return self._get(request)
         
         

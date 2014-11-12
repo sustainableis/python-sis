@@ -3,6 +3,7 @@ encoding//pysis/SIS.py=utf-8
 encoding//pysis/__init__.py=utf-8
 encoding//pysis/core/client.py=utf-8
 encoding//pysis/core/compat.py=utf-8
+encoding//pysis/core/errors.py=utf-8
 encoding//pysis/reqs/base.py=utf-8
 encoding//pysis/reqs/buildings/__init__.py=utf-8
 encoding//pysis/reqs/facilities/__init__.py=utf-8

@@ -74,7 +74,7 @@ class SIS(object):
     
     
 if __name__ == "__main__":
-    s = SIS(token="1a765a554a2359feb69c62b8b73576376c236fca")
+    s = SIS(token="5a417545a40bb6fd627ba3b05929843b6f4bf520")
     data = s.organizations.get()
     for org in data:
         print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)

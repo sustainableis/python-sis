@@ -28,3 +28,11 @@ class GetRefrigerationData(Request):
     uri = 'outputs/{id}/refrigerationData'
     resource = Refrigeration
     
+    def clean_uri(self):
+        uri ='outputs/{id}/refrigerationData'
+        
+        if self.timeStart and self.timeStart is not None:
+            uri += '?timeStart={timeStart}&timeEnd={timeEnd}&window={window}'
+        
+        return uri
+    
