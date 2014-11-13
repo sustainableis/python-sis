@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 from pysis.core.client import Client
+from pysis.resources.base import Resource
 
 class SIS(object):
     __BASE_URL__ = 'http://api.sustainableis.com/v1/'
@@ -24,6 +25,12 @@ class SIS(object):
         from pysis.services.feeds import Feeds
         from pysis.services.users import Users
         from pysis.services.blastcells import Blastcells
+        
+        enableParamChecks = True
+        if 'enableParamChecks' in config:
+            enableParamChecks = config['enableParamChecks']          
+        
+        Resource.setParamCheck(enableParamChecks)
         
         if 'token' not in config:
             raise ValueError("token must be passed in. ex- SIS(token='xyz...')")

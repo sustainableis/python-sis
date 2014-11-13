@@ -7,11 +7,21 @@ class Resource(object):
     _dates = ()
     _maps = {}
     _collection_maps = {}
+    _enableParamChecks = True
 
     def __init__(self, attrs):
         self._attrs = attrs
         self.__set_attrs()
 
+    @classmethod
+    def setParamCheck(self, enableParamChecks):
+        assert isinstance(enableParamChecks, bool)
+        self._enableParamChecks = enableParamChecks
+        
+    @property
+    def enableParamChecks(self):
+        return self._enableParamChecks
+        
     def __set_attrs(self):
         for attr in self._attrs:
             setattr(self, attr, self._attrs[attr])

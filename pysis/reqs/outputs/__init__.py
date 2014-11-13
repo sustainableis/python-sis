@@ -36,7 +36,7 @@ class GetRefrigerationData(Request):
             
         if self.fields and len(self.fields) > 0:
             for i in range(len(self.fields)):
-                uri += '&fields[]={fields[' + str(i) + ']}'
+                uri += '&fields[]={fields[%s]}' % i
         
         return uri
     

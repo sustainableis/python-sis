@@ -46,9 +46,7 @@ class Outputs(Resource):
         
         service = self.importService(__service__)
         
-        #TODO: Add fields check
-        checkFields = True
-        if checkFields and len(fields) > 0:
+        if self.enableParamChecks and len(fields) > 0:
             outputFields = self.getFields()
             
             for f in fields:
