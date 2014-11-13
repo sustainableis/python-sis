@@ -1,5 +1,4 @@
 eclipse.preferences.version=1
-encoding//pysis/SIS.py=utf-8
 encoding//pysis/__init__.py=utf-8
 encoding//pysis/core/client.py=utf-8
 encoding//pysis/core/compat.py=utf-8
@@ -22,3 +21,5 @@ encoding//pysis/services/buildings/__init__.py=utf-8
 encoding//pysis/services/facilities/__init__.py=utf-8
 encoding//pysis/services/organizations/__init__.py=utf-8
 encoding//pysis/services/outputs/__init__.py=utf-8
+encoding//pysis/sis.py=utf-8
+encoding/setup.py=utf-8

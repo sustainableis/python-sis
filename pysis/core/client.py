@@ -10,7 +10,7 @@ else:
     import urllib as urllib
     urllib.parse = urllib
     
-from reqs.base import Request
+from pysis.reqs.base import Request
 
 _default_headers = {
     #TODO: Header field names MUST be lowercase; this is not checked
