@@ -33,6 +33,10 @@ class GetRefrigerationData(Request):
         
         if self.timeStart and self.timeStart is not None:
             uri += '?timeStart={timeStart}&timeEnd={timeEnd}&window={window}'
+            
+        if self.fields and len(self.fields) > 0:
+            for i in range(len(self.fields)):
+                uri += '&fields[]={fields[' + str(i) + ']}'
         
         return uri
     

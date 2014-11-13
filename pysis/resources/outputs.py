@@ -32,6 +32,7 @@ class Outputs(Resource):
         if not hasattr(self, 'id'): 
             raise AttributeError(str(self.id), "Service must have id")
         assert isinstance(self.id, int)
+        assert isinstance(fields, list)
         
         timeStart = convertToDateTime(timeStart)
         timeEnd = convertToDateTime(timeEnd)
@@ -46,6 +47,18 @@ class Outputs(Resource):
         service = self.importService(__service__)
         
         #TODO: Add fields check
+        checkFields = True
+        if checkFields and len(fields) > 0:
+            outputFields = self.getFields()
+            
+            for f in fields:
+                isValid = False
+                for validField in outputFields:
+                    if f == validField.field_human_name:
+                        isValid = True
+                        break
+                if not isValid: 
+                    raise ValueError("Invalid field name: '%s'" % f)
         
         func = __categoryFunctions__[self.output_type['category']]        
         return getattr(service, func)(self.id, timeStart, timeEnd, window, fields)
