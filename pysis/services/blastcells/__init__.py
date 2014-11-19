@@ -3,24 +3,24 @@
 from pysis.services.base import Service
 
 class Blastcells(Service):
-    """ 
-    Consume `Blastcells API <http://api.sustainableis.com/v1/blastcells>`_ 
+    """Blastcells Service
     
-    Example uses:
-    ------------
-    s.organizations.create({'name': 'Sample Organization'})
-    org = s.organizations.get(id=30)
-    s.organizations.update(30, {'name': 'Org Name'})
-    s.organizations.delete(30)
+    Consumes Blastcells API: <{url}/blastcells>    
     """
 
     def __init__(self, client):
+        """Creates Blastcells object with a client"""
         super(Blastcells, self).__init__(client)
     
     def get(self, id=None):
-        """ Get a specific blastcell or all of them if id=None
+        """Gets Blastcells from the API
         
-        :returns A :doc:`result`
+        Args:
+            id (int): id of the blastcell. 
+                if None, returns all Blastcells
+        
+        Returns: 
+            Blastcells resources        
         """
         if id is None:
             request = self.request_builder('blastcells.get')

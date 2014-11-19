@@ -3,25 +3,23 @@
 from pysis.services.base import Service
 
 class Users(Service):
-    """ 
-    Consume `Users API <http://api.sustainableis.com/v1/users>`_ 
+    """Users Service
     
-    Example uses:
-    ------------
-    TODO
-    s.organizations.create({'name': 'Sample Organization'})
-    org = s.organizations.get(id=30)
-    s.organizations.update(30, {'name': 'Org Name'})
-    s.organizations.delete(30)
+    Consumes Users API: <{url}/users>    
     """
 
     def __init__(self, client):
+        """Creates Users object with a client"""
         super(Users, self).__init__(client)
     
     def get(self, id=None):
-        """ Get a specific user or all of them if id=None
+        """Gets Users from the API
         
-        :returns A :doc:`response`
+        Args:
+            id (int): id of the user. 
+                if None, returns all Users
+        
+        Returns: Users resources        
         """
         if id is None:
             request = self.request_builder('users.get')
@@ -30,3 +28,4 @@ class Users(Service):
             request = self.request_builder('users.get', id=id)
             
         return self._get(request)
+    

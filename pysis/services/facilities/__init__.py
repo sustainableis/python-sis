@@ -3,20 +3,23 @@
 from pysis.services.base import Service
 
 class Facilities(Service):
-    """ 
-    Consume `Facilities API <http://api.sustainableis.com/v1/facilities>`_ 
+    """Facilities Service
     
-    Example uses:
-    ------------
+    Consumes Facilities API: <{url}/facilities>    
     """
 
     def __init__(self, client):
+        """Creates Facilities object with a client"""
         super(Facilities, self).__init__(client)
     
     def get(self, id=None):
-        """ Get a specific facility or all of them if id=None
+        """Gets Facilities from the API
         
-        :returns A :doc:`result`
+        Args:
+            id (int): id of the facility. 
+                if None, returns all Facilities
+        
+        Returns: Facilities resources        
         """
         if id is None:
             request = self.request_builder('facilities.get')
@@ -26,29 +29,73 @@ class Facilities(Service):
             
         return self._get(request)
     
-    def create(self, data):
-        """ Create a facility
+    def getBuildings(self, id):
+        """Get the buildings of a facility
         
-        """
-        #TODO: Make sure name is not '' if the node server doesn't
-        request = self.request_builder('facilities.create', body=data)
-        return self._post(request)
-    
-    def delete(self, id):
-        """ Delete a facility
-        
+        Args:
+            id (int): id of the facility. 
+            
+        Returns: 
+            Buildings resources    
         """
         assert isinstance(id, int)
-        request = self.request_builder('facilities.delete', id=id)
-        return self._delete(request)
+        request = self.request_builder('facilities.getBuildings', id=id)
+        return self._get(request)
     
-    def update(self, id, data):
-        """ Update a facility
+    def getUsers(self, id):
+        """Get the users of a facility
         
+        Args:
+            id (int): id of the facility.    
+            
+        Returns: 
+            Users resources 
         """
         assert isinstance(id, int)
-        request = self.request_builder('facilities.update', id=id, body=data)
-        return self._put(request)
+        request = self.request_builder('facilities.getUsers', id=id)
+        return self._get(request)
+    
+    def getFeeds(self, id):
+        """Get the feeds of a facility
+        
+        Args:
+            id (int): id of the facility. 
+            
+        Returns: 
+            Feeds resources     
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('facilities.getFeeds', id=id)
+        return self._get(request)
+    
+    def getOutputs(self, id):
+        """Get the outputs of a facility
+        
+        Args:
+            id (int): id of the facility.
+            
+        Returns: 
+            Outputs resources    
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('facilities.getOutputs', id=id)
+        return self._get(request)
+    
+    def getBlastcells(self, id):
+        """Get the blastcells of a facility
+        
+        Args:
+            id (int): id of the facility.  
+            
+        Returns: 
+            Blastcells resources   
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('facilities.getBlastcells', id=id)
+        return self._get(request)
+    
+    
+    
         
         
         

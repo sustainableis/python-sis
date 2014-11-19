@@ -1,20 +1,37 @@
 # -*- coding: utf-8 -*-
 from pysis.core.compat import import_module
-from pysis.exceptions import (RequestDoesNotExist, UriInvalid,
-                                  ValidationError, InvalidBodySchema)
-class Resource(object):
+from pysis.exceptions import RequestDoesNotExist
 
-    _dates = ()
+class Resource(object):
+    """Resource Base Class
+    
+    Any GET on a service will return resources.
+    
+    Attributes:
+        _maps (dict): map of contents
+        _collection_maps (dict): collections
+        _enableParamChecks (bool): If True, fields arguments will be checked before used.
+    """
     _maps = {}
     _collection_maps = {}
     _enableParamChecks = True
 
     def __init__(self, attrs):
+        """Initializes a resource object
+        
+        Attributes:
+            _attrs (dict): All fields of the resource
+        """
         self._attrs = attrs
         self.__set_attrs()
 
     @classmethod
     def setParamCheck(self, enableParamChecks):
+        """Sets the param check class variable.
+        
+        Args:
+            enableParamChecks (bool): Determines whether or not to check field params
+        """
         assert isinstance(enableParamChecks, bool)
         self._enableParamChecks = enableParamChecks
         
@@ -33,6 +50,17 @@ class Resource(object):
         return self.__str__()
     
     def importService(self, service):
+        """Import a service class
+        
+        Args:
+            service (str): Service object to return.
+            
+        Returns:
+            Instance of the requested service class.
+            
+        Raises:
+            RequestDoesNotExist: The service import failed.
+        """
         from pysis.core.client import Client
 
         try:
@@ -47,7 +75,14 @@ class Resource(object):
 
     @classmethod
     def loads(self, resource_chunk):
+        """Gets the resources
         
+        Args:
+            resource_chunk (Resource(s)): List of raw resources or a single one
+            
+        Returns:
+            Resource objects. A list if more than one.        
+        """
         if isinstance(resource_chunk, list):
             return [self.__load(raw_resource) for raw_resource in resource_chunk]
         else:
@@ -55,13 +90,39 @@ class Resource(object):
     
     @classmethod
     def __load(self, raw_resource):
+        """Creates an individual resource
+        
+        Args:
+            raw_resource (Resource): Raw resource
+        
+        Returns:
+            instance of Resource object of the correct child type
+        """
         def self_resource(func):
             def wrapper(resource, raw_resource):
                 if resource == 'self':
                     resource = self
                 return func(resource, raw_resource)
             return wrapper
-        
+
+        @self_resource
+        def parse_map(resource, raw_resource):
+            if hasattr(raw_resource, 'items'):
+                return resource.__load(raw_resource)
+
+        @self_resource
+        def parse_collection_map(resource, raw_resources):
+            # Dict of resources (Ex: Gist file)
+            if hasattr(raw_resources, 'items'):
+                dict_map = {}
+                for key, raw_resource in raw_resources.items():
+                    dict_map[key] = resource.__load(raw_resource)
+                return dict_map
+            # list of resources
+            elif hasattr(raw_resources, '__iter__'):
+                return [resource.__load(raw_resource)
+                        for raw_resource in raw_resources]
+                
         new_resource = raw_resource.copy()
         new_resource.update(dict([
             (attr, parse_map(resource, raw_resource[attr]))
@@ -75,6 +136,10 @@ class Resource(object):
         return self(new_resource)
 
 class Raw(Resource):
-
+    """Base Resource Class
+    
+    Used only for class attribute instantiation
+    """
+    
     def __str__(self):
-        return 'Raw resource which should be alway have an override to the approriate resource'
+        return 'Raw resource which should be always have an override to the appropriate resource'

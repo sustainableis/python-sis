@@ -3,25 +3,24 @@
 from pysis.services.base import Service
 
 class Buildings(Service):
-    """ 
-    Consume `Buildings API <http://api.sustainableis.com/v1/buildings>`_ 
+    """Buildings Service
     
-    Example uses:
-    ------------
-    TODO
-    s.organizations.create({'name': 'Sample Organization'})
-    org = s.organizations.get(id=30)
-    s.organizations.update(30, {'name': 'Org Name'})
-    s.organizations.delete(30)
+    Consumes Feeds API: <{url}/buildings>    
     """
 
     def __init__(self, client):
+        """Creates Buildings object with a client"""
         super(Buildings, self).__init__(client)
     
     def get(self, id=None):
-        """ Get a specific building or all of them if id=None
+        """Gets Buildings from the API
         
-        :returns A :doc:`response`
+        Args:
+            id (int): id of the building. 
+                if None, returns all Buildings
+        
+        Returns: 
+            Buildings resources        
         """
         if id is None:
             request = self.request_builder('buildings.get')
@@ -30,3 +29,31 @@ class Buildings(Service):
             request = self.request_builder('buildings.get', id=id)
             
         return self._get(request)
+    
+    def getOutputs(self, id):
+        """Get the outputs of a building
+        
+        Args:
+            id (int): id of the building.
+            
+        Returns: 
+            Outputs resources     
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('buildings.getOutputs', id=id)
+        return self._get(request)
+    
+    def getBlastcells(self, id):
+        """Get the blastcells of a building
+        
+        Args:
+            id (int): id of the building.    
+            
+        Returns: 
+            Blastcells resources 
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('buildings.getBlastcells', id=id)
+        return self._get(request)
+    
+    

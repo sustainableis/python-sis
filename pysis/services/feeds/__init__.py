@@ -3,25 +3,23 @@
 from pysis.services.base import Service
 
 class Feeds(Service):
-    """ 
-    Consume `Feeds API <http://api.sustainableis.com/v1/feeds>`_ 
+    """Feeds Service
     
-    Example uses:
-    ------------
-    TODO
-    s.organizations.create({'name': 'Sample Organization'})
-    org = s.organizations.get(id=30)
-    s.organizations.update(30, {'name': 'Org Name'})
-    s.organizations.delete(30)
+    Consumes Feeds API: <{url}/feeds>    
     """
 
     def __init__(self, client):
+        """Creates Feeds object with a client"""
         super(Feeds, self).__init__(client)
     
     def get(self, id=None):
-        """ Get a specific feed or all of them if id=None
+        """Gets Feeds from the API
         
-        :returns A :doc:`response`
+        Args:
+            id (int): id of the feed. 
+                if None, returns all Feeds
+        
+        Returns: Feeds resources        
         """
         if id is None:
             request = self.request_builder('feeds.get')
@@ -30,3 +28,18 @@ class Feeds(Service):
             request = self.request_builder('feeds.get', id=id)
             
         return self._get(request)
+    
+    def getOutputs(self, id):
+        """Get the outputs of a feed
+        
+        Args:
+            id (int): id of the feed. 
+            
+        Returns: 
+            Outputs resources 
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('feeds.getOutputs', id=id)
+        return self._get(request)
+    
+    
