@@ -12,7 +12,7 @@ except ImportError:
     pass
 
 setup(
-    name=pysis.__name__,
+    name=pysis.__title__,
     version=pysis.__version__,
     author=pysis.__author__,
     author_email=pysis.__email__,

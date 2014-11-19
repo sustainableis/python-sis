@@ -8,13 +8,15 @@ class SIS(object):
     __BASE_URL__ = 'http://api.sustainableis.com/v1/'
     __API_DOMAIN__ = 'api.sustainableis.com'
     
-    """
-    You can preconfigure all services globally with a ``config`` dict. See
-    :attr:`~pysis.services.base.Service`
+    """Main SIS object
+    
+    You can configure all services globally using the config dict.
+    See the attributes in `pysis.core.client`.
 
-    Example::
-
+    Examples:
         s = SIS(token='xyz...')
+        s = SIS(token='xyz...', base_url='http://api.sustainableis.com/v2/')
+        s = SIS(token='xyz...', enableParamChecks=False)
     """
 
     def __init__(self, **config):
