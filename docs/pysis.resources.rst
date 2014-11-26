@@ -28,6 +28,14 @@ pysis.resources.buildings module
     :undoc-members:
     :show-inheritance:
 
+pysis.resources.data module
+---------------------------
+
+.. automodule:: pysis.resources.data
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pysis.resources.facilities module
 ---------------------------------
 
@@ -64,14 +72,6 @@ pysis.resources.outputs module
 ------------------------------
 
 .. automodule:: pysis.resources.outputs
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pysis.resources.refrigeration module
-------------------------------------
-
-.. automodule:: pysis.resources.refrigeration
     :members:
     :undoc-members:
     :show-inheritance:

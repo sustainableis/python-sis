@@ -2,12 +2,9 @@
 
 from .base import Resource
 from pysis.core.sis_datetime import convertToDateTime
+from datetime import datetime
 
 __service__ = 'Outputs'
-
-__categoryFunctions__ = {'refrigeration' : 'getRefrigerationData'}
-
-__categoriesWithFields__ = ['refrigeration', 'sensor']
 
 class Outputs(Resource):
         
@@ -19,46 +16,48 @@ class Outputs(Resource):
         if not hasattr(self, 'id'): 
             raise AttributeError(str(self.id), "Service must have id")
         assert isinstance(self.id, int)
-        
-        if not self.output_type['category'] in __categoriesWithFields__:
-            raise ValueError("This output category does not have fields")
-            
+                    
         service = self.importService(__service__)  
         return service.getFields(self.id)      
     
-    def getData(self, timeStart=None, timeEnd=None, window=None, fields=[]):
+    def getData(self, timeStart=None, timeEnd=None, window=None, field=""):
         
         if not hasattr(self, 'id'): 
             raise AttributeError(str(self.id), "Service must have id")
         assert isinstance(self.id, int)
-        assert isinstance(fields, list)
+        assert isinstance(field, str)
         
         timeStart = convertToDateTime(timeStart)
         timeEnd = convertToDateTime(timeEnd)
-             
-        requiredTimeElements = (timeStart, timeEnd, window)
-        if requiredTimeElements.count(None) == len(requiredTimeElements) or \
-            requiredTimeElements.count(None) == 0:
-            pass
-        else:
-            raise ValueError("timeStart, timeEnd, and window should all be set if time is used")
+        
+        #Validate time parameters
+        validTimeParams = [
+                           (None, None, None), #no time params
+                           (datetime, datetime, int), #all time params
+                           (datetime, None, int), #timeStart and window
+                           (None, None, int) #window only
+                           ] 
+        timeElements = (type(timeStart), type(timeEnd), type(window))
+        
+        isTimeParamsValid = timeElements in validTimeParams        
+        if not isTimeParamsValid:
+            raise ValueError("Invalid combination of time parameters.")            
         
         service = self.importService(__service__)
         
-        if self.enableParamChecks and len(fields) > 0:
+        #Check the field name
+        if self.enableParamChecks:
             outputFields = self.getFields()
             
-            for f in fields:
-                isValid = False
-                for validField in outputFields:
-                    if f == validField.field_human_name:
-                        isValid = True
-                        break
-                if not isValid: 
-                    raise ValueError("Invalid field name: '%s'" % f)
-        
-        func = __categoryFunctions__[self.output_type['category']]        
-        return getattr(service, func)(self.id, timeStart, timeEnd, window, fields)
+            isValid = False
+            for validField in outputFields:
+                if field == validField.field_human_name:
+                    isValid = True
+                    break
+            if not isValid: 
+                raise ValueError("Invalid field name: '%s'" % field)
+            
+        return service.getData(self.id, timeStart, timeEnd, window, field)
     
     
     

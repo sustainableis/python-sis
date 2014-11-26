@@ -4,28 +4,34 @@ from pysis.services.base import Service
 from datetime import datetime
 
 class Outputs(Service):
-    """ 
-    Consume `Outputs API <http://api.sustainableis.com/v1/outputs>`_ 
+    """Outputs Service
     
-    Example uses:
-    ------------
-    TODO
-    s.organizations.create({'name': 'Sample Organization'})
-    org = s.organizations.get(id=30)
-    s.organizations.update(30, {'name': 'Org Name'})
-    s.organizations.delete(30)
+    Consumes Outputs API: <{url}/outputs>    
     """
 
     def __init__(self, client):
+        """Creates Outputs object with a client"""
         super(Outputs, self).__init__(client)
     
     def get(self, id=None, 
             type=None, category=None, feed_id=None, 
             building_id=None, facility_id=None, organization_id=None):
-        """ Get a specific output or all of them if id=None
+        """Get a specific output or all of them if id=None
+        
+        Apply a filter if one is given.
+        Only 1 filter can be used at a time!
+        
+        Args:
+            id (int): id of the output.
+            type (str): Filter - if used, will get a list of outputs of the given type
+            category (str): Filter - if used, will get a list of outputs of the given category
+            feed_id (int): Filter - if used, will get a list of outputs with the given feed_id
+            building_id (int): Filter - if used, will get a list of outputs with the given building_id
+            facility_id (int): Filter - if used, will get a list of outputs with the given facility_id
+            organization_id (int): Filter - if used, will get a list of outputs with the given organization_id
             
-            Apply a filter if one is given.
-        :returns A :doc:`response`
+        Returns: 
+            Fields resources  
         """
         
         _filterDict = {}
@@ -57,36 +63,48 @@ class Outputs(Service):
         return self._get(request)
     
     def getFields(self, id):
-        """ Get all of the fields for an output
+        """Get all the fields for an output
         
-        :returns A :doc:`response`
+        Args:
+            id (int): id of the output.
+            
+        Returns: 
+            Fields resources  
         """
         assert isinstance(id, int)
         request = self.request_builder('outputs.getFields', id=id)
         return self._get(request)
     
-    def getRefrigerationData(self, id, timeStart, timeEnd, window, fields):
-        """ Get the refrigeration data of an output
+    def getData(self, id, timeStart=None, timeEnd=None, window=None, field=""):
+        """Get the data of an output
         
-        :returns A :doc:`response`
+        Args:
+            id (int): id of the output.
+            timeStart (datetime or None): start time of the data
+            timeEnd (datetime or None): end time of the data
+            window (int): window of data in seconds
+            field (str): field_human_name filter 
+            
+        Returns: 
+            Data resources  
         """
         assert isinstance(id, int)
         assert isinstance(timeStart, (datetime, type(None)))
         assert isinstance(timeEnd, (datetime, type(None)))
         assert isinstance(window, (int, type(None)))
-        assert isinstance(fields, list)
+        assert isinstance(field, str)
         
         if timeStart is not None: 
             timeStart = int((timeStart - datetime(1970,1,1)).total_seconds())
         if timeEnd is not None: 
             timeEnd = int((timeEnd - datetime(1970,1,1)).total_seconds())
         
-        request = self.request_builder('outputs.getRefrigerationData', 
+        request = self.request_builder('outputs.getData', 
                                        id=id,
                                        timeStart=timeStart, 
                                        timeEnd=timeEnd, 
                                        window=window, 
-                                       fields=fields)
+                                       field=field)
         return self._get(request)
         
         

@@ -1,17 +1,37 @@
-.. pysis documentation master file, created by
-   sphinx-quickstart on Tue Nov 25 19:49:58 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Documentation Overview
+=======================
 
-Welcome to pysis's documentation!
-=================================
+**pysis** is a SIS APIv1 python wrapper.
 
-Contents:
+You can consume the API with several :doc:`pysis.services` (organizations, outputs...) like
+you see in `http://docs.sisdataversion2.apiary.io/`.
 
+When you do an API request, it will return :doc:`pysis.resources`
+which can do its own related requests.
+
+Sample
+------
+::
+	from pysis import SIS
+
+	s = SIS(token="<insert token here")
+
+	org = s.organizations.get(1)
+
+	print("\nFacilities \n---------")
+	data = org.getFacilities()
+	#data = [<Facility (facility_id=1)>, <Facility (facility_id=4)>]
+
+	for fac in data:
+		print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
+
+TOC
+------
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 3
 
-
+    pysis.services
+    pysis.resources
 
 Indices and tables
 ==================
@@ -19,4 +39,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

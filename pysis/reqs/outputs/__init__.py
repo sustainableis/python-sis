@@ -3,7 +3,7 @@
 from pysis.reqs.base import Request
 from pysis.resources.outputs import Outputs
 from pysis.resources.fields import Fields
-from pysis.resources.refrigeration import Refrigeration
+from pysis.resources.data import Data
 
 class Get(Request):
     uri = 'outputs/{id}?{filterName}={filterValue}'
@@ -24,19 +24,36 @@ class GetFields(Request):
     uri = 'outputs/{id}/fields'
     resource = Fields
         
-class GetRefrigerationData(Request):
-    uri = 'outputs/{id}/refrigerationData'
-    resource = Refrigeration
+class GetData(Request):
+    uri = 'outputs/{id}/data'
+    resource = Data
     
     def clean_uri(self):
-        uri ='outputs/{id}/refrigerationData'
+        uri ='outputs/{id}/'
         
+        if self.field and self.field != '':
+            uri += 'fields/{field}/'
+        uri += 'data'
+        
+        params = []
         if self.timeStart and self.timeStart is not None:
-            uri += '?timeStart={timeStart}&timeEnd={timeEnd}&window={window}'
+            params.append('timeStart={timeStart}')
             
-        if self.fields and len(self.fields) > 0:
-            for i in range(len(self.fields)):
-                uri += '&fields[]={fields[%s]}' % i
+        if self.timeEnd and self.timeEnd is not None:
+            params.append('timeEnd={timeEnd}')
+            
+        if self.window and self.window is not None:
+            params.append('window={window}')        
+        
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
         
         return uri
+    
+    
+    
     
