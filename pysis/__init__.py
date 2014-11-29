@@ -7,4 +7,4 @@ __email__ = 'chetwhelms@gmail.com'
 __license__ = ''
 __copyright__ = 'Copyright 2014 Chet Helms'
 
-from pysis.sis import SIS
+from .SIS import SIS
