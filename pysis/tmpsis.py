@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-from pysis.core.client import Client
-from pysis.resources.base import Resource
-
 class SIS(object):
     __BASE_URL__ = 'http://api.sustainableis.com/v1/'
     __API_DOMAIN__ = 'api.sustainableis.com'
@@ -20,6 +17,9 @@ class SIS(object):
     """
 
     def __init__(self, **config):
+        from pysis.core.client import Client
+        from pysis.resources.base import Resource
+
         from pysis.services.organizations import Organizations
         from pysis.services.facilities import Facilities
         from pysis.services.outputs import Outputs

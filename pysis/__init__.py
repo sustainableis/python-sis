@@ -7,4 +7,4 @@ __email__ = 'chetwhelms@gmail.com'
 __license__ = ''
 __copyright__ = 'Copyright 2014 Chet Helms'
 
-from .SIS import SIS
+from .sis import SIS
