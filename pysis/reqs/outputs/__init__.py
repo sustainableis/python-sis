@@ -42,7 +42,7 @@ class GetData(Request):
         if self.timeEnd and self.timeEnd is not None:
             params.append('timeEnd={timeEnd}')
             
-        if self.window and self.window is not None:
+        if self.window is not None:
             params.append('window={window}')        
         
         if len(params) > 0:

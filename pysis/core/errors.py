@@ -1,36 +1,33 @@
-#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-from pysis.core import json
-from pysis.exceptions import NotFound, BadRequest, UnprocessableEntity
+from pysis.exceptions import BadRequest, Unauthorized, Forbidden, NotFound, ServerError
 
-
-class GithubError(object):
+class SISError(object):
     """ Handler for API errors """
 
-    def __init__(self, response):
+    def __init__(self, reqURI, response):
+        self.reqURI = reqURI
         self.response = response
-        self.status_code = response.status_code
-        try:
-            self.debug = json.loads(response.content)
-        except (ValueError, TypeError):
-            self.debug = {'message': response.content}
-
-    def error_404(self):
-        raise NotFound("404 - %s" % self.debug.get('message'))
-
-    def error_400(self):
-        raise BadRequest("400 - %s" % self.debug.get('message'))
-
-    def error_422(self):
-        errors = self.debug.get('errors', ())
-        errors = ['Resource: {resource}: {field} => {code}'.format(**error)
-                 for error in errors]
-        raise UnprocessableEntity(
-            '422 - %s %s' % (self.debug.get('message'), errors))
+        self.status_code = response[0]
 
     def process(self):
         raise_error = getattr(self, 'error_%s' % self.status_code, False)
         if raise_error:
             raise raise_error()
-        self.response.raise_for_status()
+    
+    def error_400(self):
+        raise BadRequest("400 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    def error_401(self):
+        raise Unauthorized("401 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    def error_403(self):
+        raise Forbidden("403 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    def error_404(self):
+        raise NotFound("404 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    def error_500(self):
+        raise ServerError("500 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    

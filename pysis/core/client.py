@@ -10,7 +10,7 @@ else:
     import urllib as urllib
     urllib.parse = urllib
     
-from pysis.reqs.base import Request
+from pysis.core.errors import SISError
 
 _default_headers = {
     #TODO: Header field names MUST be lowercase; this is not checked
@@ -66,7 +66,7 @@ class Client(object):
         request.uri = "%s%s" % (self.config['base_url'], request.uri)
         request.uri += self.urlencode(params)
         response =  self.request('GET', str(request), None, headers)
-        assert response[0] == 200
+        SISError(str(request), response).process()
         return response
 
     def post(self, request, body=None, headers={}, **params):

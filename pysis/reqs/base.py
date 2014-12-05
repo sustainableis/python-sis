@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from pysis.core import json
+import json
 from pysis.core.compat import import_module
 from pysis.exceptions import (RequestDoesNotExist, ValidationError, InvalidBodySchema)
 from pysis.resources.base import Raw

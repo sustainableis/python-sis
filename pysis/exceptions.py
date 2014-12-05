@@ -23,20 +23,21 @@ class ValidationError(Exception):
     valid URI """
     pass
 
-
-class BadRequest(Exception):
-    """ Raised when server response is 400 """
-    pass
-
-
 class UnprocessableEntity(Exception):
     """ Raised when server response is 400 """
     pass
 
+class BadRequest(Exception):
+    pass
+
+class Unauthorized(Exception):
+    pass
+
+class Forbidden(Exception):
+    pass
 
 class NotFound(Exception):
-    """ Raised when server response is 404
+    pass
 
-    Caught with a pygithub3-exception to `services.base.Service._bool` method
-    """
+class ServerError(Exception):
     pass
