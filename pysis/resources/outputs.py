@@ -32,10 +32,10 @@ class Outputs(Resource):
         
         #Validate time parameters
         validTimeParams = [
-                           (None, None, None), #no time params
+                           (type(None), type(None), type(None)), #no time params
                            (datetime, datetime, int), #all time params
-                           (datetime, None, int), #timeStart and window
-                           (None, None, int) #window only
+                           (datetime, type(None), int), #timeStart and window
+                           (type(None), type(None), int) #window only
                            ] 
         timeElements = (type(timeStart), type(timeEnd), type(window))
         
