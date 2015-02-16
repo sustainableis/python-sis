@@ -27,6 +27,7 @@ class SIS(object):
         from pysis.services.feeds import Feeds
         from pysis.services.users import Users
         from pysis.services.blastcells import Blastcells
+        from pysis.services.weather import Weather
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -52,6 +53,7 @@ class SIS(object):
         self._feeds = Feeds(self._client)
         self._users = Users(self._client)
         self._blastcells = Blastcells(self._client)
+        self._weather = Weather(self._client)
 
     @property
     def organizations(self):
@@ -81,6 +83,9 @@ class SIS(object):
     def blastcells(self):
         return self._blastcells
     
+    @property
+    def weather(self):
+        return self._weather    
     
 if __name__ == "__main__":
     s = SIS(token="5a417545a40bb6fd627ba3b05929843b6f4bf520")
