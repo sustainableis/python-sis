@@ -6,7 +6,6 @@ Subpackages
 
 .. toctree::
 
-    pysis.core.json
     pysis.core.result
 
 Submodules

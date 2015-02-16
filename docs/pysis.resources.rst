@@ -84,6 +84,14 @@ pysis.resources.users module
     :undoc-members:
     :show-inheritance:
 
+pysis.resources.weather module
+------------------------------
+
+.. automodule:: pysis.resources.weather
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

@@ -64,7 +64,7 @@ class Weather(Service):
         return self._get(request)
 
     def getActualHighs(self, id, dateStart="", dateEnd=""):
-        """Get the data of an output
+        """Get the temperature highs for the given date range
         
         Args:
             id (int): id of the location.
@@ -82,5 +82,59 @@ class Weather(Service):
                                        id=id,
                                        dateStart=dateStart, 
                                        dateEnd=dateEnd)
+        return self._get(request)
+    
+    def getActualTemps(self, id, dateStart="", hourStart=None, dateEnd="", hourEnd=None):
+        """Get the hourly actual temperatures
+        
+        Args:
+            id (int): id of the location.
+            dateStart (str): start date of the data
+            hourStart (int): hour(0..23) of the start date
+            dateEnd (str): end date of the data
+            hourEnd (int): hour(0..23) of the end date
+            
+            
+        Returns: 
+            Resource(s)  
+        """
+        assert isinstance(id, int)
+        assert isinstance(dateStart, str)
+        assert isinstance(dateEnd, str)
+        assert isinstance(hourStart, (int, type(None)))
+        assert isinstance(hourEnd, (int, type(None)))
+        
+        request = self.request_builder('weather.getActualTemps', 
+                                       id=id,
+                                       dateStart=dateStart, 
+                                       hourStart=hourStart,
+                                       dateEnd=dateEnd,
+                                       hourEnd=hourEnd)
+        return self._get(request)
+    
+    def getForecastDaily(self, id):
+        """Gets daily forecasts for a weather location
+        
+        Args:
+            id (int): id of the weather location. 
+        
+        Returns: Weather resource(s)      
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('weather.getForecastDaily', id=id)
+            
+        return self._get(request)
+    
+    def getForecastHourly(self, id):
+        """Gets hourly forecasts for a weather location
+        
+        Args:
+            id (int): id of the weather location. 
+        
+        Returns: Weather resource(s)      
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('weather.getForecastHourly', id=id)
+            
         return self._get(request)
     

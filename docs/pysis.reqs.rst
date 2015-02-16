@@ -13,6 +13,7 @@ Subpackages
     pysis.reqs.organizations
     pysis.reqs.outputs
     pysis.reqs.users
+    pysis.reqs.weather
 
 Submodules
 ----------

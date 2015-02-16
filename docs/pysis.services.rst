@@ -13,6 +13,7 @@ Subpackages
     pysis.services.organizations
     pysis.services.outputs
     pysis.services.users
+    pysis.services.weather
 
 Submodules
 ----------
