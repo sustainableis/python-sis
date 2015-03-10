@@ -41,8 +41,13 @@ class Service(object):
         Returns: 
             Resources        
         """
-        response = self._client.post(request, request.body.content)
-        return response
+        
+        if 'headers' not in kwargs:
+            headers = {}
+        else:
+            headers = kwargs['headers']
+        response = self._client.post(request, body=request.body.content, headers=headers)
+        return request.resource.loads(response[1])
     
     def _delete(self, request, **kwargs):
         """DELETE request

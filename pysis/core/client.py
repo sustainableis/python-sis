@@ -70,13 +70,24 @@ class Client(object):
         return response
 
     def post(self, request, body=None, headers={}, **params):
-        request.uri = "%s%s" % (self.config['base_url'], request.uri)
+        base_url = self.config['base_url']
+        if request.uri == 'oauth/token':
+            base_url = base_url[:-3]
+        
+        request.uri = "%s%s" % (base_url, request.uri)
         request.uri += self.urlencode(params)
         if not 'content-type' in headers:
             # We're doing a json.dumps of body, so let's set the content-type to json
+            # Requests such as oauth can override this in the args
             headers['content-type'] = 'application/json'
-        response = self.request('POST', str(request), json.dumps(body), headers)
-        assert response[0] == 201
+            
+        if headers['content-type'] == 'application/x-www-form-urlencoded':
+            reqBody = urllib.urlencode(body)
+        else:
+            reqBody = json.dumps(body)
+    
+        response = self.request('POST', str(request), reqBody, headers)
+        assert response[0] == 201 or response[0] == 200
         return response
 
     def put(self, request, body=None, headers={}, **params):

@@ -28,6 +28,7 @@ class SIS(object):
         from pysis.services.users import Users
         from pysis.services.blastcells import Blastcells
         from pysis.services.weather import Weather
+        from pysis.services.oauth import Oauth
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -54,6 +55,7 @@ class SIS(object):
         self._users = Users(self._client)
         self._blastcells = Blastcells(self._client)
         self._weather = Weather(self._client)
+        self._oauth = Oauth(self._client)
 
     @property
     def organizations(self):
@@ -85,16 +87,26 @@ class SIS(object):
     
     @property
     def weather(self):
-        return self._weather    
+        return self._weather
+    
+    @property
+    def oauth(self):
+        return self._oauth    
     
 if __name__ == "__main__":
-    s = SIS(token="5a417545a40bb6fd627ba3b05929843b6f4bf520")
+    s = SIS(token="8d54eb6a5b8274b81bb114b597243b4e31c7eabc")
     data = s.organizations.get()
     for org in data:
         print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)
         
+    #Example refresh token
+    #oauthResp = s.oauth.refreshToken(client_id='lineage',
+    #                            client_secret='secret',
+    #                            refresh_token='65ed6a531be255d29b13a4aeb68559dd9e3dab39'
+    #                            )    
+        
     print("---------\n")
-    org1 = s.organizations.get(id=30)
+    org1 = s.organizations.get(id=32)
     print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
     
     print("---------")
