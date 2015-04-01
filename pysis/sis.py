@@ -28,6 +28,7 @@ class SIS(object):
         from pysis.services.users import Users
         from pysis.services.blastcells import Blastcells
         from pysis.services.weather import Weather
+        from pysis.services.configurations import Configurations
         from pysis.services.oauth import Oauth
         
         enableParamChecks = True
@@ -55,6 +56,7 @@ class SIS(object):
         self._users = Users(self._client)
         self._blastcells = Blastcells(self._client)
         self._weather = Weather(self._client)
+        self._configurations = Configurations(self._client)
         self._oauth = Oauth(self._client)
 
     @property
@@ -88,6 +90,10 @@ class SIS(object):
     @property
     def weather(self):
         return self._weather
+    
+    @property
+    def configurations(self):
+        return self._configurations
     
     @property
     def oauth(self):

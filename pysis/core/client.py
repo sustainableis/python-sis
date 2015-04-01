@@ -79,8 +79,8 @@ class Client(object):
         if not 'content-type' in headers:
             # We're doing a json.dumps of body, so let's set the content-type to json
             # Requests such as oauth can override this in the args
-            headers['content-type'] = 'application/json'
-            
+            #headers['content-type'] = 'application/json'
+            headers['content-type'] = 'application/x-www-form-urlencoded'
         if headers['content-type'] == 'application/x-www-form-urlencoded':
             reqBody = urllib.urlencode(body)
         else:

@@ -1,7 +1,7 @@
 from pysis import SIS
 
 if __name__ == "__main__":
-    s = SIS(token="891fea6456f40f6369b824fb0a8ddcf0d983096f")
+    s = SIS(token="f03109ef580328e3a24cbb611d84c92fc8758b60")
     
     org = s.organizations.get(1)
     

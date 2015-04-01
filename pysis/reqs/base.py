@@ -118,6 +118,7 @@ class Request(object):
         Returns:
             Body object
         """
+        #TODO: Validate required schema
         return self.body
 
     def clean_uri(self):

@@ -2,6 +2,12 @@
 
 from pysis.reqs.base import RequestBuilder
 
+def is_string(obj):
+    try:
+        obj + ''
+        return True
+    except TypeError:
+        return False
 
 class Service(object):
     """Service Base Class
@@ -47,7 +53,13 @@ class Service(object):
         else:
             headers = kwargs['headers']
         response = self._client.post(request, body=request.body.content, headers=headers)
-        return request.resource.loads(response[1])
+        if response[1] != None:
+            if is_string(response[1]):
+                return response[1]
+            else:
+                return request.resource.loads(response[1])
+            
+        return None
     
     def _delete(self, request, **kwargs):
         """DELETE request
