@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 __title__ = 'pysis'
-__version__ = '0.3'
+__version__ = '0.4'
 __author__ = 'Chet Helms'
 __email__ = 'dev@ndustrial.io'
 __license__ = ''
