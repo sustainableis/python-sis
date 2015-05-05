@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from pysis.exceptions import BadRequest, Unauthorized, Forbidden, NotFound, ServerError
+from pysis.exceptions import BadRequest, Unauthorized, Forbidden, NotFound, ServerError, InvalidAccessToken
 
 class SISError(object):
     """ Handler for API errors """
@@ -29,5 +29,8 @@ class SISError(object):
     
     def error_500(self):
         raise ServerError("500 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+    
+    def error_503(self):
+        raise InvalidAccessToken("503 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
     
     

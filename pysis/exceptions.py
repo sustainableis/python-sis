@@ -41,3 +41,6 @@ class NotFound(Exception):
 
 class ServerError(Exception):
     pass
+
+class InvalidAccessToken(Exception):
+    pass
