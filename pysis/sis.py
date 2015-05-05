@@ -2,8 +2,8 @@
 # -*- encoding: utf-8 -*-
 
 class SIS(object):
-    __BASE_URL__ = 'http://api.sustainableis.com/v1/'
-    __API_DOMAIN__ = 'api.sustainableis.com'
+    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
+    __API_DOMAIN__ = 'api.ndustrial.io'
     
     """Main SIS object
     
