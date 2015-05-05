@@ -43,3 +43,17 @@ class Workers(Service):
         assert isinstance(uuid, str)
         request = self.request_builder('workers.getConfigurations', uuid=uuid, environment=environment)
         return self._get(request)
+        
+    def getConfigurationValues(self, uuid, environment=None):
+        """Get the configurations of a worker
+        
+        Args:
+            uuid (str): uuid of the worker.  
+            
+        Returns: 
+            Configurations resources   
+        """
+        uuid = str(uuid)
+        assert isinstance(uuid, str)
+        request = self.request_builder('workers.getConfigurationValues', uuid=uuid, environment=environment)
+        return self._get(request)

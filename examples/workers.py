@@ -15,3 +15,6 @@ prod_configs = worker.getConfigurations(environment='development')
 for config in prod_configs:
   print 'DEV: %s %s'%(config.environment, config.title)
 
+config_values = worker.getConfigurationValues(environment='production')
+for value in config_values:
+    print value.type, value.key, value.value

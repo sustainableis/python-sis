@@ -38,3 +38,23 @@ class GetConfigurations(Request):
                 uri += params[-1]
 
         return uri
+
+class GetConfigurationValues(Request):
+    uri = 'workers/{uuid}/configurations/values'
+    resource = Configurations
+    
+    def clean_uri(self):
+        uri = 'workers/{uuid}/configurations/values'
+        
+        params = []
+        if self.environment is not None:
+            params.append('environment={environment}')
+        
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+
+        return uri    

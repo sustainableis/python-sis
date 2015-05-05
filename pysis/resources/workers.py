@@ -43,3 +43,11 @@ class Workers(Resource):
         service = self.importService(__service__)
         
         return service.getConfigurations(self.uuid, environment)
+        
+    def getConfigurationValues(self, environment=None):
+        if not hasattr(self, 'uuid'): 
+            raise AttributeError(str(self.uuid), "Service must have uuid")
+        
+        service = self.importService(__service__)
+        
+        return service.getConfigurationValues(self.uuid, environment)
