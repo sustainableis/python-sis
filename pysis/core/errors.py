@@ -25,7 +25,7 @@ class SISError(object):
         raise Forbidden("403 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
     
     def error_404(self):
-        raise NotFound("404 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))
+        raise NotFound("404 - %s\nRequest: %s" % (self.response[1], self.reqURI))
     
     def error_500(self):
         raise ServerError("500 - %s\nRequest: %s" % (self.response[1].get('message'), self.reqURI))

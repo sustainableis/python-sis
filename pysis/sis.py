@@ -30,6 +30,7 @@ class SIS(object):
         from pysis.services.weather import Weather
         from pysis.services.configurations import Configurations
         from pysis.services.oauth import Oauth
+        from pysis.services.workers import Workers
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -58,6 +59,7 @@ class SIS(object):
         self._weather = Weather(self._client)
         self._configurations = Configurations(self._client)
         self._oauth = Oauth(self._client)
+        self._workers = Workers(self._client)
 
     @property
     def organizations(self):
@@ -97,7 +99,11 @@ class SIS(object):
     
     @property
     def oauth(self):
-        return self._oauth    
+        return self._oauth
+    
+    @property
+    def workers(self):
+        return self._workers
     
 if __name__ == "__main__":
     s = SIS(token="8d54eb6a5b8274b81bb114b597243b4e31c7eabc")
