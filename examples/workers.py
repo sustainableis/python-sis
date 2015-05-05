@@ -1,10 +1,10 @@
 from pysis import SIS
 
-s = SIS(token="4eeb61e2cac55f77e6402df50e105b1923255a79")
+s = SIS(token="1bb9d1ea3e31d3908ba35577d73d9718377dab95")
 
 print("\nConfigurations (All) \n---------")
 
-worker = s.workers.get(uuid="d91adc8c-8961-907d-4478-019da1b2d483")
+worker = s.workers.get(uuid="f2f8d08a-8be7-8fbc-5157-9950c92497b7")
 print worker.uuid, worker.label
 
 configs = worker.getConfigurations()
