@@ -9,6 +9,7 @@ class Feeds(Resource):
     def __str__(self):
         return '<Feeds>'
     
+    '''
     def __getattr__(self, attr):
         """Handles all services from a resource that use the id as an argument.
         
@@ -32,4 +33,22 @@ class Feeds(Resource):
             return wrapper
         else:
             raise AttributeError(attr)
+            
+    '''
+    
+    def getConfigurations(self, environment=None):
+        if not hasattr(self, 'id'): 
+            raise AttributeError(str(self.id), "Service must have id")
+        
+        service = self.importService(__service__)
+        
+        return service.getConfigurations(self.id, environment)
+        
+    def getConfigurationValues(self, environment=None):
+        if not hasattr(self, 'id'): 
+            raise AttributeError(str(self.id), "Service must have id")
+        
+        service = self.importService(__service__)
+        
+        return service.getConfigurationValues(self.id, environment)
     

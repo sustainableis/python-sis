@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 __title__ = 'pysis'
-__version__ = '0.4.3'
+__version__ = '0.5'
 __author__ = 'Chet Helms,John Crawford'
 __email__ = 'dev@ndustrial.io'
 __license__ = ''

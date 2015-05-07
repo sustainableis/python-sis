@@ -47,4 +47,30 @@ class Feeds(Service):
         request = self.request_builder('feeds.getOutputs', id=id)
         return self._get(request)
     
+    def getConfigurations(self, id, environment=None):
+        """Get the configurations of a feed
+        
+        Args:
+            id (int): id of the feed.  
+            
+        Returns: 
+            Configurations resources   
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('feeds.getConfigurations', id=id, environment=environment)
+        return self._get(request)
+        
+    def getConfigurationValues(self, id, environment=None):
+        """Get the configuration values of a feed
+        
+        Args:
+            id (int): id of the feed. 
+            
+        Returns: 
+            Configurations resources   
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('feeds.getConfigurationValues', id=id, environment=environment)
+        return self._get(request)
+    
     
