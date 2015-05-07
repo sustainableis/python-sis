@@ -12,17 +12,22 @@ class Feeds(Service):
         """Creates Feeds object with a client"""
         super(Feeds, self).__init__(client)
     
-    def get(self, id=None):
+    def get(self, id=None, key=None):
         """Gets Feeds from the API
         
         Args:
             id (int): id of the feed. 
                 if None, returns all Feeds
+            key (str): key of the feed
+                can use this to search for a feed by key.Will be skipped if id is provided
         
         Returns: Feeds resources        
         """
         if id is None:
-            request = self.request_builder('feeds.get')
+            if key is None:
+                request = self.request_builder('feeds.get')
+            else:
+                request = self.request_builder('feeds.get', key=key)
         else:
             assert isinstance(id, int)
             request = self.request_builder('feeds.get', id=id)
