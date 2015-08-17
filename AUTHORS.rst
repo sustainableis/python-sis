@@ -1,11 +1,9 @@
-pysis is written and maintained by **Chet Helms** and
+pysis is written and maintained by **ndustrial.io** and
 
 various contributors:
-
-Development Lead
-=================
-
 - Chet Helms<chetwhelms@gmail.com>
+- John Crawford<john@ndustrial.io>
+- John Hunt<jhunt@ndustrial.io>
 
 Designs and concepts taken from
 ----------------------------------------------

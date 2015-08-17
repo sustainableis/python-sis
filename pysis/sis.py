@@ -110,13 +110,7 @@ if __name__ == "__main__":
     data = s.organizations.get()
     for org in data:
         print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)
-        
-    #Example refresh token
-    #oauthResp = s.oauth.refreshToken(client_id='lineage',
-    #                            client_secret='secret',
-    #                            refresh_token='65ed6a531be255d29b13a4aeb68559dd9e3dab39'
-    #                            )    
-        
+               
     print("---------\n")
     org1 = s.organizations.get(id=32)
     print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
