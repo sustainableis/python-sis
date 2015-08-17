@@ -58,3 +58,16 @@ class GetConfigurationValues(Request):
                 uri += params[-1]
 
         return uri    
+
+class CreateConfigurationValue(Request):
+
+    uri = 'configurations/{configuration_id}/values'
+    resource = Configurations
+
+
+
+
+
+class UpdateConfigurationValue(Request):
+    uri = 'configurations/{configuration_id}/values/{value_id}'
+    resource = Configurations

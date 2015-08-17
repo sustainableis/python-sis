@@ -13,7 +13,12 @@ class BaseWorker(object):
         self.env = environment
         self.uuid = workerID
         self.api = SIS(token=self.apiToken)
-        self.config = self.loadConfiguration()
+
+        # load configuration
+        configs = self.loadConfiguration()
+        self.config = configs['config']
+        self.valueIDs = configs['valueIDs']
+        self.configuration_id = configs['configuration_id']
     
     def getAPIToken(self):
         token = None
@@ -24,10 +29,12 @@ class BaseWorker(object):
     
     
     def loadConfiguration(self):
-        worker = self.api.workers.get(uuid=self.uuid)
+        self.worker = self.api.workers.get(uuid=self.uuid)
         print worker.label
-        configValues = worker.getConfigurationValues(environment=self.env)
+        configValues = self.worker.getConfigurationValues(environment=self.env)
         config = {}
+        valuIDs = {}
+        configuration_id = None;
         for value in configValues:
             if value.type == "integer":
                 config[value.key] = int(value.value)
@@ -35,7 +42,27 @@ class BaseWorker(object):
                 config[value.key] = json.loads(value.value)
             else:
                 config[value.key] = str(value.value)
-        return config
+
+            # save valueID
+            valueIDs[value.key] = value.id
+
+            # save configuration_id
+            # should be the same each time
+            configuration_id = value.configuration_id
+
+        return {'config': config, 'valueIDs':valuIDs, 'configuration_id': configuration_id}
         
+
+
+
+    def updateConfigurationValue(self, key, value):
+
+        self.worker.updateConfigurationValue(self.configuration_id, self.valueIDs[key], key, value)
+
+
+    def createConfigurationValue(self, key, value):
+
+        self.worker.createConfigurationValue(self.configuration_id, key, value)
+
         
         
