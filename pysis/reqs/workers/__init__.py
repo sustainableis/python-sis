@@ -58,3 +58,42 @@ class GetConfigurationValues(Request):
                 uri += params[-1]
 
         return uri    
+
+class CreateConfigurationValue(Request):
+
+    uri = 'configurations/{configuration_id}/values'
+    resource = Configurations
+
+    def clean_uri(self):
+        uri = 'configurations/{configuration_id}/values'
+        
+        params = []
+        
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+        return uri    
+
+
+class UpdateConfigurationValue(Request):
+    uri = 'configurations/{configuration_id}/values/{value_id}'
+    resource = Configurations
+
+    def clean_uri(self):
+        uri = 'configurations/{configuration_id}/values/{value_id}'
+        
+        params = []
+
+
+
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+
+        return uri    
