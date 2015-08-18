@@ -59,11 +59,22 @@ class Workers(Service):
         request = self.request_builder('workers.getConfigurationValues', uuid=uuid, environment=environment)
         return self._get(request)
 
-    def updateConfigurationValue(self, configuration_id, value_id, key, value):
+    def updateConfigurationValue(self, configuration_id, value_id, value):
 
-        request = self.request_builder('workers.updateConfgurationValue', configuration_id=configuration_id, value_id=value_id, key=key, value=value)
+        req_body = {'value': value}
+
+        request = self.request_builder('workers.updateConfigurationValue', configuration_id=configuration_id, value_id=value_id, body=req_body)
 
         return self._put(request)
 
-    def createConfigurationValue(self, configuration_id, key, value)
+    def createConfigruationValue(self, configuration_id, type, key, value):
+
+        req_body = {'type': type,
+                    'key': key,
+                    'value': value
+                    }
+
+        request = self.request_builder('workers.createConfigurationValue', configuration_id=configuration_id, body=req_body)
+
+        return self._post(request)
 

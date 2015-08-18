@@ -4,6 +4,7 @@ import json
 from pysis.core.compat import import_module
 from pysis.exceptions import (RequestDoesNotExist, ValidationError, InvalidBodySchema)
 from pysis.resources.base import Raw
+import traceback
 
 ABS_IMPORT_PREFIX = 'pysis.reqs'
 
@@ -186,6 +187,7 @@ class RequestBuilder(object):
             raise RequestDoesNotExist("'%s' module does not exist"
                                       % module_chunk)
         except AttributeError:
+
             raise RequestDoesNotExist("'%s' request does not exist in "
                                       "'%s' module" % (request_chunk,
                                       module_chunk))

@@ -30,12 +30,16 @@ class BaseWorker(object):
     
     def loadConfiguration(self):
         self.worker = self.api.workers.get(uuid=self.uuid)
-        print worker.label
+        print self.worker.label
         configValues = self.worker.getConfigurationValues(environment=self.env)
         config = {}
-        valuIDs = {}
+        valueIDs = {}
         configuration_id = None;
+
+
         for value in configValues:
+
+
             if value.type == "integer":
                 config[value.key] = int(value.value)
             elif value.type == "json":
@@ -50,19 +54,21 @@ class BaseWorker(object):
             # should be the same each time
             configuration_id = value.configuration_id
 
-        return {'config': config, 'valueIDs':valuIDs, 'configuration_id': configuration_id}
+        return {'config': config, 'valueIDs':valueIDs, 'configuration_id': configuration_id}
         
 
 
 
     def updateConfigurationValue(self, key, value):
 
-        self.worker.updateConfigurationValue(self.configuration_id, self.valueIDs[key], key, value)
+        print 'Updatign config value for key:' + key + ', current id: '+ str(self.valueIDs[key])
+
+        self.worker.updateConfigurationValue(self.configuration_id, self.valueIDs[key], value)
 
 
-    def createConfigurationValue(self, key, value):
+    def createConfigurationValue(self, type, key, value):
 
-        self.worker.createConfigurationValue(self.configuration_id, key, value)
+        self.worker.createConfigurationValue(self.configuration_id, type, key, value)
 
         
         

@@ -85,7 +85,7 @@ class Client(object):
             reqBody = urllib.urlencode(body)
         else:
             reqBody = json.dumps(body)
-    
+
         response = self.request('POST', str(request), reqBody, headers)
         assert response[0] == 201 or response[0] == 200
         return response
@@ -96,7 +96,9 @@ class Client(object):
         if not 'content-type' in headers:
             # We're doing a json.dumps of body, so let's set the content-type to json
             headers['content-type'] = 'application/json'
+
         response = self.request('PUT', str(request), json.dumps(body), headers)
+
         assert response[0] == 204
         return response
 
