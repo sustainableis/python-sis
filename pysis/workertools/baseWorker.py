@@ -57,11 +57,57 @@ class BaseWorker(object):
         return {'config': config, 'valueIDs':valueIDs, 'configuration_id': configuration_id}
         
 
+    def executeStatement(self, table_name, statement, selectColumn, table_type):
 
+        # note that selectColumn must be convertible to integer!
+
+        # get a cursor
+        cursor = self.conn.cursor();
+
+        # execute statement
+        cursor.execute(statement)
+
+        highestSelectColumn = -1;
+
+        # comprehend list of column names
+        columns = [column[0] for column in cursor.description]
+
+        # iterate over rows
+        for row in cursor:
+
+            #print 'tran_log_id: ' + str(row[0])
+
+            # need to create a dict out of row
+            data = {}
+
+            for col_name in columns:
+
+                data[col_name] = row[columns.index(col_name)]
+
+            # add row to rabbit producer.. rabbit messages
+            # will be sent according to the maximum size 
+            self.rabbit.addRow(self.wms_system_id, table_name, table_type, data)
+
+
+            # also need to keept rack of highest select column
+            # so we know where to start next time. 
+            if (int(row[columns.index(selectColumn)]) > highestSelectColumn):
+
+                highestSelectColumn = int(row[0])
+
+        # make sure to send the remainder
+        self.rabbit.flushAndSend(self.wms_system_id, table_name, table_type)
+
+        # store greatest tran log id for next invocation
+        if table_name in self.config:
+
+            self.updateConfigurationValue(table_name, str(highestSelectColumn))
+        else:
+            self.createConfigurationValue('integer', table_name, str(highestSelectColumn))
+
+            
 
     def updateConfigurationValue(self, key, value):
-
-        print 'Updatign config value for key:' + key + ', current id: '+ str(self.valueIDs[key])
 
         self.worker.updateConfigurationValue(self.configuration_id, self.valueIDs[key], value)
 
