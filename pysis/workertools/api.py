@@ -48,8 +48,8 @@ class APIBackedFile():
         k = Key(s3bucket)
         k.key = fileName
         base_filename = os.path.basename(fileName)
-        print k.key
-        print 'Uploading local file: ' + str(local_filepath)
+        print (k.key)
+        print ('Uploading local file: ' + str(local_filepath))
         k.set_contents_from_filename(local_filepath, cb=self.trackProgress, num_cb=20)
         return_id = None
         try:
@@ -80,7 +80,7 @@ class APIBackedFile():
                                                                 'file_id': return_id
                                                             })
         except IntegrityError as ie:
-            print 'ERROR: File already exists! Skipping'
+            print ('ERROR: File already exists! Skipping')
             return_id = None
         
         return return_id
@@ -90,7 +90,7 @@ class APIBackedFile():
         sys.stdout.write('.')
         sys.stdout.flush()
         if complete == total:
-            print ''
+            print ('')
 
 class RateScheduleCalculationException(Exception):
   pass

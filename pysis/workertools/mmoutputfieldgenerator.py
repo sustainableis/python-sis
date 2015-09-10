@@ -38,7 +38,7 @@ class MMTemplate(BaseTemplate):
 		# convert the tree to output fields
 		self.convertToOutputFields(self.outputTree)
 
-		print self.toJSON()
+		print (self.toJSON())
 
 
 

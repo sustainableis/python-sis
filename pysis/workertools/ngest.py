@@ -61,9 +61,9 @@ class NgestClient():
         try:
             dataToSend = nGestDataObject.getJsonData()
             for dataObj in dataToSend:
-                print self.postUrl
+                print (self.postUrl)
                 r = requests.post(self.postUrl, data=dataObj, headers=headers,verify=False)
-        except Exception, e:
+        except Exception as e:
             traceback.print_exc()
             return False
         if r.status_code == requests.codes.ok:
@@ -89,14 +89,14 @@ class NgestTimeSeriesDataObject():
         tz = TimeZone(toTimezone)
         newDateObj = {}
         for timeObj in self.tsData:
-            print 'Old time: ' + str(timeObj)
+            print ('Old time: ' + str(timeObj))
             if timeObj.tzinfo is not None:
-                print 'No need to convert time...already localized'
+                print ('No need to convert time...already localized')
                 newDateObj[str(timeObj)] = self.tsData[timeObj]
                 continue
             localDateObj = tz.localize(timeObj)
             utcDateObj = localDateObj.astimezone(pytz.utc)
-            print 'New time: ' + str(utcDateObj)
+            print ('New time: ' + str(utcDateObj))
             newDateObj[str(utcDateObj)] = self.tsData[timeObj]
         self.tsData = newDateObj
     
@@ -126,7 +126,7 @@ class NgestTimeSeriesDataObject():
         maxBucketLength = 50
         bucketLenCounter = 0
         for timestamp in timestamps:
-            print timestamp
+            print (timestamp)
             bucketLenCounter += len(self.tsData[timestamp])
             if (bucketLenCounter > maxBucketLength) and (len(dataBucket) > 0):
                 sortedData.append(dataBucket)

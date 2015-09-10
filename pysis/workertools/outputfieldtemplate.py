@@ -136,7 +136,7 @@ class Node(object):
 
 			printString += ": " + rootNode.value
 
-		print printString
+		print (printString)
 
 		prefix += '-'
 

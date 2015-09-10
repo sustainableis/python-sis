@@ -70,7 +70,7 @@ class ExampleWorker(BaseWorker):
 			# to a datetime value 
 			t = data[1]
 
-			print 'Sending ' + timestamp + ': ' + value;
+			print ('Sending ' + timestamp + ': ' + value)
 
 			# convert string representation of timestamp to datetime object
 			# the second argument tells python how to interperent the string
