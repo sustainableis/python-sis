@@ -82,7 +82,7 @@ class Client(object):
             #headers['content-type'] = 'application/json'
             headers['content-type'] = 'application/x-www-form-urlencoded'
         if headers['content-type'] == 'application/x-www-form-urlencoded':
-            reqBody = urllib.urlencode(body)
+            reqBody = urllib.parse.urlencode(body)
         else:
             reqBody = json.dumps(body)
 
