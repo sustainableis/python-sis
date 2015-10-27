@@ -53,15 +53,15 @@ class Workers(Resource):
         return service.getConfigurationValues(self.uuid, environment)
 
 
-    def updateConfigurationValue(self, configuration_id, value_id, value):
+    def updateConfigurationValue(self, configuration_id, value_id, value, value_type):
 
         service = self.importService(__service__)
 
-        return service.updateConfigurationValue(configuration_id, value_id, value)
+        return service.updateConfigurationValue(configuration_id, value_id, value, value_type=None)
 
-    def createConfigurationValue(self, configuration_id, type, key, value):
+    def createConfigurationValue(self, configuration_id, key, value, value_type):
 
         service = self.importService(__service__)
 
-        return service.createConfigruationValue(configuration_id, type, key, value)
+        return service.createConfigruationValue(configuration_id, key, value, value_type)
 

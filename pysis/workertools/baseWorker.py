@@ -13,13 +13,11 @@ class BaseWorker(object):
         self.env = environment
         self.uuid = workerID
         self.api = SIS(token=self.apiToken)
+        self.configuration_id = None
 
         # load configuration
-        configs = self.loadConfiguration()
-        self.config = configs['config']
-        self.valueIDs = configs['valueIDs']
-        self.configuration_id = configs['configuration_id']
-    
+        self.config = self.loadConfiguration()
+
     def getAPIToken(self):
         token = None
         token = os.environ.get('API_TOKEN')
@@ -33,39 +31,61 @@ class BaseWorker(object):
         print (self.worker.label)
         configValues = self.worker.getConfigurationValues(environment=self.env)
         config = {}
-        valueIDs = {}
-        configuration_id = None;
 
 
         for value in configValues:
 
+            configValue = {}
 
+            # store type
+            configValue['type'] = value.type
+
+            # store value
             if value.type == "integer":
-                config[value.key] = int(value.value)
+                configValue['value'] = int(value.value)
             elif value.type == "json":
-                config[value.key] = json.loads(value.value)
+                configValue['value'] = json.loads(value.value)
             else:
-                config[value.key] = str(value.value)
+                configValue['value'] = str(value.value)
 
-            # save valueID
-            valueIDs[value.key] = value.id
+            # store id
+            configValue['id'] = value.id
+
+            # store config dict
+            config[value.key] = configValue
 
             # save configuration_id
             # should be the same each time
-            configuration_id = value.configuration_id
+            # dumb, but whatever
+            self.configuration_id = value.configuration_id
 
-        return {'config': config, 'valueIDs':valueIDs, 'configuration_id': configuration_id}
-
-            
+        return config
 
     def updateConfigurationValue(self, key, value):
 
-        self.worker.updateConfigurationValue(self.configuration_id, self.valueIDs[key], value)
+
+        # update local value
+        configValue = self.config[key]
+
+        configValue['value'] = value
+
+        # send along type so update completes properly
+        value_type = configValue['type']
+
+        value_id = configValue['id']
+
+        self.worker.updateConfigurationValue(self.configuration_id, value_id, value, value_type)
 
 
-    def createConfigurationValue(self, type, key, value):
 
-        self.worker.createConfigurationValue(self.configuration_id, type, key, value)
 
-        
+    def createConfigurationValue(self, key, value, value_type):
+
+        res = self.worker.createConfigurationValue(self.configuration_id, key, value, value_type)
+
+        # load local values
+        configValue = {'value': value, 'id': res.id, 'type': value_type}
+
+        self.config[key] = configValue
+
         

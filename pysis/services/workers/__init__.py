@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-
+import json
 from pysis.services.base import Service
 
 class Workers(Service):
@@ -59,7 +59,12 @@ class Workers(Service):
         request = self.request_builder('workers.getConfigurationValues', uuid=uuid, environment=environment)
         return self._get(request)
 
-    def updateConfigurationValue(self, configuration_id, value_id, value):
+    def updateConfigurationValue(self, configuration_id, value_id, value, value_type):
+
+        if value_type == 'json':
+            value = json.dumps(value)
+
+            #print 'JSON serialized value: ' + value
 
         req_body = {'value': value}
 
@@ -67,9 +72,17 @@ class Workers(Service):
 
         return self._put(request)
 
-    def createConfigruationValue(self, configuration_id, type, key, value):
+    def createConfigruationValue(self, configuration_id, key, value, value_type):
 
-        req_body = {'type': type,
+
+        # properly deal with json values
+        if value_type == 'json':
+
+            value = json.dumps(value)
+
+
+
+        req_body = {'type': value_type,
                     'key': key,
                     'value': value
                     }
