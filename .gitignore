@@ -6,4 +6,5 @@ MANIFEST
 docs/_build
 dist/
 build/
-*egg-info
+*egg-info/
+.idea/

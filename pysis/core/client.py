@@ -87,7 +87,8 @@ class Client(object):
             reqBody = json.dumps(body)
 
         response = self.request('POST', str(request), reqBody, headers)
-        assert response[0] == 201 or response[0] == 200
+
+        SISError(str(request), response).process()
         return response
 
     def put(self, request, body=None, headers={}, **params):
@@ -99,14 +100,16 @@ class Client(object):
 
         response = self.request('PUT', str(request), json.dumps(body), headers)
 
-        assert response[0] == 204
+        SISError(str(request), response).process()
+
         return response
 
     def delete(self, request, headers={}, **params):
         request.uri = "%s%s" % (self.config['base_url'], request.uri)
         request.uri += self.urlencode(params)
         response = self.request('DELETE', str(request), None, headers)
-        assert response[0] == 204
+        SISError(str(request), response).process()
+
         return response
 
     def patch(self, url, body=None, headers={}, **params):
