@@ -15,7 +15,7 @@ class Get(Request):
             uri += '/{id}'
         else:
 
-            params
+            params = []
             if self.facility_id:
                 params.append('facility_id={facility_id}')
             if self.is_active:
@@ -29,6 +29,16 @@ class Get(Request):
                 uri += params[-1]
 
         return uri
+
+
+class Trigger(Request):
+
+    uri = 'alerts/{id}/trigger'
+    resource = Alerts
+
+    def clean_uri(self):
+        return 'alerts/{id}/trigger'
+
 
 
 
