@@ -2,9 +2,13 @@
 # -*- encoding: utf-8 -*-
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-    
+    #__BASE_URL__ = 'https://api.ndustrial.io/v1/'
+    __BASE_URL__ = 'http://localhost:3000/v1/'
+   # __API_DOMAIN__ = 'api.ndustrial.io'
+    __API_DOMAIN__ = 'localhost:3000'
+
+
+
     """Main SIS object
     
     You can configure all services globally using the config dict.
@@ -31,6 +35,7 @@ class SIS(object):
         from pysis.services.configurations import Configurations
         from pysis.services.oauth import Oauth
         from pysis.services.workers import Workers
+        from pysis.services.alerts import Alerts
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -60,6 +65,7 @@ class SIS(object):
         self._configurations = Configurations(self._client)
         self._oauth = Oauth(self._client)
         self._workers = Workers(self._client)
+        self._alerts = Alerts(self._client)
 
     @property
     def organizations(self):
@@ -104,76 +110,20 @@ class SIS(object):
     @property
     def workers(self):
         return self._workers
+
+    @property
+    def alerts(self):
+        return self._alerts
     
 if __name__ == "__main__":
-    s = SIS(token="8d54eb6a5b8274b81bb114b597243b4e31c7eabc")
-    data = s.organizations.get()
-    for org in data:
-        print(str(org.id) + ' : ' + org.name + ' : ' + org.created_at)
-               
-    print("---------\n")
-    org1 = s.organizations.get(id=32)
-    print(str(org1.id) + ' : ' + org1.name + ' : ' + org1.created_at)
-    
-    print("---------")
-    print("---------\n")
-    
-    data = s.facilities.get()
-    for fac in data:
-        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
-        
-    print("---------\n")
-    fac = s.facilities.get(id=30)
-    print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
-    
-    print("---------")
-    print("---------\n")
-    
-    data = s.organizations.getFacilities(1)
-    for fac in data:
-        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
-        
-    org1 = s.organizations.get(1)
-    data = org1.getFacilities()
-    for fac in data:
-        print(str(fac.id) + ' : ' + fac.name + ' : ' + fac.created_at)
-        
-    print("---------")
-    print("---------\n")
-    
-    data = s.outputs.get()
-    for output in data:
-        print(str(output.id) + ' : ' + output.label + ' : ' + output.created_at)
-       
-    print("---------")
-    print("---------\n")
-     
-    data = s.buildings.get()
-    for output in data:
-        print(str(output.id) + ' : ' + output.label + ' : ' + output.created_at)
-        
-    print("---------")
-    print("---------\n")
-     
-    data = s.users.get()
-    for output in data:
-        print(str(output.id) + ' : ' + output.first_name + ' : ' + output.created_at)
-        
-    print("---------")
-    print("---------\n")
-     
-    data = s.feeds.get()
-    for feed in data:
-        print(str(feed.id) + ' : ' + feed.key + ' : ' + feed.created_at)
-        
-    print("---------")
-    print("---------\n")
-     
-    data = s.blastcells.get()
-    for cell in data:
-        print(str(cell.id) + ' : ' + cell.label + ' : ' + cell.created_at)
-    
-    #s.organizations.delete(26)
-    #s.organizations.create({'name': 'Sample Organization'})
+    s = SIS(token="4d324dd24781f122e7a5d71579ef599a2e345916")
+
+    alert = s.alerts.get(is_active=True)
+
+
+    print(len(alert))
+
+
+
     
     
