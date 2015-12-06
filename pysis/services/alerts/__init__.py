@@ -11,7 +11,7 @@ class Alerts(Service):
         """Creates Alerts object with a client"""
         super(Alerts, self).__init__(client)
 
-    def get(self, id=None, facility_id=None, is_active=None):
+    def get(self, id=None, facility_id=None, is_active=None, alert_type_id=None):
         """Gets Alerts from the API
 
         Args:
@@ -30,6 +30,9 @@ class Alerts(Service):
 
             if is_active:
                 params['is_active'] = is_active
+
+            if alert_type_id:
+                params['alert_type_id'] = alert_type_id
 
             request = self.request_builder('alerts.get', **params)
 

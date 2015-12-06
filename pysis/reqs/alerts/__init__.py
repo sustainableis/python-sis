@@ -20,6 +20,8 @@ class Get(Request):
                 params.append('facility_id={facility_id}')
             if self.is_active:
                 params.append('is_active={is_active}')
+            if self.alert_type_id:
+                params.append('alert_type_id={alert_type_id}')
 
         if len(params) > 0:
             uri += '?'
