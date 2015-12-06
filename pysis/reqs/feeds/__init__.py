@@ -70,4 +70,24 @@ class GetConfigurationValues(Request):
             else:
                 uri += params[-1]
 
-        return uri  
+        return uri
+
+class GetTypes(Request):
+    uri = 'feeds/types'
+    resource = Feeds
+
+    def clean_uri(self):
+
+        return 'feeds/types'
+
+
+class Update(Request):
+    uri='feeds/{id}'
+
+    def clean_uri(self):
+        uri = 'feeds'
+
+        if self.id:
+            uri += '/{id}'
+
+

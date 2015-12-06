@@ -49,6 +49,13 @@ class Alerts(Service):
         return self._get(request)
 
 
+    def create(self, alert):
+
+        request = self.request_builder('alerts.create', body=alert);
+
+        return self._post(request);
+
+
     def trigger(self, id, data):
         """Triggers an alert
 
@@ -67,6 +74,6 @@ class Alerts(Service):
 
             return
 
-        request = self.request_builder('alerts.trigger', id=id)
+        request = self.request_builder('alerts.trigger', id=id, body=alert)
 
-        return self._post(request, **data)
+        return self._post(request)

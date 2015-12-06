@@ -77,6 +77,9 @@ class BaseWorker(object):
         self.worker.updateConfigurationValue(self.configuration_id, value_id, value, value_type)
 
 
+    def getConfigurationValue(self, key):
+
+        return self.config[key]['value']
 
 
     def createConfigurationValue(self, key, value, value_type):

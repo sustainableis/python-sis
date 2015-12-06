@@ -2,10 +2,10 @@
 # -*- encoding: utf-8 -*-
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    #__BASE_URL__ = 'http://localhost:3000/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-    #__API_DOMAIN__ = 'localhost:3000'
+    #__BASE_URL__ = 'https://api.ndustrial.io/v1/'
+    __BASE_URL__ = 'http://localhost:3000/v1/'
+    #__API_DOMAIN__ = 'api.ndustrial.io'
+    __API_DOMAIN__ = 'localhost:3000'
 
 
 
@@ -118,28 +118,39 @@ class SIS(object):
 if __name__ == "__main__":
     s = SIS(token="4d324dd24781f122e7a5d71579ef599a2e345916")
 
-    print('Getting all active alerts..')
+    # print('Getting all active alerts..')
+    #
+    # alert = s.alerts.get(is_active=True)
+    #
+    # for a in alert:
+    #
+    #     print(a.id)
+    #
+    # print('Getting all alerts..')
+    #
+    # alert = s.alerts.get()
+    #
+    # for a in alert:
+    #
+    #     print(a.id)
+    #
+    #
+    # print('Triggering alert ff941406-7edc-436b-b5e9-803a5635f21b...')
+    #
+    #
+    # s.alerts.trigger('ff941406-7edc-436b-b5e9-803a5635f21b', {"data":"test"})
+    #
+    # feedTypes = s.feeds.getTypes();
+    #
+    # for t in feedTypes:
+    #     print(t.type + ": " + str(t.down_after));
 
-    alert = s.alerts.get(is_active=True)
+    response = s.alerts.create(alert={'alert_type_id': 1,
+                                      'label': 'Created from python',
+                                      'is_active': True,
+                                      'facility_id': 66})
 
-    for a in alert:
-
-        print(a.id)
-
-    print('Getting all alerts..')
-
-    alert = s.alerts.get()
-
-    for a in alert:
-
-        print(a.id)
-
-
-    print('Triggering alert ff941406-7edc-436b-b5e9-803a5635f21b...')
-
-
-    s.alerts.trigger('ff941406-7edc-436b-b5e9-803a5635f21b', {"data":"test"})
-
+    print(str(response))
 
 
 

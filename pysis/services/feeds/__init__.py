@@ -72,5 +72,17 @@ class Feeds(Service):
         assert isinstance(id, int)
         request = self.request_builder('feeds.getConfigurationValues', id=id, environment=environment)
         return self._get(request)
-    
+
+
+    def getTypes(self):
+
+        request = self.request_builder('feeds.getTypes')
+        return self._get(request)
+
+
+    def update(self, id, updateData):
+
+        request = self.request_builder('feeds.update', id=id, body=updateData)
+
+        return self._put(request)
     

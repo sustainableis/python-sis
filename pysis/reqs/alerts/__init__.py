@@ -40,6 +40,15 @@ class Trigger(Request):
         return 'alerts/{id}/trigger'
 
 
+class Create(Request):
+
+    uri = 'alerts'
+
+    def clean_uri(self):
+
+        return 'alerts'
+
+
 
 
 
