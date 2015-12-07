@@ -77,6 +77,6 @@ class Alerts(Service):
 
             return
 
-        request = self.request_builder('alerts.trigger', id=id, body=alert)
+        request = self.request_builder('alerts.trigger', id=id, body=data)
 
         return self._post(request)
