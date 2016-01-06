@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+from datetime import datetime
+import calendar
 
 class SIS(object):
-    #__BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __BASE_URL__ = 'http://localhost:3000/v1/'
-    #__API_DOMAIN__ = 'api.ndustrial.io'
-    __API_DOMAIN__ = 'localhost:3000'
+    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
+    #__BASE_URL__ = 'http://localhost:3000/v1/'
+    __API_DOMAIN__ = 'api.ndustrial.io'
+    #__API_DOMAIN__ = 'localhost:3000'
 
 
 
@@ -145,13 +147,26 @@ if __name__ == "__main__":
     # for t in feedTypes:
     #     print(t.type + ": " + str(t.down_after));
 
-    response = s.alerts.create(alert={'alert_type_id': 1,
-                                      'label': 'Created from python',
-                                      'is_active': True,
-                                      'facility_id': 66})
+    # response = s.alerts.create(alert={'alert_type_id': 1,
+    #                                   'label': 'Created from python',
+    #                                   'is_active': True,
+    #                                   'facility_id': 66})
+    #
+    # print(str(response))
 
-    print(str(response))
+    # summary = s.facilities.getUtilitySummary(id=9, statement_month=11, statement_year=2015)
+    #
+    # print(str(summary))
 
+    lastDay = calendar.monthrange(2015,11)[1]
+
+    metrics = s.outputs.getMetrics(id=1114,
+                                   field='power.demand',
+                                   metric_name='max',
+                                   timeStart=datetime(year=2015,month=11, day=1),
+                                   timeEnd=datetime(year=2015,month=11, day=lastDay))
+
+    print(str(metrics))
 
 
     

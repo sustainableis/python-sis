@@ -59,5 +59,4 @@ class Outputs(Resource):
             
         return service.getData(self.id, timeStart, timeEnd, window, field)
     
-    
-    
+

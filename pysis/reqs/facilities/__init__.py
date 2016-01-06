@@ -35,5 +35,31 @@ class GetOutputs(Request):
 class GetBlastcells(Request):
     uri = 'facilities/{id}/blastcells'
     resource = Blastcells
-    
+
+
+class GetUtilitySummary(Request):
+
+    uri='facilities/{id}/utilities/summary'
+    resource = Facilities
+
+    def clean_uri(self):
+
+        uri = 'facilities/{id}/utilities/summary'
+
+        params = []
+
+        if self.statement_month:
+            params.append('statement_month={statement_month}')
+
+        if self.statement_year:
+            params.append('statement_year={statement_year}')
+
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+
+        return uri
     

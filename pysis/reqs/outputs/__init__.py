@@ -4,6 +4,7 @@ from pysis.reqs.base import Request
 from pysis.resources.outputs import Outputs
 from pysis.resources.fields import Fields
 from pysis.resources.data import Data
+from pysis.resources.metrics import Metric
 
 class Get(Request):
     uri = 'outputs/{id}?{filterName}={filterValue}'
@@ -54,6 +55,32 @@ class GetData(Request):
         
         return uri
     
-    
+
+class GetMetrics(Request):
+    uri='outputs/{id}/fields/{field}/{metric_name}'
+    resource = Metric
+
+    def clean_uri(self):
+
+        params = []
+
+        uri='outputs/{id}/fields/{field}/{metric_name}'
+
+        if self.timeStart:
+            params.append('timeStart={timeStart}')
+
+        if self.timeEnd:
+            params.append('timeEnd={timeEnd}')
+
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+
+        return uri
+
+
     
     

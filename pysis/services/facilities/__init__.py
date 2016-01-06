@@ -93,7 +93,20 @@ class Facilities(Service):
         assert isinstance(id, int)
         request = self.request_builder('facilities.getBlastcells', id=id)
         return self._get(request)
-    
+
+    def getUtilitySummary(self, id, statement_month=None, statement_year=None):
+
+        params = {}
+
+        if statement_month:
+            params['statement_month'] = statement_month
+
+        if statement_year:
+            params['statement_year'] = statement_year
+
+        request = self.request_builder('facilities.getUtilitySummary', id=id, **params)
+
+        return self._get(request)
     
     
         

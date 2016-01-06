@@ -106,6 +106,23 @@ class Outputs(Service):
                                        window=window, 
                                        field=field)
         return self._get(request)
+
+
+    def getMetrics(self, id, field, metric_name, timeStart=None, timeEnd=None):
+
+        assert isinstance(timeStart, (datetime, type(None)))
+        assert isinstance(timeEnd, (datetime, type(None)))
+
+        if timeStart is not None:
+            timeStart = int((timeStart - datetime(1970,1,1)).total_seconds())
+        if timeEnd is not None:
+            timeEnd = int((timeEnd - datetime(1970,1,1)).total_seconds())
         
-        
-        
+        request = self.request_builder('outputs.getMetrics',
+                                       id=id,
+                                       field=field,
+                                       metric_name=metric_name,
+                                       timeStart=timeStart,
+                                       timeEnd=timeEnd)
+
+        return self._get(request)
