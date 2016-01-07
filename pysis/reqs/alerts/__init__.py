@@ -46,11 +46,38 @@ class Create(Request):
 
     uri = 'alerts'
 
+
     def clean_uri(self):
 
         return 'alerts'
 
 
+class GetEmailSubscriptions(Request):
 
+    uri = 'alerts'
+    resource = Alerts
+
+    def clean_uri(self):
+
+        uri='alerts'
+
+        if self.id:
+            uri += '/{id}/emails/subscriptions'
+
+        else:
+            uri += '/emails/subscriptions'
+
+        return uri
+
+
+class CreateEmailSubscriptions(Request):
+
+    uri = 'alerts'
+
+    def clean_uri(self):
+
+        uri='alerts/{id}/emails/subscriptions/{email_subscription_id}'
+
+        return uri
 
 

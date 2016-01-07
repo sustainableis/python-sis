@@ -54,9 +54,9 @@ class Alerts(Service):
 
     def create(self, alert):
 
-        request = self.request_builder('alerts.create', body=alert);
+        request = self.request_builder('alerts.create', body=alert)
 
-        return self._post(request);
+        return self._post(request)
 
 
     def trigger(self, id, data):
@@ -80,3 +80,43 @@ class Alerts(Service):
         request = self.request_builder('alerts.trigger', id=id, body=data)
 
         return self._post(request)
+
+
+    def getEmailSubscriptions(self, id=None):
+
+        if id is None:
+
+            request = self.request_builder('alerts.getEmailSubscriptions')
+
+        else:
+            # try-parse UUID
+            try:
+                u = UUID(id);
+            except ValueError:
+
+                print('id must be a valid UUID')
+
+                return
+
+            request = self.request_builder('alerts.getEmailSubscriptions', id=id)
+
+        return self._get(request)
+
+
+    def createEmailSubscription(self, id, email_subscription_id):
+
+        if id is None:
+
+            request = self.request_builder('alerts.createEmailSubscription')
+
+        else:
+            # try-parse UUID
+            try:
+                u = UUID(id);
+            except ValueError:
+
+                print('id must be a valid UUID')
+
+                return
+
+            request = self.request_builder('alerts.createEmailSubscription', id=id, email_subscription_id=email_subscription_id)
