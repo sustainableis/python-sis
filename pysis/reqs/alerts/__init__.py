@@ -1,11 +1,12 @@
 
 from pysis.reqs.base import Request
-from pysis.resources.alerts import Alerts
+from pysis.resources.alerts import Alert
+from pysis.resources.alerts import AlertEmailSubscription
 
 
 class Get(Request):
     uri='alerts/{id}'
-    resource = Alerts
+    resource = Alert
 
     def clean_uri(self):
         uri = 'alerts'
@@ -36,7 +37,7 @@ class Get(Request):
 class Trigger(Request):
 
     uri = 'alerts/{id}/trigger'
-    resource = Alerts
+    resource = Alert
 
     def clean_uri(self):
         return 'alerts/{id}/trigger'
@@ -55,7 +56,7 @@ class Create(Request):
 class GetEmailSubscriptions(Request):
 
     uri = 'alerts'
-    resource = Alerts
+    resource = AlertEmailSubscription
 
     def clean_uri(self):
 
@@ -70,7 +71,7 @@ class GetEmailSubscriptions(Request):
         return uri
 
 
-class CreateEmailSubscriptions(Request):
+class CreateEmailSubscription(Request):
 
     uri = 'alerts'
 

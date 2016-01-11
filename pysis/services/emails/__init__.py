@@ -27,7 +27,7 @@ class Emails(Service):
             if type:
                 params['type'] = type
 
-            request = self.request_builder('alerts.getSubscriptions', **params)
+            request = self.request_builder('emails.getSubscriptions', **params)
 
         else:
 

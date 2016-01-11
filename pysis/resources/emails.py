@@ -4,7 +4,7 @@ from .base import Resource
 
 __service__ = 'Emails'
 
-class Emails(Resource):
+class EmailSubscription(Resource):
 
     def __str(self):
         return '<Alerts>'

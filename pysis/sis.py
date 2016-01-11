@@ -4,9 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-
+    #__BASE_URL__ = 'https://api.ndustrial.io/v1/'
+    #__API_DOMAIN__ = 'api.ndustrial.io'
+    __BASE_URL__ = 'http://localhost:3000/v1/'
+    __API_DOMAIN__ = 'localhost:3000'
 
 
 
@@ -37,6 +38,7 @@ class SIS(object):
         from pysis.services.oauth import Oauth
         from pysis.services.workers import Workers
         from pysis.services.alerts import Alerts
+        from pysis.services.emails import Emails
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -67,6 +69,7 @@ class SIS(object):
         self._oauth = Oauth(self._client)
         self._workers = Workers(self._client)
         self._alerts = Alerts(self._client)
+        self._emails = Emails(self._client)
 
     @property
     def organizations(self):
@@ -115,9 +118,13 @@ class SIS(object):
     @property
     def alerts(self):
         return self._alerts
+
+    @property
+    def emails(self):
+        return self._emails
     
 if __name__ == "__main__":
-    s = SIS(token="4d324dd24781f122e7a5d71579ef599a2e345916")
+    s = SIS(token="a0ff7a3190239a91a84fb9712cd5a72b890de8c1")
 
     # print('Getting all active alerts..')
     #
@@ -157,15 +164,30 @@ if __name__ == "__main__":
     #
     # print(str(summary))
 
-    lastDay = calendar.monthrange(2015,11)[1]
+    # lastDay = calendar.monthrange(2015,11)[1]
+    #
+    # metrics = s.outputs.getMetrics(id=1114,
+    #                                field='power.demand',
+    #                                metric_name='max',
+    #                                timeStart=datetime(year=2015,month=11, day=1),
+    #                                timeEnd=datetime(year=2015,month=11, day=lastDay))
 
-    metrics = s.outputs.getMetrics(id=1114,
-                                   field='power.demand',
-                                   metric_name='max',
-                                   timeStart=datetime(year=2015,month=11, day=1),
-                                   timeEnd=datetime(year=2015,month=11, day=lastDay))
 
-    print(str(metrics))
+
+    #s.emails.createSubscription(subscription = {'name': 'Created from python',
+    #                                            'type': 'Alert',
+    #                                            'description': 'Email subscription created from python'})
+
+    #emailSubscription = s.emails.getSubscriptions(id='4c7f3c01-9301-4a0d-abc0-0414b1030248')
+
+    #s.alerts.createEmailSubscription(id='40596d00-7c0c-4dfb-b42a-0c9ff934d569',
+    #                                 email_subscription_id='4c7f3c01-9301-4a0d-abc0-0414b1030248')
+
+
+    #subscriptions = s.alerts.getEmailSubscriptions()
+
+
+    #print(str(subscriptions))
 
 
     

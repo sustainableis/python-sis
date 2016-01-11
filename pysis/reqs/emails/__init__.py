@@ -1,9 +1,9 @@
 from pysis.reqs.base import Request
-from pysis.resources.emails import Emails
+from pysis.resources.emails import EmailSubscription
 
 class GetSubscriptions(Request):
     uri='emails/subscriptions/{id]'
-    resource = Emails
+    resource = EmailSubscription
 
     def clean_uri(self):
         uri = 'emails/subscriptions'
@@ -19,17 +19,17 @@ class GetSubscriptions(Request):
 
         if len(params) > 0:
             uri += '?'
-        for p in params[:-1]:
-            uri += p + '&'
-        else:
-            uri += params[-1]
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
 
         return uri
 
 class TriggerSubscription(Request):
 
     uri = 'emails/subscriptions/{id}/trigger'
-    resource = Emails
+    resource = EmailSubscription
 
     def clean_uri(self):
         return 'emails/subscriptions/{id}/trigger'

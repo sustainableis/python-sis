@@ -105,18 +105,34 @@ class Alerts(Service):
 
     def createEmailSubscription(self, id, email_subscription_id):
 
-        if id is None:
+        if id is not None:
 
-            request = self.request_builder('alerts.createEmailSubscription')
-
-        else:
             # try-parse UUID
             try:
                 u = UUID(id);
             except ValueError:
 
-                print('id must be a valid UUID')
+                raise Exception('Provided alert_id must be a valid UUID')
 
                 return
+        else:
 
-            request = self.request_builder('alerts.createEmailSubscription', id=id, email_subscription_id=email_subscription_id)
+            raise Exception('Request must include alert_id!')
+
+        if email_subscription_id is not None:
+
+            # try-parse UUID
+            try:
+                u = UUID(id);
+            except ValueError:
+
+                raise Exception('Provided email_subscription_id must be a valid UUID')
+
+                return
+        else:
+
+            raise Exception('Request must include email_subscription_id!')
+
+        request = self.request_builder('alerts.createEmailSubscription', id=id, email_subscription_id=email_subscription_id)
+
+        return self._post(request)
