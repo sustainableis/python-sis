@@ -7,6 +7,7 @@ from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
+from pysis.resources.utilities import UtilitySummary
 
 class Get(Request):
     uri = 'facilities/{id}'
@@ -40,7 +41,7 @@ class GetBlastcells(Request):
 class GetUtilitySummary(Request):
 
     uri='facilities/{id}/utilities/summary'
-    resource = Facilities
+    resource = UtilitySummary
 
     def clean_uri(self):
 

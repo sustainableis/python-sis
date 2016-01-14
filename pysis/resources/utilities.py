@@ -1,5 +1,6 @@
 from .base import Resource
 
+# for now
 __service__ = 'Facilities'
 
 class UtilitySummary(Resource):
