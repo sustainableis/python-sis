@@ -1,5 +1,6 @@
 from pysis.services.base import Service
 from uuid import UUID
+import datetime
 
 class Alerts(Service):
     """Alerts Service
@@ -136,3 +137,38 @@ class Alerts(Service):
         request = self.request_builder('alerts.createEmailSubscription', id=id, email_subscription_id=email_subscription_id)
 
         return self._post(request)
+
+    def getTriggeredAlerts(self, alert_id, timeStart=None, timeEnd=None):
+
+         # try-parse UUID
+        try:
+            u = UUID(alert_id);
+        except ValueError:
+
+            raise Exception('Provided alert_id must be a valid UUID')
+
+            return
+
+        params = {'id': alert_id}
+
+        if timeStart is not None:
+
+            assert isinstance(timeStart, datetime.datetime)
+
+            timeStart = timeStart.strftime('%Y-%m-%dT%H:%M:%S')
+
+            params['timeStart'] = timeStart
+
+            if timeEnd is not None:
+
+                assert isinstance(timeEnd, datetime.datetime)
+
+                timeEnd = timeEnd.strftime('%Y-%m-%dT%H:%M:%S')
+
+                params['timeEnd'] = timeEnd
+
+
+
+        request = self.request_builder('alerts.getTriggeredAlerts', **params)
+
+        return self._get(request)

@@ -4,9 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-
+#    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
+#    __API_DOMAIN__ = 'api.ndustrial.io'
+    __BASE_URL__ = 'http://localhost:3000/v1/'
+    __API_DOMAIN__ = 'localhost:3000'
 
 
 
@@ -123,8 +124,8 @@ class SIS(object):
         return self._emails
     
 if __name__ == "__main__":
-    s = SIS(token="a0ff7a3190239a91a84fb9712cd5a72b890de8c1")
-
+    #s = SIS(token="ef1d9ee3bcc3f92e387c994f8cbdcb267e7aac28")
+    s=SIS(token='fa4e551f3a9739143647a2d35ec88c9087bac2e1')
     # print('Getting all active alerts..')
     #
     # alert = s.alerts.get(is_active=True)
@@ -163,13 +164,15 @@ if __name__ == "__main__":
     #
     # print(str(summary))
 
-    # lastDay = calendar.monthrange(2015,11)[1]
-    #
+    #lastDay = calendar.monthrange(2015,11)[1]
+
     # metrics = s.outputs.getMetrics(id=1114,
     #                                field='power.demand',
     #                                metric_name='max',
     #                                timeStart=datetime(year=2015,month=11, day=1),
     #                                timeEnd=datetime(year=2015,month=11, day=lastDay))
+
+    #print(str(metrics))
 
 
 
@@ -188,6 +191,12 @@ if __name__ == "__main__":
 
     #print(str(subscriptions))
 
+    triggered = s.alerts.getTriggeredAlerts(alert_id='02dff0d9-cc91-4741-a2ec-c63cd5a1780f',
+                                           timeStart=datetime(year=2015, month=12, day=11,
+                                                              hour=0, minute=0, second=0),
+                                           timeEnd = datetime(year=2015, month=12, day=11,
+                                                              hour=23, minute=59, second=59))
 
+    print(str(triggered))
     
     

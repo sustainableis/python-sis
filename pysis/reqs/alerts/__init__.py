@@ -2,6 +2,7 @@
 from pysis.reqs.base import Request
 from pysis.resources.alerts import Alert
 from pysis.resources.alerts import AlertEmailSubscription
+from pysis.resources.alerts import TriggeredAlert
 
 
 class Get(Request):
@@ -16,7 +17,6 @@ class Get(Request):
             uri += '/{id}'
         else:
 
-            params = []
             if self.facility_id:
                 params.append('facility_id={facility_id}')
             if self.is_active:
@@ -80,5 +80,36 @@ class CreateEmailSubscription(Request):
         uri='alerts/{id}/emails/subscriptions/{email_subscription_id}'
 
         return uri
+
+
+class GetTriggeredAlerts(Request):
+
+    uri = 'alerts/{id}/triggered'
+
+    resource = TriggeredAlert
+
+    def clean_uri(self):
+
+        uri = 'alerts/{id}/triggered'
+
+        params = []
+
+        if self.timeStart:
+            params.append('timeStart={timeStart}')
+        if self.timeEnd:
+            params.append('timeEnd={timeEnd}')
+
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
+
+        return uri
+
+
+
+
 
 
