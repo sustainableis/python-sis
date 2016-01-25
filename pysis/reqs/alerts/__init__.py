@@ -46,6 +46,7 @@ class Trigger(Request):
 class Create(Request):
 
     uri = 'alerts'
+    resource = Alert
 
 
     def clean_uri(self):
@@ -71,15 +72,14 @@ class GetEmailSubscriptions(Request):
         return uri
 
 
-class CreateEmailSubscription(Request):
+class LinkEmailSubscription(Request):
 
     uri = 'alerts'
+    resource = AlertEmailSubscription
 
     def clean_uri(self):
 
-        uri='alerts/{id}/emails/subscriptions/{email_subscription_id}'
-
-        return uri
+        return 'alerts/{id}/emails/subscriptions/{email_subscription_id}'
 
 
 class GetTriggeredAlerts(Request):

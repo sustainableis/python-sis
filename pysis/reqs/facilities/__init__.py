@@ -2,6 +2,7 @@
 
 from pysis.reqs.base import Request
 from pysis.resources.facilities import Facilities
+from pysis.resources.facilities import FacilityInfo
 from pysis.resources.buildings import Buildings
 from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
@@ -64,3 +65,10 @@ class GetUtilitySummary(Request):
 
         return uri
     
+class GetInfo(Request):
+    uri = 'facilities/{id}/info'
+    resource = FacilityInfo
+
+    def clean_uri(self):
+
+        return 'facilities/{id}/info'

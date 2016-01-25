@@ -34,5 +34,8 @@ class Oauth(Service):
                    }
         
         request = self.request_builder('oauth.refreshToken', body=formData) 
-        return self._post(request, headers={'content-type' : 'application/x-www-form-urlencoded'})        
-        
+        return self._post(request, headers={'content-type' : 'application/x-www-form-urlencoded'})
+
+    # override parents method.. don't want to attempt a refresh from this service
+    def _perform_request(self, request_method):
+        return request_method()

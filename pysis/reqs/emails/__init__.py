@@ -1,5 +1,5 @@
 from pysis.reqs.base import Request
-from pysis.resources.emails import EmailSubscription
+from pysis.resources.emails import EmailSubscription, EmailSubscriptionTemplate
 
 class GetSubscriptions(Request):
     uri='emails/subscriptions/{id]'
@@ -41,3 +41,13 @@ class CreateSubscription(Request):
     def clean_uri(self):
 
         return 'emails/subscriptions'
+
+class LinkTemplate(Request):
+
+    uri = '/emails/subscriptions/{id}/templates/{template_id}'
+
+    resource = EmailSubscriptionTemplate
+
+    def clean_uri(self):
+
+        return '/emails/subscriptions/{id}/templates/{template_id}'

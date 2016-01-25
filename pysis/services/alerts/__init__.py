@@ -1,6 +1,7 @@
 from pysis.services.base import Service
 from uuid import UUID
 import datetime
+import pytz
 
 class Alerts(Service):
     """Alerts Service
@@ -44,9 +45,8 @@ class Alerts(Service):
                 u = UUID(id);
             except ValueError:
 
-                print('id must be a valid UUID')
+                raise Exception('id must be a valid UUID')
 
-                return
 
             request = self.request_builder('alerts.get', id=id)
 
@@ -74,9 +74,7 @@ class Alerts(Service):
             u = UUID(id);
         except ValueError:
 
-            print('id must be a valid UUID')
-
-            return
+            raise Exception('id must be a valid UUID')
 
         request = self.request_builder('alerts.trigger', id=id, body=data)
 
@@ -95,7 +93,7 @@ class Alerts(Service):
                 u = UUID(id);
             except ValueError:
 
-                print('id must be a valid UUID')
+                raise Exception('id must be a valid UUID')
 
                 return
 
@@ -104,7 +102,7 @@ class Alerts(Service):
         return self._get(request)
 
 
-    def createEmailSubscription(self, id, email_subscription_id):
+    def linkEmailSubscription(self, id, email_subscription_id):
 
         if id is not None:
 
@@ -129,12 +127,11 @@ class Alerts(Service):
 
                 raise Exception('Provided email_subscription_id must be a valid UUID')
 
-                return
         else:
 
             raise Exception('Request must include email_subscription_id!')
 
-        request = self.request_builder('alerts.createEmailSubscription', id=id, email_subscription_id=email_subscription_id)
+        request = self.request_builder('alerts.linkEmailSubscription', id=id, email_subscription_id=email_subscription_id)
 
         return self._post(request)
 
@@ -147,13 +144,16 @@ class Alerts(Service):
 
             raise Exception('Provided alert_id must be a valid UUID')
 
-            return
 
         params = {'id': alert_id}
 
         if timeStart is not None:
 
             assert isinstance(timeStart, datetime.datetime)
+
+            # delocalize if necessary
+            if timeStart.tzinfo is not None:
+                timeStart = timeStart.astimezone(pytz.utc)
 
             timeStart = timeStart.strftime('%Y-%m-%dT%H:%M:%S')
 
@@ -162,6 +162,10 @@ class Alerts(Service):
             if timeEnd is not None:
 
                 assert isinstance(timeEnd, datetime.datetime)
+
+                # delocalize if necessary
+                if timeEnd.tzinfo is not None:
+                    timeEnd = timeEnd.astimezone(pytz.utc)
 
                 timeEnd = timeEnd.strftime('%Y-%m-%dT%H:%M:%S')
 

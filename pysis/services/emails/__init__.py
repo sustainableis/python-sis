@@ -36,7 +36,7 @@ class Emails(Service):
                 u = UUID(id);
             except ValueError:
 
-                print('id must be a valid UUID')
+                raise Exception('id must be a valid UUID')
 
                 return
 
@@ -58,10 +58,32 @@ class Emails(Service):
             u = UUID(id);
         except ValueError:
 
-            print('id must be a valid UUID')
+            raise Exception('id must be a valid UUID')
 
-            return
 
         request = self.request_builder('emails.triggerSubscription', id=id, body=data)
 
         return self._post(request)
+
+
+    def linkTemplate(self, email_subscription_id, template_id, template_type):
+
+        # try-parse UUIDs
+        try:
+            u = UUID(email_subscription_id);
+        except ValueError:
+
+            raise Exception('email_subscription_id must be a valid UUID')
+
+        try:
+            u = UUID(template_id);
+        except ValueError:
+
+            raise Exception('template_id must be a valid UUID')
+
+        request = self.request_builder('emails.linkTemplate', id=email_subscription_id,
+                                       template_id=template_id,
+                                       body={'template_type': template_type})
+
+        return self._post(request)
+

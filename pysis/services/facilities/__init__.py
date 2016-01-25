@@ -107,6 +107,12 @@ class Facilities(Service):
         request = self.request_builder('facilities.getUtilitySummary', id=id, **params)
 
         return self._get(request)
+
+    def getInfo(self, id):
+
+        request = self.request_builder('facilities.getInfo', id=id)
+
+        return self._get(request)
     
     
         

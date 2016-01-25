@@ -1,6 +1,7 @@
-# -*- encoding: utf-8 -*-
+from __future__ import print_function
 import json
 import sys
+
 if sys.version_info[0:2] > (3,0):
     import http.client
     import urllib.parse
@@ -11,6 +12,7 @@ else:
     urllib.parse = urllib
     
 from pysis.core.errors import SISError
+from pysis.reqs.base import RequestBuilder
 
 _default_headers = {
     #TODO: Header field names MUST be lowercase; this is not checked
@@ -33,20 +35,48 @@ class Client(object):
     config = {
             'api_domain' : '',
             'base_url' : '',
-            'token' : '',
+            'access_token' : '',
+            'refresh_token': '',
+            'client_id': '',
+            'client_secret': '',
             'extra_headers' : {'accept' : '*/*'}
         }
+
+    refresh_enabled = False
 
     def __init__(self, **kwargs):
 
         #TODO: Add check for base_url
         self.config.update(kwargs)
 
-        #Save OAauth2 token
-        assert self.config['token'] != ''
-        self.auth_header = 'Bearer %s' % self.config['token']
+        # load token data from file
+        try:
+            with open('token') as token_file:
+                token_data_string = token_file.read()
+
+                token_data = json.loads(token_data_string)
+        except IOError:
+            print('Unable to open token file!')
+            sys.exit(1)
+        except ValueError:
+            print('Token file incorrectly formatted!')
+            sys.exit(1)
+
+        if 'access_token' not in token_data:
+            raise Exception('acess_token must be provided in token file!')
+
+        # check that we have everything we need
+        if all (k in token_data for k in ("refresh_token", "client_id", "client_secret")):
+            print('Automatic token refresh enabled')
+            self.refresh_enabled = True
+
+        self.config.update(token_data)
+
+        self.auth_header = 'Bearer %s' % self.config['access_token']
         self.default_headers['authorization'] = self.auth_header
-            
+
+        self.request_builder = RequestBuilder()
+
         #TODO: All for extra connection properties
         #if self.config.extra_headers is not None:
         #    self.default_headers = _default_headers.copy()
@@ -56,7 +86,52 @@ class Client(object):
         #tmp_dict = {}
         #for k,v in self.default_headers.items():
         #    tmp_dict[k.lower()] = v
-        #self.default_headers = tmp_dict      
+        #self.default_headers = tmp_dict
+
+    def refresh_token(self):
+
+        if self.refresh_enabled:
+
+            # get refreshed token
+            formData = {'grant_type' : 'refresh_token',
+               'client_id' : self.config['client_id'],
+               'client_secret' : self.config['client_secret`'],
+               'refresh_token' : self.config['refresh_token']
+               }
+
+            request = self.request_builder('oauth.refreshToken', body=formData)
+            headers = headers={'content-type' : 'application/x-www-form-urlencoded'}
+
+            try:
+                response = self.post(request=request, body=request.body.content, headers=headers)
+            except Exception as e:
+                print('Error refreshing token: ' + e.message)
+
+                return False
+
+
+            print('New acces_token: ' + response.access_token)
+            print('New refresh token: ' + response.refresh_token)
+
+            # update tokens
+            self.config['access_token'] = response.access_token
+            self.config['refresh_token'] = response.refresh_token
+
+            # store token information
+            with open('token', 'w') as token_file:
+
+                token_file.write(json.dumps({
+                    'access_token': self.config['access_token'],
+                    'refresh_token': self.config['refresh_token'],
+                    'client_id': self.config['client_id'],
+                    'client_secret': self.config['client_secret']
+                }))
+
+            return True
+
+        else:
+            return False
+
 
     def head(self, url, headers={}, **params):
         url += self.urlencode(params)

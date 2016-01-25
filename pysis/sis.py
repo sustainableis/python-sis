@@ -46,9 +46,6 @@ class SIS(object):
         
         Resource.setParamCheck(enableParamChecks)
         
-        if 'token' not in config:
-            raise ValueError("token must be passed in. ex- SIS(token='xyz...')")
-        
         if 'api_domain' not in config:
             config['api_domain'] = self.__API_DOMAIN__
         
@@ -122,81 +119,5 @@ class SIS(object):
     @property
     def emails(self):
         return self._emails
-    
-if __name__ == "__main__":
-    #s = SIS(token="ef1d9ee3bcc3f92e387c994f8cbdcb267e7aac28")
-    s=SIS(token='fa4e551f3a9739143647a2d35ec88c9087bac2e1')
-    # print('Getting all active alerts..')
-    #
-    # alert = s.alerts.get(is_active=True)
-    #
-    # for a in alert:
-    #
-    #     print(a.id)
-    #
-    # print('Getting all alerts..')
-    #
-    # alert = s.alerts.get()
-    #
-    # for a in alert:
-    #
-    #     print(a.id)
-    #
-    #
-    # print('Triggering alert ff941406-7edc-436b-b5e9-803a5635f21b...')
-    #
-    #
-    # s.alerts.trigger('ff941406-7edc-436b-b5e9-803a5635f21b', {"data":"test"})
-    #
-    # feedTypes = s.feeds.getTypes();
-    #
-    # for t in feedTypes:
-    #     print(t.type + ": " + str(t.down_after));
-
-    # response = s.alerts.create(alert={'alert_type_id': 1,
-    #                                   'label': 'Created from python',
-    #                                   'is_active': True,
-    #                                   'facility_id': 66})
-    #
-    # print(str(response))
-
-    # summary = s.facilities.getUtilitySummary(id=9, statement_month=11, statement_year=2015)
-    #
-    # print(str(summary))
-
-    #lastDay = calendar.monthrange(2015,11)[1]
-
-    # metrics = s.outputs.getMetrics(id=1114,
-    #                                field='power.demand',
-    #                                metric_name='max',
-    #                                timeStart=datetime(year=2015,month=11, day=1),
-    #                                timeEnd=datetime(year=2015,month=11, day=lastDay))
-
-    #print(str(metrics))
-
-
-
-    #s.emails.createSubscription(subscription = {'name': 'Created from python',
-    #                                            'type': 'Alert',
-    #                                            'description': 'Email subscription created from python'})
-
-    #emailSubscription = s.emails.getSubscriptions(id='4c7f3c01-9301-4a0d-abc0-0414b1030248')
-
-    #s.alerts.createEmailSubscription(id='40596d00-7c0c-4dfb-b42a-0c9ff934d569',
-    #                                 email_subscription_id='4c7f3c01-9301-4a0d-abc0-0414b1030248')
-
-
-    #subscriptions = s.alerts.getEmailSubscriptions()
-
-
-    #print(str(subscriptions))
-
-    triggered = s.alerts.getTriggeredAlerts(alert_id='02dff0d9-cc91-4741-a2ec-c63cd5a1780f',
-                                           timeStart=datetime(year=2015, month=12, day=11,
-                                                              hour=0, minute=0, second=0),
-                                           timeEnd = datetime(year=2015, month=12, day=11,
-                                                              hour=23, minute=59, second=59))
-
-    print(str(triggered))
     
     
