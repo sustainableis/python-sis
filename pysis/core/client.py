@@ -55,7 +55,7 @@ class Client(object):
 
             # load data from environment variable
             token_data = {}
-            token_data['access_token'] = os.environ.get('ACCSS_TOKEN')
+            token_data['access_token'] = os.environ.get('ACCESS_TOKEN')
 
             if 'REFRESH_TOKEN' in os.environ:
                 token_data['refresh_token'] = os.environ.get('REFRESH_TOKEN')

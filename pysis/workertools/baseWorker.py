@@ -9,22 +9,13 @@ class APITokenException(Exception):
 class BaseWorker(object):
     
     def __init__(self, workerID, environment):
-        self.apiToken = self.getAPIToken()
         self.env = environment
         self.uuid = workerID
-        self.api = SIS(token=self.apiToken)
+        self.api = SIS()
         self.configuration_id = None
 
         # load configuration
         self.config = self.loadConfiguration()
-
-    def getAPIToken(self):
-        token = None
-        token = os.environ.get('API_TOKEN')
-        if token is None:
-            raise APITokenException('API_TOKEN environment variable not provided!')
-        return token    
-    
     
     def loadConfiguration(self):
         self.worker = self.api.workers.get(uuid=self.uuid)
