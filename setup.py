@@ -3,6 +3,7 @@
 
 from setuptools import setup, find_packages
 import pysis
+import os
 
 # Odd hack to get 'python setup.py test' working on py2.7
 try:
@@ -21,8 +22,8 @@ setup(
     long_description=open('README.rst').read(),
     license='',
     packages=find_packages(exclude=['*tests*']),
-    zip_safe=False
-    #install_requires=map(str.strip, open(join('requirements', 'base.txt'))),
+    zip_safe=False,
+    install_requires=map(str.strip, open(os.path.join('requirements', 'base.txt'))),
     #include_package_data=True,
     #classifiers=(
     #    'Programming Language :: Python',
