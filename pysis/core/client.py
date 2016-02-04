@@ -1,6 +1,7 @@
 from __future__ import print_function
 import json
 import sys
+import os
 
 if sys.version_info[0:2] > (3,0):
     import http.client
@@ -49,21 +50,40 @@ class Client(object):
         #TODO: Add check for base_url
         self.config.update(kwargs)
 
-        # load token data from file
-        try:
-            with open('token') as token_file:
-                token_data_string = token_file.read()
 
-                token_data = json.loads(token_data_string)
-        except IOError:
-            print('Unable to open token file!')
-            sys.exit(1)
-        except ValueError:
-            print('Token file incorrectly formatted!')
-            sys.exit(1)
+        if 'ACCESS_TOKEN' in os.environ:
+
+            # load data from environment variable
+            token_data = {}
+            token_data['access_token'] = os.environ.get('ACCSS_TOKEN')
+
+            if 'REFRESH_TOKEN' in os.environ:
+                token_data['refresh_token'] = os.environ.get('REFRESH_TOKEN')
+
+            if 'CLIENT_ID' in os.environ:
+                token_data['client_id'] = os.environ.get('CLIENT_ID')
+
+            if 'CLIENT_SECRET' in os.environ:
+                token_data['client_secret'] = os.environ.get('CLIENT_SECRET')
+
+        else:
+
+            # load token data from file
+            try:
+                with open('token') as token_file:
+                    token_data_string = token_file.read()
+
+                    token_data = json.loads(token_data_string)
+            except IOError:
+                print('Unable to open token file!')
+                sys.exit(1)
+            except ValueError:
+                print('Token file incorrectly formatted!')
+                sys.exit(1)
 
         if 'access_token' not in token_data:
-            raise Exception('acess_token must be provided in token file!')
+            raise Exception("No API access token provided. "
+                            "Token must be provided in ACCESS_TOKEN environment variable or as 'access_token' in token file!")
 
         # check that we have everything we need
         if all (k in token_data for k in ("refresh_token", "client_id", "client_secret")):
