@@ -31,9 +31,9 @@ class NgestClient():
     
     def getAPIToken(self):
         token = None
-        token = os.environ.get('API_TOKEN')
+        token = os.environ.get('ACCESS_TOKEN')
         if token is None:
-            raise APITokenException('API_TOKEN environment variable not provided!')
+            raise APITokenException('ACCESS_TOKEN environment variable not provided!')
         return token   
     
     def getFeedInfo(self):
