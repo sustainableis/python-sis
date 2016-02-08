@@ -6,6 +6,7 @@ from pysis import SIS
 from datetime import datetime
 from pytz import timezone as TimeZone
 import pytz
+import pdb
 
 
 class APITokenException(Exception):
@@ -30,9 +31,9 @@ class NgestClient():
     
     def getAPIToken(self):
         token = None
-        token = os.environ.get('API_TOKEN')
+        token = os.environ.get('ACCESS_TOKEN')
         if token is None:
-            raise APITokenException('API_TOKEN environment variable not provided!')
+            raise APITokenException('ACCESS_TOKEN environment variable not provided!')
         return token   
     
     def getFeedInfo(self):
@@ -122,28 +123,28 @@ class NgestTimeSeriesDataObject():
         timestamps = sorted(self.tsData.keys())
         
         ### check to see how big the data is
-        dataBucket = []
         maxBucketLength = 50
-        bucketLenCounter = 0
         for timestamp in timestamps:
             print (timestamp)
-            bucketLenCounter += len(self.tsData[timestamp])
-            if (bucketLenCounter > maxBucketLength) and (len(dataBucket) > 0):
-                sortedData.append(dataBucket)
-                dataBucket = []
-                bucketLenCounter = 0
-            dataBucket.append({'timestamp': timestamp,
-                               'data': self.tsData[timestamp]
-                             })
-        sortedData.append(dataBucket)
+            for chunk in self.dataChunks(self.tsData[timestamp].keys(), maxBucketLength):
+                chunkDict = {}
+                for key in chunk:
+                    chunkDict[key] = self.tsData[timestamp][key]
+                sortedData.append({'timestamp': timestamp,
+                                   'data': chunkDict
+                                  })
         exportData = []
         for data in sortedData:
             exportedDataObj = self.dataObj.copy()
-            exportedDataObj['data'] = data
+            exportedDataObj['data'] = [data]
             exportData.append(json.dumps(exportedDataObj))
         
         return exportData
-                
+    
+    
+    def dataChunks(self,theList,chunkSize):
+        for i in xrange(0,len(theList),chunkSize):
+            yield theList[i:i+chunkSize]    
     
     def toJson(self):
         sortedData = []
