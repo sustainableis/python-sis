@@ -16,47 +16,76 @@ class Query(object):
         self._order = None
         self._limit = None
 
+    def table(self):
+
+        return self._from
+
     def verb(self, verb):
 
-        self._verb = verb
+        if not verb:
+            return self._verb
 
-        return self
-
-    def fields(self, columns):
-
-        self._fields.append(columns)
-
-        return self
-
-    def where(self, where_clause):
-
-        self._wheres.append(where_clause)
-
-        return self
-
-    def order(self, key, desc=None):
-
-        if desc:
-            self._order = 'ORDER BY ' + key + ' DESC'
         else:
-            self._order = 'ORDER BY ' + key
+            self._verb = verb
 
-        return self
+            return self
 
-    def join(self, table, conditions):
+    def fields(self, field=None):
 
-        # Create condition strings
-        conditions = [self._from + '.' + c[0] + ' = ' + table + '.' + c[1] for c in conditions]
+        if not field:
+            return self._fields
 
-        self._joins.append('JOIN ' + table + ' ON ' + ' AND '.join(conditions))
+        else:
+            self._fields.append(field)
 
-        return self
+            return self
 
-    def limit(self, limit):
+    def where(self, where=None):
 
-        self._limit = limit
+        if not where:
+            return self._wheres
 
-        return self
+        else:
+            self._wheres.append(where)
+
+            return self
+
+    def order(self, column=None, desc=None):
+
+        if column is None and desc is None:
+
+            return self._order
+        else:
+            if desc:
+                self._order = 'ORDER BY ' + column + ' DESC'
+            else:
+                self._order = 'ORDER BY ' + column
+
+            return self
+
+    def join(self, join_table=None, join_conditions=None):
+
+        if join_table is None and join_conditions is None:
+            return self._joins
+
+        else:
+
+            # Create condition strings
+            conditions = [self._from + '.' + c[0] + ' = ' + join_table + '.' + c[1] for c in join_conditions]
+
+            self._joins.append('JOIN ' + join_table + ' ON ' + ' AND '.join(conditions))
+
+            return self
+
+    def limit(self, limit=None):
+
+        if not limit:
+            return self._limit
+
+        else:
+            self._limit = limit
+
+            return self
 
     def __str__(self):
 
@@ -95,31 +124,13 @@ class Select(Query):
 
         self._verb = 'SELECT'
 
-        self._count = False
-
-    def count(self):
-
-        self._count = True
-
     def __str__(self):
 
         query_chunks = []
 
         query_chunks.append(self._verb)
 
-        fields_str = ', '.join(self._fields)
-
-        if self._count:
-
-            if fields_str:
-
-                query_chunks.append('COUNT('+fields_str+')')
-
-            else:
-                query_chunks.append('COUNT(1)')
-
-        else:
-            query_chunks.append(fields_str)
+        query_chunks.append(', '.join(self._fields))
 
         query_chunks.append('FROM ' + self._from)
 
@@ -142,6 +153,49 @@ class Select(Query):
         return query_str
 
 
+class Count(Select):
+
+    def __init__(self, table_name=None, query=None):
+
+        if table_name:
+            super(Count, self).__init__(table_name)
+
+        elif query:
+            super(Count, self.__init__(query.table()))
+
+            # copy wheres and joins, but not fields
+            self._wheres = query.where()
+            self._joins = query.join()
+
+        else:
+            raise Exception('table_name or query must be provided!')
+
+    def __str__(self):
+
+        query_chunks = []
+
+        query_chunks.append(self._verb)
+
+        fields_str = ', '.join(self._fields)
+
+        if fields_str:
+            query_chunks.append('COUNT(' + fields_str + ')')
+        else:
+            query_chunks.append('COUNT(1)')
+
+        query_chunks.append('FROM ' + self._from)
+
+        if self._joins:
+            query_chunks.append(' '.join(self._joins))
+
+        if self._wheres:
+            query_chunks.append('WHERE')
+            query_chunks.append(' AND '.join(self._wheres))
+
+        query_str = ' '.join(query_chunks)
+
+        return query_str
+
 if __name__ == '__main__':
 
     q = Select('hj_t_location')\
@@ -153,7 +207,11 @@ if __name__ == '__main__':
         .order('field1', True)\
         .limit(500)
 
+    count = Count(query=q)
+
     query_str = str(q)
+
+    count_str = str(count)
 
     print query_str
 
