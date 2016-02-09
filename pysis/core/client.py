@@ -36,6 +36,7 @@ class Client(object):
     config = {
             'api_domain' : '',
             'base_url' : '',
+            'token': '',
             'access_token' : '',
             'refresh_token': '',
             'client_id': '',
@@ -49,9 +50,15 @@ class Client(object):
 
         #TODO: Add check for base_url
         self.config.update(kwargs)
+        
+        if self.config['token']:
+            self.config['access_token'] = self.config['token']
 
+        if self.config['access_token']:
+            token_data = {}
+            token_data['access_token'] = self.config['access_token']
 
-        if 'ACCESS_TOKEN' in os.environ:
+        elif 'ACCESS_TOKEN' in os.environ:
 
             # load data from environment variable
             token_data = {}
