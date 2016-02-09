@@ -5,7 +5,6 @@
 
 
 class Query(object):
-
     def __init__(self, table_name):
 
         self._verb = None
@@ -35,9 +34,11 @@ class Query(object):
         if not field:
             return self._fields
 
+        elif type(field) in [list, tuple]:
+            self._fields.extend(field)
+            return self
         else:
             self._fields.append(field)
-
             return self
 
     def where(self, where=None):
