@@ -14,6 +14,7 @@ class Query(object):
         self._wheres = []
         self._order = None
         self._limit = None
+        self._args = None
 
     def table(self):
 
@@ -88,6 +89,16 @@ class Query(object):
 
             return self
 
+    def args(self, args=None):
+
+        if not args:
+            return self._args
+
+        else:
+            self._args = args
+
+            return self
+
     def __str__(self):
 
         query_chunks = []
@@ -113,6 +124,9 @@ class Query(object):
             query_chunks.append(self._order)
 
         query_str = ' '.join(query_chunks)
+
+        if self._args:
+            query_str = query_str.format(self._args)
 
         return query_str
 
@@ -150,6 +164,9 @@ class Select(Query):
             query_chunks.append('LIMIT ' + str(self._limit))
 
         query_str = ' '.join(query_chunks)
+
+        if self._args:
+            query_str = query_str.format(self._args)
 
         return query_str
 
@@ -194,6 +211,9 @@ class Count(Select):
             query_chunks.append(' AND '.join(self._wheres))
 
         query_str = ' '.join(query_chunks)
+
+        if self._args:
+            query_str = query_str.format(self._args)
 
         return query_str
 
