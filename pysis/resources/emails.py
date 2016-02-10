@@ -7,7 +7,7 @@ __service__ = 'Emails'
 class EmailSubscription(Resource):
 
     def __str(self):
-        return '<Alerts>'
+        return '<Emails>'
 
     def __getattr__(self, attr):
         """Handles all services from a resource that use the id as an argument.
