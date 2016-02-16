@@ -20,9 +20,9 @@ class Query(object):
 
         return self._from
 
-    def verb(self, verb):
+    def verb(self, verb=None):
 
-        if not verb:
+        if verb is None:
             return self._verb
 
         else:
@@ -32,7 +32,7 @@ class Query(object):
 
     def fields(self, field=None):
 
-        if not field:
+        if field is None:
             return self._fields
 
         elif type(field) in [list, tuple]:
@@ -44,7 +44,7 @@ class Query(object):
 
     def where(self, where=None):
 
-        if not where:
+        if where is None:
             return self._wheres
 
         else:
@@ -81,7 +81,7 @@ class Query(object):
 
     def limit(self, limit=None):
 
-        if not limit:
+        if limit is None:
             return self._limit
 
         else:
@@ -91,7 +91,7 @@ class Query(object):
 
     def args(self, args=None):
 
-        if not args:
+        if args is None:
             return self._args
 
         else:
@@ -125,7 +125,7 @@ class Query(object):
 
         query_str = ' '.join(query_chunks)
 
-        if self._args:
+        if self._args is not None:
             query_str = query_str.format(self._args)
 
         return query_str
@@ -165,7 +165,7 @@ class Select(Query):
 
         query_str = ' '.join(query_chunks)
 
-        if self._args:
+        if self._args is not None:
             query_str = query_str.format(self._args)
 
         return query_str
@@ -212,7 +212,7 @@ class Count(Select):
 
         query_str = ' '.join(query_chunks)
 
-        if self._args:
+        if self._args is not None:
             query_str = query_str.format(self._args)
 
         return query_str
