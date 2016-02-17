@@ -52,10 +52,14 @@ class Query(object):
         return self
 
     def AND(self, clause):
+        if self._wheres is None:
+            raise Exception("AND clause can only be added after a where")
         self._wheres.AND(clause)
         return self
 
     def OR(self, clause):
+        if self._wheres is None:
+            raise Exception("OR clause can only be added after a where")
         self._wheres.OR(clause)
         return self
 
