@@ -43,25 +43,11 @@ class Query(object):
             return self
 
     def where(self, where):
-        if self._wheres is None:
-            self._wheres = Where(where)
+        if where is None:
+            return self._wheres
         else:
-            # TODO -> this is here so we don't break existing code
-            # normally we should only call where once and once alone
-            self._wheres.AND(where)
-        return self
-
-    def AND(self, clause):
-        if self._wheres is None:
-            raise Exception("AND clause can only be added after a where")
-        self._wheres.AND(clause)
-        return self
-
-    def OR(self, clause):
-        if self._wheres is None:
-            raise Exception("OR clause can only be added after a where")
-        self._wheres.OR(clause)
-        return self
+            self._wheres = where
+            return self
 
     def order(self, column=None, desc=None):
 
@@ -263,16 +249,17 @@ def _test_query():
 
 
 def _test_where():
+
+    where = Where('f1>f2').AND('f2=2').OR('f2=5')
+
     print(Select("foo").
           fields('bar').
           fields('baz').
-          where('f1>f2').
-          AND('f2=2').
-          OR('f2=5').
+          where(where).
           limit(1000))
 
 if __name__ == '__main__':
-    _test_query()
+    #_test_query()
     print("\n" + "="*50 + "\n")
     _test_where()
 
