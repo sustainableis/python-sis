@@ -11,7 +11,7 @@ class Query(object):
         self._from = table_name
         self._fields = []
         self._joins = []
-        self._wheres = []
+        self._wheres = None
         self._order = None
         self._limit = None
         self._args = None
@@ -42,15 +42,22 @@ class Query(object):
             self._fields.append(field)
             return self
 
-    def where(self, where=None):
-
-        if where is None:
-            return self._wheres
-
+    def where(self, where):
+        if self._wheres is None:
+            self._wheres = Where(where)
         else:
-            self._wheres.append(where)
+            # TODO -> this is here so we don't break existing code
+            # normally we should only call where once and once alone
+            self._wheres.AND(where)
+        return self
 
-            return self
+    def AND(self, clause):
+        self._wheres.AND(clause)
+        return self
+
+    def OR(self, clause):
+        self._wheres.OR(clause)
+        return self
 
     def order(self, column=None, desc=None):
 
@@ -113,8 +120,7 @@ class Query(object):
             query_chunks.append(' '.join(self._joins))
 
         if self._wheres:
-            query_chunks.append('WHERE')
-            query_chunks.append(' AND '.join(self._wheres))
+            query_chunks.append(str(self._wheres))
 
         if self._limit:
 
@@ -153,8 +159,7 @@ class Select(Query):
             query_chunks.append(' '.join(self._joins))
 
         if self._wheres:
-            query_chunks.append('WHERE')
-            query_chunks.append(' AND '.join(self._wheres))
+            query_chunks.append(str(self._wheres))
 
         if self._order:
             query_chunks.append(self._order)
@@ -182,7 +187,7 @@ class Count(Select):
             super(Count, self.__init__(query.table()))
 
             # copy wheres and joins, but not fields
-            self._wheres = query.where()
+            self._wheres = query._wheres
             self._joins = query.join()
 
         else:
@@ -207,8 +212,7 @@ class Count(Select):
             query_chunks.append(' '.join(self._joins))
 
         if self._wheres:
-            query_chunks.append('WHERE')
-            query_chunks.append(' AND '.join(self._wheres))
+            query_chunks.append(str(self._wheres))
 
         query_str = ' '.join(query_chunks)
 
@@ -217,23 +221,55 @@ class Count(Select):
 
         return query_str
 
-if __name__ == '__main__':
 
-    q = Select('hj_t_location')\
-        .fields('field1')\
-        .fields('field2')\
-        .where('field2 > 3')\
-        .where('field1 = 6')\
-        .join('hj_t_transaction', [('field1', 'field1'), ('field2', 'field2')])\
-        .order('field1', True)\
+class Where(object):
+    def __init__(self, first_clause):
+        if first_clause is None:
+            raise Exception('First clause in WHERE cannot be none')
+        self.where = 'WHERE ' + first_clause.strip()
+
+    def AND(self, clause):
+        self.where += ' AND ' + clause.strip()
+        return self
+
+    def OR(self, clause):
+        self.where += ' OR '+clause.strip()
+        return self
+
+    def build(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self.where
+
+
+def _test_query():
+    q = Select('hj_t_location') \
+        .fields('field1') \
+        .fields('field2') \
+        .where('field2 > 3') \
+        .where('field1 = 6') \
+        .join('hj_t_transaction', [('field1', 'field1'), ('field2', 'field2')]) \
+        .order('field1', True) \
         .limit(500)
-
     count = Count(query=q)
-
     query_str = str(q)
-
     count_str = str(count)
-
     print query_str
+
+
+def _test_where():
+    print(Select("foo").
+          fields('bar').
+          fields('baz').
+          where('f1>f2').
+          AND('f2=2').
+          OR('f2=5').
+          limit(1000))
+
+if __name__ == '__main__':
+    _test_query()
+    print("\n" + "="*50 + "\n")
+    _test_where()
 
 
