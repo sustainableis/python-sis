@@ -15,6 +15,7 @@ class Query(object):
         self._order = None
         self._limit = None
         self._args = None
+        self._group_by = None
 
     def table(self):
 
@@ -29,6 +30,19 @@ class Query(object):
             self._verb = verb
 
             return self
+
+    def group_by(self, columns):
+        """
+        Args:
+            columns: list of string or string
+
+        Returns: the Query object
+        """
+        if type(columns) in [list, str]:
+            self._group_by = columns
+        else:
+            raise TypeError("'columns' argument should be either a list of strings or a string")
+        return self
 
     def fields(self, field=None):
 
@@ -112,8 +126,10 @@ class Query(object):
         if self._wheres:
             query_chunks.append(str(self._wheres))
 
-        if self._limit:
+        if self._group_by is not None:
+            query_chunks.append('GROUP BY ' + (','.join(self._group_by) if type(self._group_by) is list else self._group_by))
 
+        if self._limit:
             query_chunks.append('LIMIT ' + str(self._limit))
 
         if self._order:
@@ -138,11 +154,8 @@ class Select(Query):
     def __str__(self):
 
         query_chunks = []
-
         query_chunks.append(self._verb)
-
         query_chunks.append(', '.join(self._fields))
-
         query_chunks.append('FROM ' + self._from)
 
         if self._joins:
@@ -154,8 +167,10 @@ class Select(Query):
         if self._order:
             query_chunks.append(self._order)
 
-        if self._limit:
+        if self._group_by is not None:
+            query_chunks.append('GROUP BY ' + (','.join(self._group_by) if type(self._group_by) is list else self._group_by))
 
+        if self._limit:
             query_chunks.append('LIMIT ' + str(self._limit))
 
         query_str = ' '.join(query_chunks)
@@ -258,9 +273,15 @@ def _test_where():
           where(where).
           limit(1000))
 
+
+def _test_group_by():
+    print(Select("foo").fields(['f1', 'COUNT(*)']).group_by('f1'))
+
+
 if __name__ == '__main__':
-    #_test_query()
+    _test_query()
     print("\n" + "="*50 + "\n")
     _test_where()
-
+    print("\n" + "="*50 + "\n")
+    _test_group_by()
 
