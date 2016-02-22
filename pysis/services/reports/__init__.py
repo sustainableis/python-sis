@@ -13,7 +13,6 @@ class Reports(Service):
     def getAllReportTypes(self):
 
         request = self.request_builder('reports.getAllReportTypes')
-
         return self._get(request)
 
     def createReportType(self, data):
@@ -29,9 +28,10 @@ class Reports(Service):
         except ValueError:
             print('id must be a valid UUID')
             return
+
         request = self.request_builder('reports.getReportType', id=id)
 
-        return self._post(request)
+        return self._get(request)
 
     def updateReportType(self, id=None, data = None):
 
@@ -42,95 +42,149 @@ class Reports(Service):
             return
         request = self.request_builder('reports.updateReportType', id=id, body=data)
 
-        return self._post(request)
+        return self._put(request)
 
-    def removeReportType(self, subscription):
+    def removeReportType(self, id=None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.removeReportType', id=id)
 
-        request = self.request_builder('reports.removeReportType', body=subscription)
+        return self._del(request)
 
-        return self._post(request)
+    def getAllReports(self):
 
-    def getAllReports(self, subscription):
-
-        request = self.request_builder('reports.getAllReports', body=subscription)
-
-        return self._post(request)
-
-    def createReport(self, subscription):
-
-        request = self.request_builder('reports.createReport', body=subscription)
+        request = self.request_builder('reports.getAllReports')
 
         return self._post(request)
 
-    def getReport(self, subscription):
+    def createReport(self, data = None):
 
-        request = self.request_builder('reports.getReport', body=subscription)
-
-        return self._post(request)
-
-    def updateReport(self, subscription):
-
-        request = self.request_builder('reports.updateReport', body=subscription)
+        request = self.request_builder('reports.createReport', body=data)
 
         return self._post(request)
 
-    def removeReport(self, subscription):
-
-        request = self.request_builder('reports.removeReport', body=subscription)
-
-        return self._post(request)
-
-    def getAllFacilityReports(self, subscription):
-
-        request = self.request_builder('reports.getAllFacilityReports', body=subscription)
+    def getReport(self, id = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.getReport', id = id)
 
         return self._post(request)
 
-    def createFacilityReport(self, subscription):
+    def updateReport(self, id = None, data = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.updateReport', id = id, body = data)
 
-        request = self.request_builder('reports.createFacilityReport', body=subscription)
+        return self._put(request)
 
-        return self._post(request)
+    def removeReport(self, id = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.removeReport', id = id)
 
-    def removeFacilityReport(self, subscription):
+        return self._del(request)
 
-        request = self.request_builder('reports.removeFacilityReport', body=subscription)
+    def getAllFacilityReports(self, id = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.getAllFacilityReports', id = id)
 
-        return self._post(request)
+        return self._get(request)
 
-    def getReportSubscriptions(self, subscription):
-
-        request = self.request_builder('reports.getReportSubscriptions', body=subscription)
-
-        return self._post(request)
-
-    def addSubscriptionToReport(self, subscription):
-
-        request = self.request_builder('reports.addSubscriptionToReport', body=subscription)
-
-        return self._post(request)
-
-    def removeSubscriptionFromReport(self, subscription):
-
-        request = self.request_builder('reports.removeSubscriptionFromReport', body=subscription)
-
-        return self._post(request)
-
-    def getAllGeneratedReports(self, subscription):
-
-        request = self.request_builder('reports.getAllGeneratedReports', body=subscription)
-
-        return self._post(request)
-
-    def createGeneratedReport(self, subscription):
-
-        request = self.request_builder('reports.createGeneratedReport', body=subscription)
+    def createFacilityReport(self, id = None, data = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.createFacilityReport', id = id, body = data)
 
         return self._post(request)
 
-    def addAttachmentToGenerateReport(self, subscription):
+    def removeFacilityReport(self, id = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.removeFacilityReport', id=id)
 
-        request = self.request_builder('reports.addAttachmentToGenerateReport', body=subscription)
+        return self._del(request)
+
+    def getReportSubscriptions(self, id = None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.getReportSubscriptions', rid=id)
+
+        return self._get(request)
+
+    def addSubscriptionToReport(self, rid = None, sid = None):
+        try:
+            u = UUID(rid);
+            u = UUID(sid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.addSubscriptionToReport', rid = rid, sid = sid)
+
+        return self._post(request)
+
+    def removeSubscriptionFromReport(self, rid = None, sid = None)):
+        try:
+            u = UUID(rid);
+            u = UUID(sid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.removeSubscriptionFromReport', rid = rid, sid = sid)
+
+        return self._del(request)
+
+    def getAllGeneratedReports(self, rid = None):
+        try:
+            u = UUID(rid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.getAllGeneratedReports', rid = rid)
+
+        return self._get(request)
+
+    def createGeneratedReport(self, rid = None, data = None):
+        try:
+            u = UUID(rid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.createGeneratedReport', rid = rid, body=data)
+
+        return self._post(request)
+
+    def addAttachmentToGenerateReport(self, gid = None):
+        try:
+            u = UUID(gid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.addAttachmentToGenerateReport', gid = gid)
 
         return self._post(request)
 

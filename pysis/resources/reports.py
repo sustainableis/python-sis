@@ -34,10 +34,6 @@ class Reports(Resource):
             raise AttributeError(attr)
     
     def getAllReportTypes(self):
-        '''
-        if not hasattr(self, 'uuid'): 
-            raise AttributeError(str(self.uuid), "Service must have uuid")
-        '''
         
         service = self.importService(__service__)
         
@@ -52,8 +48,11 @@ class Reports(Resource):
         return service.createReportType()
         
     def getReportType(self):
+        if not hasattr(self, 'uuid'): 
+            raise AttributeError(str(self.uuid), "Service must have uuid")
+        print self.uuid
         service = self.importService(__service__)
-        return service.getReportType()
+        return service.getReportType(id = self.uuid)
         
     def updateReportType(self):
         service = self.importService(__service__)
