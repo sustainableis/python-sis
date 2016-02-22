@@ -147,7 +147,7 @@ class Reports(Service):
 
         return self._post(request)
 
-    def removeSubscriptionFromReport(self, rid = None, sid = None)):
+    def removeSubscriptionFromReport(self, rid = None, sid = None):
         try:
             u = UUID(rid);
             u = UUID(sid);
