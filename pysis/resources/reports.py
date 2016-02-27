@@ -71,8 +71,11 @@ class Reports(Resource):
         return service.createReport()
         
     def getReport(self):
+        if not hasattr(self, 'uuid'): 
+            raise AttributeError(str(self.uuid), "Service must have uuid")
+        print self.uuid
         service = self.importService(__service__)
-        return service.getReport()
+        return service.getReport(id = self.uuid)
         
     def updateReport(self):
         service = self.importService(__service__)
