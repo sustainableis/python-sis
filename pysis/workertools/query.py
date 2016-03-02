@@ -42,7 +42,7 @@ class Query(object):
             self._fields.append(field)
             return self
 
-    def where(self, where):
+    def where(self, where=None):
         if where is None:
             return self._wheres
         else:
