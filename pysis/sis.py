@@ -39,6 +39,7 @@ class SIS(object):
         from pysis.services.workers import Workers
         from pysis.services.alerts import Alerts
         from pysis.services.emails import Emails
+        from pysis.services.reports import Reports
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -67,6 +68,7 @@ class SIS(object):
         self._workers = Workers(self._client)
         self._alerts = Alerts(self._client)
         self._emails = Emails(self._client)
+        self._reports = Reports(self._client)
 
     @property
     def organizations(self):
@@ -119,5 +121,9 @@ class SIS(object):
     @property
     def emails(self):
         return self._emails
+
+    @property
+    def reports(self):
+        return self._reports
     
     

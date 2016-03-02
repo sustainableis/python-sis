@@ -2,7 +2,7 @@ from pysis.reqs.base import Request
 from pysis.resources.emails import EmailSubscription, EmailSubscriptionTemplate
 
 class GetSubscriptions(Request):
-    uri='emails/subscriptions/{id]'
+    uri='emails/subscriptions/{id}'
     resource = EmailSubscription
 
     def clean_uri(self):

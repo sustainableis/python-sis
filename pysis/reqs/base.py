@@ -187,7 +187,6 @@ class RequestBuilder(object):
             raise RequestDoesNotExist("'%s' module does not exist"
                                       % module_chunk)
         except AttributeError:
-
             raise RequestDoesNotExist("'%s' request does not exist in "
                                       "'%s' module" % (request_chunk,
                                       module_chunk))
