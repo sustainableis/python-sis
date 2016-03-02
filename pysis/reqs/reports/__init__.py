@@ -45,6 +45,12 @@ class GetReport(Request):
         #@TODO
         uri = 'reporting/reports/{id}'
 
+class GetReportByFacID(Request):
+    uri = 'facilities/{fid}/reporting/reports/?report_type_id={rid}'
+    #{{url}}/v1/facilities/65/reporting/reports/059a5db5-f507-492c-ab22-59ad20b8daa2
+    def clean_uri(self):
+        uri = 'facilities/{fid}/reporting/reports/?report_type_id={rid}'
+
 class UpdateReport(Request):
     uri = 'reporting/reports/{id}'
     def clean_uri(self):
@@ -64,10 +70,10 @@ class GetAllFacilityReports(Request):
         uri = 'facilities/{id}/reporting/reports'
 
 class CreateFacilityReport(Request):
-    uri = 'facilities/{f_id}/reporting/reports/{rid}'
+    uri = 'facilities/{fid}/reporting/reports/{rid}'
     def clean_uri(self):
         #@TODO
-        uri = 'facilities/{f_id}/reporting/reports/{rid}'
+        uri = 'facilities/{fid}/reporting/reports/{rid}'
 
 class RemoveFacilityReport(Request):
     uri = 'facilities/{f_id}/reporting/reports/{rid}'
