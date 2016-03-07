@@ -97,31 +97,67 @@ class CassandraUtility:
             print 'Unknown window requested!!!'
 
 
-        # get year from timestart.. currently dont support cross-year queries
-        #timeStart = datetime.strptime(timeStart, '%Y-%m-%d %H:%M:%S')
 
-        year = str(time_start.year)
+        results = collections.OrderedDict()
 
 
         if time_end is not None:
 
-            #timeEnd = datetime.strptime(timeEnd, '%Y-%m-%d %H:%M:%S')
+            # need to construct a data structure of single-year timestamp ranges
+            years = collections.OrderedDict()
 
-            cql = 'SELECT * FROM ' + table_name + " WHERE output_id=? " \
-                                                    "AND field=? " \
-                                                    "AND year='"+year+"' " \
-                                                    "AND event_time>=? " \
-                                                    "AND event_time<=? " \
-                                                    "ORDER BY event_time ASC"
+            year = time_start.year
+
+            final_year = time_end.year
+
+            query_start = time_start
+
+            while year <= final_year:
+
+                year_end_date = datetime(year, 12, 31, hour=23, minute=59, second=59, microsecond=int(1e-6-1))
 
 
-            rows = self.execute(cql, [output_id, field_human_name, time_start, time_end])
+                if time_end < year_end_date:
+                    # query ends before current year, use time_end
+                    years[year] = (query_start, time_end)
+
+                    # go on to next year
+                    year+=1
+                else:
+                    # year ends before query
+                    years[year] = (query_start, year_end_date)
+
+                    # go on to next year
+                    year+=1
+
+                    # new query start
+                    query_start = datetime(year, 1, 1)
+
+
+
+
+            for year, timestamps in years.iteritems():
+
+                cql = 'SELECT * FROM ' + table_name + " WHERE output_id=? " \
+                                                        "AND field=? " \
+                                                        "AND year='"+str(year)+"' " \
+                                                        "AND event_time>=? " \
+                                                        "AND event_time<=? " \
+                                                        "ORDER BY event_time ASC"
+
+
+                rows = self.execute(cql, [output_id, field_human_name, timestamps[0], timestamps[1]])
+
+                for row in rows:
+                    results[row.event_time] = row.value
+
+
 
         else:
 
             cql = 'SELECT * FROM ' + table_name + " WHERE output_id=? " \
                                         "AND field=? " \
-                                        "AND year='"+year+"' " \
+                                        "AND year='"+str(time_start.year)+"' " \
                                         "AND event_time>=? " \
                                         "ORDER BY event_time ASC"
 
@@ -129,11 +165,10 @@ class CassandraUtility:
 
             rows = self.execute(cql, [output_id, field_human_name, time_start])
 
-        results = collections.OrderedDict()
 
-        for row in rows:
+            for row in rows:
 
-            results[row.event_time] = row.value
+                results[row.event_time] = row.value
 
         return results
 
