@@ -76,6 +76,18 @@ class Reports(Service):
 
         return self._post(request)
 
+    def getReportByFacID(self, rid = None, fid = None):
+        try:
+            u = UUID(rid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        #{{url}}/v1/facilities/65/reporting/reports/059a5db5-f507-492c-ab22-59ad20b8daa2
+        request = self.request_builder('reports.getReportByFacID', rid = rid, fid = fid)
+
+        return self._get(request)
+
+
     def updateReport(self, id = None, data = None):
         try:
             u = UUID(id);
@@ -106,13 +118,13 @@ class Reports(Service):
 
         return self._get(request)
 
-    def createFacilityReport(self, id = None, data = None):
+    def createFacilityReport(self, fid = None, rid = None):
         try:
-            u = UUID(id);
+            u = UUID(rid);
         except ValueError:
             print('id must be a valid UUID')
             return
-        request = self.request_builder('reports.createFacilityReport', id = id, body = data)
+        request = self.request_builder('reports.createFacilityReport', fid = fid, rid = rid)
 
         return self._post(request)
 
@@ -178,13 +190,13 @@ class Reports(Service):
 
         return self._post(request)
 
-    def addAttachmentToGenerateReport(self, gid = None):
+    def addAttachmentToGenerateReport(self, gid = None, data = None):
         try:
             u = UUID(gid);
         except ValueError:
             print('id must be a valid UUID')
             return
-        request = self.request_builder('reports.addAttachmentToGenerateReport', gid = gid)
+        request = self.request_builder('reports.addAttachmentToGenerateReport', gid = gid, body = data)
 
         return self._post(request)
 

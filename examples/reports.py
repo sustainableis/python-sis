@@ -24,6 +24,16 @@ if __name__ == "__main__":
 	reports = s.reports.getAllReportTypes()
 	print reports
 
-	report = s.reports.getReportType('4e72b0ca-b5d1-44cd-9851-2213c67fde62')
-	print report
+	report_type = s.reports.getReportType('4e72b0ca-b5d1-44cd-9851-2213c67fde62')
+	print report_type
 
+	fac=65
+
+	report = s.reports.getReportByFacID(report_type.id, fac)
+	s.reports.createFacilityReport(fac, report[0].id)
+	subscription = s.emails.createSubscription(subscription = {"name": "Test", "description": "Test", "type": "Report"})
+	print subscription.id
+	s.reports.addSubscriptionToReport(rid = report[0].id, sid = subscription.id)
+	gen_report = s.reports.createGeneratedReport(rid = report[0].id, data = "")
+	s.reports.addAttachmentToGenerateReport(gid = gen_report.id, data = {"file_id": 8})
+	s.reports.triggerSubscription(gid = gen_report.id)
