@@ -112,4 +112,4 @@ class DeleteConfigurationValue(Request):
             else:
                 uri += params[-1]
 
-        return uri   
+        return uri

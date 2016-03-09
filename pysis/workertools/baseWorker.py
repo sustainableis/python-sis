@@ -82,4 +82,9 @@ class BaseWorker(object):
 
         self.config[key] = configValue
 
+
+    def deleteConfigurationValue(self, value):
+
+        self.worker.deleteConfigurationValue(self.configuration_id, value['id'])
+
         
