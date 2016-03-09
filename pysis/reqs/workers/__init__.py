@@ -87,7 +87,23 @@ class UpdateConfigurationValue(Request):
         
         params = []
 
+        if len(params) > 0:
+            uri += '?'
+            for p in params[:-1]:
+                uri += p + '&'
+            else:
+                uri += params[-1]
 
+        return uri
+
+class DeleteConfigurationValue(Request):
+    uri = 'configurations/{configuration_id}/values/{value_id}'
+    resource = Configurations
+
+    def clean_uri(self):
+        uri = 'configurations/{configuration_id}/values/{value_id}'
+
+        params = []
 
         if len(params) > 0:
             uri += '?'
@@ -96,4 +112,4 @@ class UpdateConfigurationValue(Request):
             else:
                 uri += params[-1]
 
-        return uri    
+        return uri   
