@@ -180,6 +180,25 @@ class Select(Query):
 
         return query_str
 
+class CQLSelect(Select):
+
+    def __init__(self, table_name):
+
+        super(CQLSelect, self).__init__(table_name)
+
+    def order(self, column=None, desc=None):
+
+        if column is None and desc is None:
+
+            return self._order
+        else:
+            if desc:
+                self._order = 'ORDER BY ' + column + ' DESC'
+            else:
+                self._order = 'ORDER BY ' + column + ' ASC'
+
+            return self
+
 
 class Count(Select):
 

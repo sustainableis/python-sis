@@ -2,6 +2,7 @@ from cassandra.cluster import Cluster
 from cassandra import ConsistencyLevel
 from datetime import datetime
 import collections
+from query import CQLSelect, Where
 
 
 
@@ -75,7 +76,7 @@ class CassandraUtility:
         return outputs
 
 
-    def getData(self, output_id, field_human_name, time_start, window=0, time_end=None):
+    def getData(self, output_id, field_human_name, time_start, window=0, time_end=None, limit=None):
 
         if window == 0:
 
@@ -138,15 +139,21 @@ class CassandraUtility:
 
             for year, timestamps in years.iteritems():
 
-                cql = 'SELECT * FROM ' + table_name + " WHERE output_id=? " \
-                                                        "AND field=? " \
-                                                        "AND year='"+str(year)+"' " \
-                                                        "AND event_time>=? " \
-                                                        "AND event_time<=? " \
-                                                        "ORDER BY event_time ASC"
+                cql = CQLSelect(table_name).fields(['value', 'event_time'])
+
+                cql.where(Where('output_id=?')
+                          .AND('field=?')
+                          .AND("year='"+str(year)+"'")
+                          .AND("event_time>=?")
+                          .AND("event_time<=?"))
+
+                cql.order('event_time')
+
+                if limit is not None:
+                    cql.limit(limit)
 
 
-                rows = self.execute(cql, [output_id, field_human_name, timestamps[0], timestamps[1]])
+                rows = self.execute(str(cql), [output_id, field_human_name, timestamps[0], timestamps[1]])
 
                 for row in rows:
                     results[row.event_time] = row.value
