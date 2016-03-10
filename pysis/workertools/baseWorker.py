@@ -83,8 +83,11 @@ class BaseWorker(object):
         self.config[key] = configValue
 
 
-    def deleteConfigurationValue(self, value):
+    def deleteConfigurationValue(self, key, value):
 
         self.worker.deleteConfigurationValue(self.configuration_id, value['id'])
+
+        # TODO: API provides no way of checking if deletion was successful
+        del self.config[key]
 
         
