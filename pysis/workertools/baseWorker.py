@@ -85,8 +85,7 @@ class BaseWorker(object):
         configValue = {'value': value, 'id': res.id, 'type': value_type}
         self.config[key] = configValue
 
-
-if __name__ == '__main__':
-    w = BaseWorker(workerID='ccce6095-1e9d-6acc-0656-bd5fafa4102e',
-                   environment='production')
-    print()
+    def deleteConfigurationValue(self, key, value):
+        self.worker.deleteConfigurationValue(self.configuration_id, value['id'])
+        # TODO: API provides no way of checking if deletion was successful
+        del self.config[key]

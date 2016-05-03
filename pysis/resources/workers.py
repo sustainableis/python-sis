@@ -65,3 +65,9 @@ class Workers(Resource):
 
         return service.createConfigruationValue(configuration_id, key, value, value_type)
 
+    def deleteConfigurationValue(self, configuration_id, value_id):
+
+        service = self.importService(__service__)
+
+        service.deleteConfigurationValue(configuration_id, value_id)
+

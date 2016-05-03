@@ -56,7 +56,7 @@ class Query(object):
             self._fields.append(field)
             return self
 
-    def where(self, where):
+    def where(self, where=None):
         if where is None:
             return self._wheres
         else:
@@ -179,6 +179,25 @@ class Select(Query):
             query_str = query_str.format(self._args)
 
         return query_str
+
+class CQLSelect(Select):
+
+    def __init__(self, table_name):
+
+        super(CQLSelect, self).__init__(table_name)
+
+    def order(self, column=None, desc=None):
+
+        if column is None and desc is None:
+
+            return self._order
+        else:
+            if desc:
+                self._order = 'ORDER BY ' + column + ' DESC'
+            else:
+                self._order = 'ORDER BY ' + column + ' ASC'
+
+            return self
 
 
 class Count(Select):

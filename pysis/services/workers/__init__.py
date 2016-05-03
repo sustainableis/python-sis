@@ -91,3 +91,10 @@ class Workers(Service):
 
         return self._post(request)
 
+    def deleteConfigurationValue(self, configuration_id, value_id):
+
+        request = self.request_builder('workers.deleteConfigurationValue', configuration_id=configuration_id, value_id=value_id)
+
+        return self._delete(request)
+
+

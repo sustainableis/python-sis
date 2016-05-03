@@ -15,15 +15,27 @@ if __name__ == "__main__":
 	'''
 
 	#prod
-	s = SIS(token="af2f907ac7dc4348393fd9a63c25cd90f6852d2a", base_url='http://api.ndustrial.io/v1/', api_domain='api.ndustrial.io')
+	s = SIS(token="89f3722c0b9d12807451f4b4a0b8b6d10ab0b785", base_url='http://api.ndustrial.io/v1/', api_domain='api.ndustrial.io')
 
 
 	print("\Reports (All) \n---------")
 
-	
+	'''
 	reports = s.reports.getAllReportTypes()
 	print reports
 
-	report = s.reports.getReportType('4e72b0ca-b5d1-44cd-9851-2213c67fde62')
-	print report
+	report_type = s.reports.getReportType('4e72b0ca-b5d1-44cd-9851-2213c67fde62')
+	print report_type
 
+	fac=65
+
+	report = s.reports.getReportByFacID(report_type.id, fac)
+	s.reports.createFacilityReport(fac, report[0].id)
+	subscription = s.emails.createSubscription(subscription = {"name": "Test", "description": "Test", "type": "Report"})
+	print subscription.id
+	s.reports.addSubscriptionToReport(rid = report[0].id, sid = subscription.id)
+	gen_report = s.reports.createGeneratedReport(rid = report[0].id, data = "")
+	s.reports.addAttachmentToGenerateReport(gid = gen_report.id, data = {"file_id": 8})
+	'''
+
+	s.reports.triggerReportSubscription(gid = '5e4bcfc6-0b44-4415-bdda-b26ed3fcff91')
