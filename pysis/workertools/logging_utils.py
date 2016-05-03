@@ -1,4 +1,6 @@
 from logging import Handler, FileHandler
+from os.path import join
+from os import environ
 import logging
 import pika
 from json import dumps
@@ -62,10 +64,25 @@ class S3MetricFileHandler(MetricFileHandler):
         self.file_saver = file_saver
         self.local_file_name = file_name
         # TODO -> need a meaningful name, maybe based on the docker container
-        self.s3_file_name = ''
+        self.s3_file_name = join('workers/joblogs', self.get_container_id())
+
+    def get_container_id(self):
+        if 'HOSTNAME' in environ:
+            return environ['HOSTNAME'].strip()
+        cg_data = open('/proc/self/cgroup').readlines()
+        cg_data = [l.split('/')[-1].strip() for l in cg_data]
+        uid = set([l for l in cg_data if len(l) > 0])
+        if len(set(cg_data)) == 1:
+            return cg_data[0].strip()
+        elif len(set(cg_data)) > 1:
+            print("More than one CID????")
+            return cg_data[0].strip()
+        else:
+            print("Unable to deduce container id from docker")
+            return 'DEFAULT_HOST_NAME'
 
     def save_file(self):
         if self.file_saver is not None:
-            self.file_saver.save_file(fileName=self.s3_file_name,
-                                      file_category_id=None,
-                                      local_filepath=self.local_file_name)
+            self.file_saver.saveFile(fileName=self.s3_file_name,
+                                     file_category_id=None,
+                                     local_filepath=self.local_file_name)
