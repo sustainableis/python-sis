@@ -32,13 +32,28 @@ class QueueHandler(Handler):
         except Exception as e:
             logging.error('Unable to close publishing channel', e)
 
-
 class MetricFileHandler(FileHandler):
+    def emit(self, record):
+        if type(record.msg) is dict:
+            record.msg = dumps(record.msg)
+        super(MetricFileHandler, self).emit(record)
+
     def close(self):
         super(MetricFileHandler, self).close()
         self.save_file()
+        
     def save_file(self):
         pass
+
+
+class MockHandler(MetricFileHandler):
+    def __init__(self, filename, saved_file_name, mode='a', encoding=None, delay=0):
+        super(MetricFileHandler, self).__init__(filename=filename, mode=mode, encoding=encoding, delay=delay)
+        self.saved_file_name = saved_file_name
+
+    def save_file(self):
+        with open(self.saved_file_name, 'w') as saved:
+            saved.write('saved')
 
 
 class S3MetricFileHandler(MetricFileHandler):

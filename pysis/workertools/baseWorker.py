@@ -5,7 +5,6 @@ import pdb
 import logging
 from logging import FileHandler
 from logging.handlers import TimedRotatingFileHandler
-from pysis.workertools.logging_utils import QueueHandler
 from pysis.workertools.api import APIFileSaver
 from logging_utils import S3MetricFileHandler
 
@@ -34,11 +33,8 @@ class BaseWorker(object):
         metric_logger.setLevel(logging.DEBUG)
         # overwrite each time as we store it in the DB when done
         metrics_disk_handler = FileHandler(BaseWorker.METRIC_LOG_FILE, mode='w')
-        try:
-            queue_handler = QueueHandler(self.config)
-            metric_logger.addHandler(queue_handler)
-        except Exception as e:
-            self.logger.error('Could not instantiate QueueHandler, using only disk file to store metrics', e)
+        s3_handler = S3MetricFileHandler(self.config)
+        metric_logger.addHandler(s3_handler)
         metric_logger.addHandler(metrics_disk_handler)
         return metric_logger
 
@@ -46,11 +42,9 @@ class BaseWorker(object):
         logger = logging.getLogger('worker')
         logger.setLevel(logging.DEBUG)
         disk_handler = TimedRotatingFileHandler(BaseWorker.WORKER_LOG_FILE, when='d')
-        metric_handler = S3MetricFileHandler(file_name=BaseWorker.METRIC_LOG_FILE, file_saver=self.fileSaver)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         disk_handler.setFormatter(formatter)
         logger.addHandler(disk_handler)
-        logger.addHandler(metric_handler)
         return logger
 
     def loadConfiguration(self):
