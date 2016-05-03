@@ -120,4 +120,7 @@ class Reports(Resource):
     def addAttachmentToGenerateReport(self):
         service = self.importService(__service__)
         return service.addAttachmentToGenerateReport()
-        
+    
+    def triggerReportSubscription(self):
+        service = self.importService(__service__)
+        return service.triggerReportSubscription()

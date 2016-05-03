@@ -200,6 +200,17 @@ class Reports(Service):
 
         return self._post(request)
 
+    def triggerReportSubscription(self, gid = None):
+        try:
+            u = UUID(gid);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+        request = self.request_builder('reports.triggerReportSubscription', gid = gid)
+
+        return self._post(request)
+
+
     '''
     #below are prototype functions shamelessly stolen from the emails services for copy...  I mean inspiration
     def getSubscriptions(self, id=None, type=None):

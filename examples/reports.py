@@ -15,12 +15,12 @@ if __name__ == "__main__":
 	'''
 
 	#prod
-	s = SIS(token="af2f907ac7dc4348393fd9a63c25cd90f6852d2a", base_url='http://api.ndustrial.io/v1/', api_domain='api.ndustrial.io')
+	s = SIS(token="89f3722c0b9d12807451f4b4a0b8b6d10ab0b785", base_url='http://api.ndustrial.io/v1/', api_domain='api.ndustrial.io')
 
 
 	print("\Reports (All) \n---------")
 
-	
+	'''
 	reports = s.reports.getAllReportTypes()
 	print reports
 
@@ -36,4 +36,6 @@ if __name__ == "__main__":
 	s.reports.addSubscriptionToReport(rid = report[0].id, sid = subscription.id)
 	gen_report = s.reports.createGeneratedReport(rid = report[0].id, data = "")
 	s.reports.addAttachmentToGenerateReport(gid = gen_report.id, data = {"file_id": 8})
-	s.reports.triggerSubscription(gid = gen_report.id)
+	'''
+
+	s.reports.triggerReportSubscription(gid = '5e4bcfc6-0b44-4415-bdda-b26ed3fcff91')

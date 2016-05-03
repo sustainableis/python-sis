@@ -117,3 +117,9 @@ class AddAttachmentToGenerateReport(Request):
         #@TODO
         uri = 'reporting/generated/{gid}/attach'
 
+class TriggerReportSubscription(Request):
+    uri = 'reporting/generated/{gid}/trigger'
+    def clean_uri(self):
+        #@TODO
+        uri = 'reporting/generated/{gid}/trigger'
+
