@@ -127,7 +127,7 @@ class Client(object):
                }
 
             request = self.request_builder('oauth.refreshToken', body=formData)
-            headers = headers={'content-type' : 'application/x-www-form-urlencoded'}
+            headers={'content-type' : 'application/x-www-form-urlencoded'}
 
             try:
                 response = self.post(request=request, body=request.body.content, headers=headers)
