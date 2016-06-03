@@ -95,7 +95,7 @@ class CassandraUtility:
             table_name = 'output_data_by_field_hourly'
 
         else:
-            print 'Unknown window requested!!!'
+            print('Unknown window requested!!!')
 
 
 
@@ -201,7 +201,7 @@ class CassandraUtility:
             table_name = 'output_data_by_field_hourly'
 
         else:
-            print 'Unknown window requested!!!'
+            print ('Unknown window requested!!!')
 
 
 
@@ -233,7 +233,7 @@ class CassandraUtility:
             table_name = 'output_data_by_field_hourly'
 
         else:
-            print 'Unknown window requested!!!'
+            print('Unknown window requested!!!')
 
         cql = 'DELETE FROM ' + table_name + ' WHERE output_id=? and field=? and year=? and event_time=?'
 
