@@ -28,6 +28,7 @@ class SIS(object):
 
         from pysis.services.organizations import Organizations
         from pysis.services.facilities import Facilities
+        from pysis.services.utilities import Utilities
         from pysis.services.outputs import Outputs
         from pysis.services.buildings import Buildings
         from pysis.services.feeds import Feeds
@@ -57,6 +58,7 @@ class SIS(object):
         
         self._organizations = Organizations(self._client)
         self._facilities = Facilities(self._client)
+        self._utilities = Utilities(self._client)
         self._outputs = Outputs(self._client)
         self._buildings = Buildings(self._client)
         self._feeds = Feeds(self._client)
@@ -125,5 +127,9 @@ class SIS(object):
     @property
     def reports(self):
         return self._reports
+
+    @property
+    def utilities(self):
+        return self._utilities
     
     
