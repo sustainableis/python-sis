@@ -9,7 +9,6 @@ from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
-from pysis.resources.utilities import UtilitySummary
 from pysis.resources.utilities import UtilityMeters
 from pysis.resources.utilities import UtilityStatements
 from pysis.resources.outputs import OutputsTree

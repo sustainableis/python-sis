@@ -146,9 +146,12 @@ class SIS(object):
     @property
     def utilities(self):
         return self._utilities
+<<<<<<< 605123fff581f8bff05f95c8970be3e528b49943
 
     @property
     def metrics(self):
         return self._metrics
+=======
+>>>>>>> Added new pysis-api with utilities support
     
     
