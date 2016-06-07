@@ -43,7 +43,6 @@ class GetBlastcells(Request):
     uri = 'facilities/{id}/blastcells'
     resource = Blastcells
 
-<<<<<<< e9858571cebc7a1cfd466470d9fb239fb345a6a1
 class GetUtilityMeters(Request):
     uri = 'facilities/{id}/utilities/meters'
     resource = UtilityMeters
