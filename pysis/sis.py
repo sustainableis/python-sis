@@ -133,7 +133,7 @@ class SIS(object):
     @property
     def utilities(self):
         return self._utilities
-
+        
     @property
     def metrics(self):
         return self._metrics
