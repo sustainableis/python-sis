@@ -126,3 +126,4 @@ class GetInfo(Request):
     def clean_uri(self):
 
         return 'facilities/{id}/info'
+
