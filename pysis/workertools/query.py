@@ -346,3 +346,40 @@ class Where(object):
         return self.where
 
 
+def _test_query():
+    q = Select('hj_t_location') \
+        .fields('field1') \
+        .fields('field2') \
+        .where('field2 > 3') \
+        .where('field1 = 6') \
+        .join('hj_t_transaction', [('field1', 'field1'), ('field2', 'field2')]) \
+        .order('field1', True) \
+        .limit(500)
+    count = Count(query=q)
+    query_str = str(q)
+    count_str = str(count)
+    print query_str
+
+
+def _test_where():
+
+    where = Where('f1>f2').AND('f2=2').OR('f2=5')
+
+    print(Select("foo").
+          fields('bar').
+          fields('baz').
+          where(where).
+          limit(1000))
+
+
+def _test_group_by():
+    print(Select("foo").fields(['f1', 'COUNT(*)']).group_by('f1'))
+
+
+if __name__ == '__main__':
+    _test_query()
+    print("\n" + "="*50 + "\n")
+    _test_where()
+    print("\n" + "="*50 + "\n")
+    _test_group_by()
+
