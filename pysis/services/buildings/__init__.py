@@ -92,6 +92,7 @@ class Buildings(Service):
             
         return self._get(request)
 
+<<<<<<< 2d4989848b0e3b77594e5f6f87eea9b61b7349ad
     def getMetricsScores(self, id=None):
         """Gets Buildings metrics from the API
         
@@ -110,6 +111,8 @@ class Buildings(Service):
             
         return self._get(request)
 
+=======
+>>>>>>> Added new pysis-api with utilities support
     def set(self, id = None, data = None):
         '''
             pass data as a JSON object

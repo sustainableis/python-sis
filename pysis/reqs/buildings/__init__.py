@@ -30,14 +30,6 @@ class GetInfo(Request):
 		if not self.id:
 			return 'buildings/{id}/info'
 
-class GetMetricsScores(Request):
-    uri = 'buildings/{id}/metrics/energystar'
-    resource = Metrics
-    
-    def clean_uri(self):
-        if not self.id:
-            return 'buildings/{id}/metrics/energystar'
-
 class GetMetrics(Request):
     uri = 'buildings/{id}/metrics'
     resource = Metrics
