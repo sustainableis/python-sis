@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from pysis.reqs.base import Request
+from pysis.resources.utilities import UtilitySummary
 from pysis.resources.facilities import Facilities
 from pysis.resources.facilities import FacilityInfo
 from pysis.resources.buildings import Buildings
@@ -8,7 +9,6 @@ from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
-from pysis.resources.utilities import UtilitySummary
 from pysis.resources.utilities import UtilityMeters
 from pysis.resources.utilities import UtilityStatements
 from pysis.resources.outputs import OutputsTree
@@ -126,3 +126,4 @@ class GetInfo(Request):
     def clean_uri(self):
 
         return 'facilities/{id}/info'
+
