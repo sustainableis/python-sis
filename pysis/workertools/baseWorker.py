@@ -70,7 +70,11 @@ class BaseWorker(object):
 
     def getConfigurationValue(self, key):
 
-        return self.config[key]['value']
+        try:
+            return self.config[key]['value']
+
+        except KeyError:
+            return None
 
 
     def createConfigurationValue(self, key, value, value_type):

@@ -173,6 +173,55 @@ class Query(object):
         return query_str
 
 
+
+class Update(Query):
+
+    def _init__(self, table_name):
+
+        super(Update, self).__init__(table_name)
+
+        self.verb = 'UPDATE'
+
+        self.values = []
+
+    def values(self, values=None):
+
+        if values is None:
+
+            return self.values
+        else:
+            # try treating it as a list first
+            try:
+                self.values.extend(values)
+            except TypeError:
+                self.values.append(values)
+
+    def __str__(self):
+
+        query_chunks = []
+        query_chunks.append(self._verb)
+        query_chunks.append(self._from)
+        query_chunks.append('SET')
+
+        if len(self.values) != len(self._fields):
+
+            # insert wildcards
+            f = ['='.join((x, '%s')) for x in self.fields]
+
+        else:
+
+            f = ['='.join((x, y)) for x, y in zip(self._fields, self.values)]
+
+        query_chunks.append(', '.join(f))
+
+        if self._wheres:
+            query_chunks.append(str(self._wheres))
+
+
+        query_str = ' '.join(query_chunks)
+
+        return query_str
+
 class Select(Query):
 
     def __init__(self, table_name):

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from __future__ import print_function
 from pysis.reqs.base import RequestBuilder
-from pysis.exceptions import InvalidAccessToken
+from pysis.exceptions import Unauthorized
 
 def is_string(obj):
     try:
@@ -96,7 +96,7 @@ class Service(object):
         try:
             return request_method()
 
-        except InvalidAccessToken as e:
+        except Unauthorized as e:
 
             print('Access token invalid. Attempting refresh..')
 
