@@ -109,6 +109,7 @@ class Buildings(Service):
             request = self.request_builder('buildings.getMetricsScores', id=id)
             
         return self._get(request)
+
         
     def set(self, id = None, data = None):
         '''
