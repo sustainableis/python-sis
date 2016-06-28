@@ -4,10 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-#    __BASE_URL__ = 'http://localhost:3000/v1/'
-#    __API_DOMAIN__ = 'localhost:3000'
+    #__BASE_URL__ = 'http://api.sustainableis.com/v1/'
+    #__API_DOMAIN__ = 'api.sustainableis.com'
+    __BASE_URL__ = 'http://localhost:3000/v1/'
+    __API_DOMAIN__ = 'localhost:3000'
 
 
 
@@ -41,6 +41,7 @@ class SIS(object):
         from pysis.services.alerts import Alerts
         from pysis.services.emails import Emails
         from pysis.services.reports import Reports
+        from pysis.services.metrics import Metrics
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -71,6 +72,7 @@ class SIS(object):
         self._alerts = Alerts(self._client)
         self._emails = Emails(self._client)
         self._reports = Reports(self._client)
+        self._metrics = Metrics(self._client)
 
     @property
     def organizations(self):
@@ -131,5 +133,9 @@ class SIS(object):
     @property
     def utilities(self):
         return self._utilities
+
+    @property
+    def metrics(self):
+        return self._metrics
     
     
