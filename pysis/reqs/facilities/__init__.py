@@ -13,6 +13,7 @@ from pysis.resources.utilities import UtilitySummary
 from pysis.resources.utilities import UtilityMeters
 from pysis.resources.utilities import UtilityStatements
 from pysis.resources.outputs import OutputsTree
+from pysis.resources.baseline import Baseline
 
 class Get(Request):
     uri = 'facilities/{id}'
@@ -68,6 +69,9 @@ class GetOutputsTree(Request):
 
         return uri
 
+class GetBaseline(Request):
+    uri = 'facilities/{id}/baseline'
+    resource = Baseline
 
 class GetUtilitySummary(Request):
 
