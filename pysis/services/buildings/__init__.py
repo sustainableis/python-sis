@@ -110,7 +110,10 @@ class Buildings(Service):
             
         return self._get(request)
 
+<<<<<<< a7763ac7f2eb148a9ef2d466102193943ec4c22e
         
+=======
+>>>>>>> Pysis changes
     def set(self, id = None, data = None):
         '''
             pass data as a JSON object

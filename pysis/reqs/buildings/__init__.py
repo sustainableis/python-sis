@@ -4,11 +4,7 @@ from pysis.reqs.base import Request
 from pysis.resources.buildings import Buildings
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
-<<<<<<< 605123fff581f8bff05f95c8970be3e528b49943
 from pysis.resources.metrics import Metrics
-=======
-from pysis.resources.metrics import Metric
->>>>>>> Added new pysis-api with utilities support
 
 class Get(Request):
     uri = 'buildings/{id}'

@@ -4,23 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-<<<<<<< 7a5d53bc7bbf7dcf3cdbdf6c6da8b3e7e3acc499
-<<<<<<< 6f21109e24efe2aace06ac37b4e803dfe9ffb272
-=======
->>>>>>> removed test code
     __BASE_URL__ = 'http://api.sustainableis.com/v1/'
     __API_DOMAIN__ = 'api.sustainableis.com'
     #__BASE_URL__ = 'http://localhost:3000/v1/'
     #__API_DOMAIN__ = 'localhost:3000'
-<<<<<<< 7a5d53bc7bbf7dcf3cdbdf6c6da8b3e7e3acc499
-=======
-    #__BASE_URL__ = 'http://api.sustainableis.com/v1/'
-    #__API_DOMAIN__ = 'api.sustainableis.com'
-    __BASE_URL__ = 'http://localhost:3000/v1/'
-    __API_DOMAIN__ = 'localhost:3000'
->>>>>>> Pysis changes
-=======
->>>>>>> removed test code
 
 
 
@@ -146,12 +133,9 @@ class SIS(object):
     @property
     def utilities(self):
         return self._utilities
-<<<<<<< 605123fff581f8bff05f95c8970be3e528b49943
 
     @property
     def metrics(self):
         return self._metrics
-=======
->>>>>>> Added new pysis-api with utilities support
     
     
