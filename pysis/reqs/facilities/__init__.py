@@ -13,6 +13,7 @@ from pysis.resources.utilities import UtilitySummary
 from pysis.resources.utilities import UtilityMeters
 from pysis.resources.utilities import UtilityStatements
 from pysis.resources.outputs import OutputsTree
+from pysis.resources.baseline import Baseline
 
 class Get(Request):
     uri = 'facilities/{id}'
@@ -42,6 +43,7 @@ class GetBlastcells(Request):
     uri = 'facilities/{id}/blastcells'
     resource = Blastcells
 
+<<<<<<< e9858571cebc7a1cfd466470d9fb239fb345a6a1
 class GetUtilityMeters(Request):
     uri = 'facilities/{id}/utilities/meters'
     resource = UtilityMeters
@@ -68,6 +70,9 @@ class GetOutputsTree(Request):
 
         return uri
 
+class GetBaseline(Request):
+    uri = 'facilities/{id}/baseline'
+    resource = Baseline
 
 class GetUtilitySummary(Request):
 
