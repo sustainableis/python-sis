@@ -4,7 +4,7 @@ from pysis.reqs.base import Request
 from pysis.resources.buildings import Buildings
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
-from pysis.resources.metrics import Metric
+from pysis.resources.metrics import Metrics
 
 class Get(Request):
     uri = 'buildings/{id}'
@@ -30,13 +30,22 @@ class GetInfo(Request):
 		if not self.id:
 			return 'buildings/{id}/info'
 
-class GetMetrics(Request):
+class GetMetricsScores(Request):
     uri = 'buildings/{id}/metrics/energystar'
-    resource = Metric
+    resource = Metrics
+    print vars(Request)
     
     def clean_uri(self):
         if not self.id:
             return 'buildings/{id}/metrics/energystar'
+
+class GetMetrics(Request):
+    uri = 'buildings/{id}/metrics'
+    resource = Metrics
+    
+    def clean_uri(self):
+        if not self.id:
+            return 'buildings/{id}/metrics'
 
 class Set(Request):
     uri = 'buildings/{id}'

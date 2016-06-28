@@ -113,6 +113,20 @@ class Facilities(Service):
         request = self.request_builder('facilities.getInfo', id=id)
 
         return self._get(request)
+        
+
+    def getBaseline(self, id):
+        """Get the blastcells of a facility
+        
+        Args:
+            id (int): id of the facility.  
+            
+        Returns: 
+            Blastcells resources   
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('facilities.getBaseline', id=id)
+        return self._get(request)
     
     
         

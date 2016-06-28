@@ -9,6 +9,7 @@ from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
+from pysis.resources.baseline import Baseline
 
 class Get(Request):
     uri = 'facilities/{id}'
@@ -38,6 +39,9 @@ class GetBlastcells(Request):
     uri = 'facilities/{id}/blastcells'
     resource = Blastcells
 
+class GetBaseline(Request):
+    uri = 'facilities/{id}/baseline'
+    resource = Baseline
 
 class GetUtilitySummary(Request):
 

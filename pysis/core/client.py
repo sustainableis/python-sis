@@ -122,7 +122,7 @@ class Client(object):
             # get refreshed token
             formData = {'grant_type' : 'refresh_token',
                'client_id' : self.config['client_id'],
-               'client_secret' : self.config['client_secret`'],
+               'client_secret' : self.config['client_secret'],
                'refresh_token' : self.config['refresh_token']
                }
 
@@ -168,6 +168,7 @@ class Client(object):
         request.uri = "%s%s" % (self.config['base_url'], request.uri)
         request.uri += self.urlencode(params)
         response =  self.request('GET', str(request), None, headers)
+
         SISError(str(request), response).process()
         return response
 
