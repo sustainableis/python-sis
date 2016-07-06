@@ -24,12 +24,24 @@ class PostgresUtility:
 
             cursor.execute(statement)
 
+        res = cursor.fetchall()
 
-        return cursor.fetchall()
+        cursor.close()
 
-
-
-
-
+        return res
 
 
+    def execute_update(self, statement, args=None):
+
+        cursor = self.connection.cursor()
+
+        if args is not None:
+
+            cursor.execute(statement, args)
+
+        else:
+
+            cursor.execute(statement)
+
+        self.connection.commit()
+        cursor.close()

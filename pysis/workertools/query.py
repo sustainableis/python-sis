@@ -176,25 +176,25 @@ class Query(object):
 
 class Update(Query):
 
-    def _init__(self, table_name):
+    def __init__(self, table_name):
 
         super(Update, self).__init__(table_name)
 
-        self.verb = 'UPDATE'
+        self._verb = 'UPDATE'
 
-        self.values = []
+        self._values = []
 
     def values(self, values=None):
 
         if values is None:
 
-            return self.values
+            return self._values
         else:
             # try treating it as a list first
             try:
-                self.values.extend(values)
+                self._values.extend(values)
             except TypeError:
-                self.values.append(values)
+                self._values.append(values)
 
     def __str__(self):
 
@@ -203,14 +203,14 @@ class Update(Query):
         query_chunks.append(self._from)
         query_chunks.append('SET')
 
-        if len(self.values) != len(self._fields):
+        if len(self._values) != len(self._fields):
 
             # insert wildcards
-            f = ['='.join((x, '%s')) for x in self.fields]
+            f = ['='.join((x, '%s')) for x in self._fields]
 
         else:
 
-            f = ['='.join((x, y)) for x, y in zip(self._fields, self.values)]
+            f = ['='.join((x, y)) for x, y in zip(self._fields, self._values)]
 
         query_chunks.append(', '.join(f))
 
