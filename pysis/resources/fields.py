@@ -5,6 +5,6 @@ from .base import Resource
 class Fields(Resource):
         
     def __str__(self):
-        return '<Fields>'    
+        return str(self.__dict__)   
     
     
