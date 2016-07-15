@@ -115,6 +115,43 @@ class Facilities(Service):
         return self._get(request)
     
     
+    def getUtilityMeters(self, id):
+        """Get the utility meters of a facility
+        
+        Args:
+            id (int): id of the facility.
+            
+        Returns: 
+            Utility Meter resources    
+        """
+        assert isinstance(id, int)
+        request = self.request_builder('facilities.getUtilityMeters', id=id)
+        return self._get(request)
+        
+    def getUtilityStatements(self, id, year=None, month=None):
+        
+        params = {}
+
+        if month:
+            params['month'] = month
+
+        if year:
+            params['year'] = year
+
+        request = self.request_builder('facilities.getUtilityStatements', id=id, **params)
+
+        return self._get(request)
+    
+    def getOutputsTree(self, id, output_type=None):
+        params = {}
+
+        if output_type:
+            params['output_type'] = output_type
+
+        request = self.request_builder('facilities.getOutputsTree', id=id, **params)
+        
+        return self._get(request)
+    
         
         
         
