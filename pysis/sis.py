@@ -4,10 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-    #__BASE_URL__ = 'http://api.sustainableis.com/v1/'
-    #__API_DOMAIN__ = 'api.sustainableis.com'
-    __BASE_URL__ = 'http://localhost:3000/v1/'
-    __API_DOMAIN__ = 'localhost:3000'
+    __BASE_URL__ = 'http://api.sustainableis.com/v1/'
+    __API_DOMAIN__ = 'api.sustainableis.com'
+    #__BASE_URL__ = 'http://localhost:3000/v1/'
+    #__API_DOMAIN__ = 'localhost:3000'
 
 
 
