@@ -36,7 +36,7 @@ class GetMetricsScores(Request):
     
     def clean_uri(self):
         if not self.id:
-            return 'buildings/{id}/metrics'
+            return 'buildings/{id}/metrics/energystar'
 
 class GetMetrics(Request):
     uri = 'buildings/{id}/metrics'

@@ -67,7 +67,6 @@ class GetOutputsTree(Request):
                 uri += params[-1]
 
         return uri
-
 class GetBaseline(Request):
     uri = 'facilities/{id}/baseline'
     resource = Baseline
