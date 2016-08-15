@@ -8,7 +8,11 @@ class GetMeters(Request):
 	resource = Utilities
 
 	def clean_uri(self):
-		if not self.id:
+        if self.building_id:
+            return 'buildings/{id}/utilities/meters'
+        elif self.id:
+            return uri
+		else:
 			return 'utilities/meters'
 
 class GetAccounts(Request):
@@ -24,24 +28,12 @@ class GetStatements(Request):
 	resource = Utilities
 
 	def clean_uri(self):
-		if not self.id:
+		if self.id:
+            return uri
+        elif self.meter_id:
+            return 'utilities/meters/{meter_id}/statements'
+        else
 			return 'utilities/statements'
-
-class GetStatementsByMeterID(Request):
-	uri = 'utilities/meters/{id}/statements'
-	resource = Utilities
-
-	def clean_uri(self):
-		if not self.id:
-			return 'utilities/meters/{id}/statements'
-
-class GetMetersByBuildingID(Request):
-	uri = 'buildings/{id}/utilities/meters'
-	resource = Utilities
-
-	def clean_uri(self):
-		if not self.id:
-			return 'buildings/{id}/utilities/meters'
 
 class GetStatementTree(Request):
     uri = 'utilities/statements/{id}/tree'
