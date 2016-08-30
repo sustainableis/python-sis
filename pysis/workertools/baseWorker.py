@@ -11,7 +11,12 @@ class BaseWorker(object):
     def __init__(self, workerID, environment):
         self.env = environment
         self.uuid = workerID
-        self.api = SIS()
+        base_url = os.getenv('BASE_URL', None)
+        base_domain = os.getenv('BASE_DOMAIN', None)
+        if base_url and base_domain:
+            s = SIS(base_url=base_url, api_domain=base_domain)
+        else:
+            s = SIS(base_url='http://api.sustainableis.com/v1/', api_domain='api.sustainableis.com')
         self.configuration_id = None
 
         # load configuration
