@@ -32,7 +32,7 @@ class GetStatements(Request):
             return uri
         elif self.meter_id:
             return 'utilities/meters/{meter_id}/statements'
-        else
+        else:
             return 'utilities/statements'
 
 class GetStatementTree(Request):
