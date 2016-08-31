@@ -9,9 +9,9 @@ class GetMeters(Request):
 
     def clean_uri(self):
         if self.building_id:
-            return 'buildings/{id}/utilities/meters'
+            return 'buildings/{building_id}/utilities/meters'
         elif self.id:
-            return uri
+            return self.uri
         else:
             return 'utilities/meters'
 
@@ -29,7 +29,7 @@ class GetStatements(Request):
 
     def clean_uri(self):
         if self.id:
-            return uri
+            return self.uri
         elif self.meter_id:
             return 'utilities/meters/{meter_id}/statements'
         else:

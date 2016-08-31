@@ -35,8 +35,8 @@ class Service(object):
         Returns: 
             Resources        
         """
+        print(request)
         response = self._perform_request(lambda: self._client.get(request))
-
         return request.resource.loads(response[1])
     
     def _post(self, request, **kwargs):

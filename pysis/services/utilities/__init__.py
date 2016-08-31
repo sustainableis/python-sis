@@ -11,7 +11,7 @@ class Utilities(Service):
         """Creates Utility object with a client"""
         super(Utilities, self).__init__(client)
     
-    def getMeters(self, id=None):
+    def getMeters(self, id=None, building_id = None):
         """Gets Meters from the API
         
         Args:
@@ -20,11 +20,14 @@ class Utilities(Service):
         
         Returns: Utility resources      
         """
-        if id is None:
-            request = self.request_builder('utilities.getMeters')
-        else:
+        if id:
             assert isinstance(id, int)
             request = self.request_builder('utilities.getMeters', id=id)
+        elif building_id:
+            assert isinstance(building_id, int)
+            request = self.request_builder('utilities.getMeters', building_id=building_id)
+        else:
+            request = self.request_builder('utilities.getMeters')
             
         return self._get(request)
     
@@ -45,7 +48,7 @@ class Utilities(Service):
             
         return self._get(request)
         
-    def getStatements(self, id=None):
+    def getStatements(self, id=None, meter_id=None):
         """Gets Statements from the API
         
         Args:
@@ -54,45 +57,14 @@ class Utilities(Service):
         
         Returns: Utility resources      
         """
-        if id is None:
-            request = self.request_builder('utilities.getStatements')
-        else:
+        if id:
             assert isinstance(id, int)
             request = self.request_builder('utilities.getStatements', id=id)
-            
-        return self._get(request)
-
-    def getStatementsByMeterID(self, id=None):
-        """Gets Statements from the API
-        
-        Args:
-            id (int): id of the feed. 
-                if None, returns all Statements
-        
-        Returns: Utility resources      
-        """
-        if id is None:
-            request = self.request_builder('utilities.getStatementsByMeterID')
+        elif meter_id:
+            assert isinstance(meter_id, int)
+            request = self.request_builder('utilities.getStatements', meter_id=meter_id)
         else:
-            assert isinstance(id, int)
-            request = self.request_builder('utilities.getStatementsByMeterID', id=id)
-            
-        return self._get(request)
-
-    def getMetersByBuildingID(self, id=None):
-        """Gets Statements from the API
-        
-        Args:
-            id (int): id of the feed. 
-                if None, returns all Statements
-        
-        Returns: Utility resources      
-        """
-        if id is None:
-            request = self.request_builder('utilities.getMetersByBuildingID')
-        else:
-            assert isinstance(id, int)
-            request = self.request_builder('utilities.getMetersByBuildingID', id=id)
+            request = self.request_builder('utilities.getStatements')
             
         return self._get(request)
 
