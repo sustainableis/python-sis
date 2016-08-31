@@ -4,36 +4,36 @@ from pysis.reqs.base import Request
 from pysis.resources.utilities import Utilities
 
 class GetMeters(Request):
-	uri = 'utilities/meters/{id}'
-	resource = Utilities
+    uri = 'utilities/meters/{id}'
+    resource = Utilities
 
-	def clean_uri(self):
+    def clean_uri(self):
         if self.building_id:
             return 'buildings/{id}/utilities/meters'
         elif self.id:
             return uri
-		else:
-			return 'utilities/meters'
+        else:
+            return 'utilities/meters'
 
 class GetAccounts(Request):
-	uri = 'utilities/accounts/{id}'
-	resource = Utilities
+    uri = 'utilities/accounts/{id}'
+    resource = Utilities
 
-	def clean_uri(self):
-		if not self.id:
-			return 'utilities/accounts'
+    def clean_uri(self):
+        if not self.id:
+            return 'utilities/accounts'
 
 class GetStatements(Request):
-	uri = 'utilities/statements/{id}'
-	resource = Utilities
+    uri = 'utilities/statements/{id}'
+    resource = Utilities
 
-	def clean_uri(self):
-		if self.id:
+    def clean_uri(self):
+        if self.id:
             return uri
         elif self.meter_id:
             return 'utilities/meters/{meter_id}/statements'
         else
-			return 'utilities/statements'
+            return 'utilities/statements'
 
 class GetStatementTree(Request):
     uri = 'utilities/statements/{id}/tree'
