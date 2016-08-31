@@ -135,6 +135,6 @@ class SIS(object):
 
     @property
     def metrics(self):
-        return self._metricssupport
+        return self._metrics
     
     

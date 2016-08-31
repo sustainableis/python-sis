@@ -110,7 +110,6 @@ class Buildings(Service):
             
         return self._get(request)
 
-        
     def set(self, id = None, data = None):
         '''
             pass data as a JSON object
