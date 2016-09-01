@@ -16,7 +16,7 @@ class BaseWorker(object):
         if base_url and base_domain:
             self.api = SIS(base_url=base_url, api_domain=base_domain)
         else:
-            self.api = SIS(base_url='http://api.sustainableis.com/v1/', api_domain='api.sustainableis.com')
+            self.api = SIS(base_url='http://api.ndustrial.io/v1/', api_domain='api.ndustrial.io')
         self.configuration_id = None
 
         # load configuration
