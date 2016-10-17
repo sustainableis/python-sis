@@ -17,6 +17,12 @@ class GetReportType(Request):
         #@TODO
         uri = 'reporting/types/{id}'
 
+class GetReportTypeOrgs(Request):
+    uri = 'reporting/types/{id}/organizations'
+    def clean_uri(self):
+        #@TODO
+        uri = 'reporting/types/{id}/organizations'
+
 class UpdateReportType(Request):
     uri = 'reporting/types/{id}'
     def clean_uri(self):

@@ -85,6 +85,23 @@ class Utilities(Service):
             
         return self._get(request)
 
+    def getStatementHistory(self, id=None):
+        """Gets Statements from the API
+        
+        Args:
+            id (int): id of the feed. 
+                if None, returns all Statement trees
+        
+        Returns: Utility resources      
+        """
+        if id is None:
+            request = self.request_builder('utilities.getStatementHistory')
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('utilities.getStatementHistory', id=id)
+            
+        return self._get(request)
+
     def setStatement(self, id = None, data = None):
         '''
             pass data as a JSON object

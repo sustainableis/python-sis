@@ -44,6 +44,17 @@ class Reports(Service):
 
         return self._put(request)
 
+    def getReportTypeOrgs(self, id=None):
+        try:
+            u = UUID(id);
+        except ValueError:
+            print('id must be a valid UUID')
+            return
+
+        request = self.request_builder('reports.getReportTypeOrgs', id=id)
+
+        return self._get(request)
+
     def removeReportType(self, id=None):
         try:
             u = UUID(id);

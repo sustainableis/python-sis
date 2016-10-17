@@ -43,6 +43,16 @@ class GetStatementTree(Request):
         if not self.id:
             return 'utilities/statements/{id}/tree'
 
+            getStatementHistory
+
+class GetStatementHistory(Request):
+    uri = 'utilities/statements/{id}/history'
+    resource = Utilities
+
+    def clean_uri(self):
+        if not self.id:
+            return 'utilities/statements/{id}/history'
+
 class SetStatement(Request):
     uri = 'utilities/statements/{id}'
     resource = Utilities
