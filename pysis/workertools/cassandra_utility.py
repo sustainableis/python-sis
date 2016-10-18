@@ -78,6 +78,8 @@ class CassandraUtility:
 
     def getData(self, output_id, field_human_name, time_start, window=0, time_end=None, limit=None):
 
+        assert window in [0, 1, 15, 60]
+
         if window == 0:
 
             table_name = 'output_data_by_field'
@@ -90,12 +92,10 @@ class CassandraUtility:
 
             table_name = 'output_data_by_field_15_minutely'
 
-        elif window == 60:
+        else:
 
             table_name = 'output_data_by_field_hourly'
 
-        else:
-            print 'Unknown window requested!!!'
 
 
 
@@ -184,6 +184,8 @@ class CassandraUtility:
 
         year = str(timestamp.year)
 
+        assert window in [0, 1, 15, 60]
+
         if window == 0:
 
             table_name = 'output_data_by_field'
@@ -196,12 +198,10 @@ class CassandraUtility:
 
             table_name = 'output_data_by_field_15_minutely'
 
-        elif window == 60:
+        else:
 
             table_name = 'output_data_by_field_hourly'
 
-        else:
-            print 'Unknown window requested!!!'
 
 
 
@@ -213,6 +213,8 @@ class CassandraUtility:
 
 
     def deleteData(self, output_id, field_human_name, window, timestamp):
+
+        assert window in [0, 1, 15, 60]
 
         year = str(timestamp.year)
 
@@ -228,12 +230,10 @@ class CassandraUtility:
 
             table_name = 'output_data_by_field_15_minutely'
 
-        elif window == 60:
+        else:
 
             table_name = 'output_data_by_field_hourly'
 
-        else:
-            print 'Unknown window requested!!!'
 
         cql = 'DELETE FROM ' + table_name + ' WHERE output_id=? and field=? and year=? and event_time=?'
 
