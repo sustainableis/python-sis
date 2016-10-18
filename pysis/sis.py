@@ -4,11 +4,10 @@ from datetime import datetime
 import calendar
 
 class SIS(object):
-    __BASE_URL__ = 'https://api.ndustrial.io/v1/'
-    __API_DOMAIN__ = 'api.ndustrial.io'
-#    __BASE_URL__ = 'http://localhost:3000/v1/'
-#    __API_DOMAIN__ = 'localhost:3000'
-
+    __BASE_URL__ = 'http://api.sustainableis.com/v1/'
+    __API_DOMAIN__ = 'api.sustainableis.com'
+    #__BASE_URL__ = 'http://localhost:3000/v1/'
+    #__API_DOMAIN__ = 'localhost:3000'
 
 
     """Main SIS object
@@ -28,6 +27,7 @@ class SIS(object):
 
         from pysis.services.organizations import Organizations
         from pysis.services.facilities import Facilities
+        from pysis.services.utilities import Utilities
         from pysis.services.outputs import Outputs
         from pysis.services.buildings import Buildings
         from pysis.services.feeds import Feeds
@@ -40,6 +40,7 @@ class SIS(object):
         from pysis.services.alerts import Alerts
         from pysis.services.emails import Emails
         from pysis.services.reports import Reports
+        from pysis.services.metrics import Metrics
         
         enableParamChecks = True
         if 'enableParamChecks' in config:
@@ -57,6 +58,7 @@ class SIS(object):
         
         self._organizations = Organizations(self._client)
         self._facilities = Facilities(self._client)
+        self._utilities = Utilities(self._client)
         self._outputs = Outputs(self._client)
         self._buildings = Buildings(self._client)
         self._feeds = Feeds(self._client)
@@ -69,6 +71,7 @@ class SIS(object):
         self._alerts = Alerts(self._client)
         self._emails = Emails(self._client)
         self._reports = Reports(self._client)
+        self._metrics = Metrics(self._client)
 
     @property
     def organizations(self):
@@ -125,5 +128,13 @@ class SIS(object):
     @property
     def reports(self):
         return self._reports
+
+    @property
+    def utilities(self):
+        return self._utilities
+
+    @property
+    def metrics(self):
+        return self._metrics
     
     

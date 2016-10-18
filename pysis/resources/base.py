@@ -122,7 +122,8 @@ class Resource(object):
             elif hasattr(raw_resources, '__iter__'):
                 return [resource.__load(raw_resource)
                         for raw_resource in raw_resources]
-                
+        
+        print(str(raw_resource))
         new_resource = raw_resource.copy()
         new_resource.update(dict([
             (attr, parse_map(resource, raw_resource[attr]))

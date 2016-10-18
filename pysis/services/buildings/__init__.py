@@ -55,5 +55,71 @@ class Buildings(Service):
         assert isinstance(id, int)
         request = self.request_builder('buildings.getBlastcells', id=id)
         return self._get(request)
+
+    def getInfo(self, id=None):
+        """Gets Buildings info from the API
+        
+        Args:
+            id (int): id of the building. 
+                if None, returns all Buildings info
+        
+        Returns: 
+            Buildings resources        
+        """
+        if id is None:
+            request = self.request_builder('buildings.getInfo')
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('buildings.getInfo', id=id)
+            
+        return self._get(request)
     
+    def getMetrics(self, id=None):
+        """Gets Buildings metrics from the API
+        
+        Args:
+            id (int): id of the building. 
+                if None, returns all Buildings metrics
+        
+        Returns: 
+            Buildings resources        
+        """
+        if id is None:
+            request = self.request_builder('buildings.getMetrics')
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('buildings.getMetrics', id=id)
+            
+        return self._get(request)
+
+    def getMetricsScores(self, id=None):
+        """Gets Buildings metrics from the API
+        
+        Args:
+            id (int): id of the building. 
+                if None, returns all Buildings metrics
+        
+        Returns: 
+            Buildings resources        
+        """
+        if id is None:
+            request = self.request_builder('buildings.getMetricsScores')
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('buildings.getMetricsScores', id=id)
+            
+        return self._get(request)
+
+    def set(self, id = None, data = None):
+        '''
+            pass data as a JSON object
+        '''
+        if id is None:
+            print("id must be valid")
+            return
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('buildings.set', id=id, body = data)
+
+        return self._put(request)
     

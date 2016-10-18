@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from pysis.reqs.base import Request
+from pysis.resources.utilities import UtilitySummary
 from pysis.resources.facilities import Facilities
 from pysis.resources.facilities import FacilityInfo
 from pysis.resources.buildings import Buildings
@@ -8,10 +9,10 @@ from pysis.resources.users import Users
 from pysis.resources.feeds import Feeds
 from pysis.resources.outputs import Outputs
 from pysis.resources.blastcells import Blastcells
-from pysis.resources.utilities import UtilitySummary
 from pysis.resources.utilities import UtilityMeters
 from pysis.resources.utilities import UtilityStatements
 from pysis.resources.outputs import OutputsTree
+from pysis.resources.baseline import Baseline
 
 class Get(Request):
     uri = 'facilities/{id}'
@@ -66,7 +67,9 @@ class GetOutputsTree(Request):
                 uri += params[-1]
 
         return uri
-
+class GetBaseline(Request):
+    uri = 'facilities/{id}/baseline'
+    resource = Baseline
 
 class GetUtilitySummary(Request):
 
@@ -126,3 +129,4 @@ class GetInfo(Request):
     def clean_uri(self):
 
         return 'facilities/{id}/info'
+
