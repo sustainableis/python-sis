@@ -130,3 +130,11 @@ class GetInfo(Request):
 
         return 'facilities/{id}/info'
 
+class SetInfo(Request):
+    uri = 'facilities/{id}/info'
+    resource = FacilityInfo
+
+    def clean_uri(self):
+
+        return 'facilities/{id}/info'
+

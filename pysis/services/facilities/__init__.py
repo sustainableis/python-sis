@@ -113,6 +113,19 @@ class Facilities(Service):
         request = self.request_builder('facilities.getInfo', id=id)
 
         return self._get(request)
+
+    def setInfo(self, id = None, data = None):
+        '''
+            pass data as a JSON object
+        '''
+        if id is None:
+            print("id must be valid")
+            return
+        else:
+            assert isinstance(id, int)
+            request = self.request_builder('facilities.setInfo', id=id, body = data)
+
+        return self._post(request)
         
 
     def getBaseline(self, id):
