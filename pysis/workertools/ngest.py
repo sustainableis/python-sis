@@ -23,7 +23,7 @@ class NgestClient():
     
     def __init__(self, feed_key):
         self.postUrl = None
-        self.baseUrl = 'https://data.ndustrial.io/v1/'
+        self.baseUrl = 'https://data.ndustrial.io/v1'
         self.feed_key = feed_key
         self.api_token = self.getAPIToken()
         self.feed_token,self.feed_timezone = self.getFeedInfo()
@@ -46,7 +46,10 @@ class NgestClient():
         
     
     def generateUrl(self):
-        self.postUrl = os.path.join(self.baseUrl, self.feed_token, self.feed_type, self.feed_key)
+
+        # this is platform independent
+        self.postUrl = '/'.join([self.baseUrl, self.feed_token, self.feed_type, self.feed_key])
+        #self.postUrl = os.path.join(self.baseUrl, self.feed_token, self.feed_type, self.feed_key)
     
     def sendData(self, nGestDataObject):
         if not isinstance(nGestDataObject, NgestTimeSeriesDataObject):
