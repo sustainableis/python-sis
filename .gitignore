@@ -9,3 +9,6 @@ build/
 *egg-info/
 .idea/
 token
+venv/
+*.log
+test.py

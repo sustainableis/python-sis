@@ -1,17 +1,13 @@
 import os,sys
 from datetime import datetime
 import datetime as DT
-import boto
-from boto.s3.connection import S3Connection
-from boto.s3.bucket import Bucket
-from boto.s3.key import Key
+import boto3
 from psycopg2 import IntegrityError
 
-boto.config.add_section('Boto') 
-boto.config.set('Boto','http_socket_timeout','10')
 
-class APIFileSaver():
-    
+class APIFileSaver:
+
+
     def __init__(self, apiDBConnection, accessKeyID=None, secretAccessKey=None):
         self.s3 = None
         self.psql = apiDBConnection
@@ -20,37 +16,33 @@ class APIFileSaver():
         self.secretAccessKey = secretAccessKey
 
     def initS3(self):
-        if self.accessKeyID:
-            self.s3 = S3Connection(self.accessKeyID, self.secretAccessKey)
-        else:
-            self.s3 = S3Connection(os.environ['AWS_ACCESS_KEY_ID'], os.environ['AWS_SECRET_ACCESS_KEY'])
-        self.s3bucket = self.s3.get_bucket('sis-api-production')
+        self.s3 = boto3.client('s3', aws_access_key_id=self.accessKeyID, aws_secret_access_key=self.secretAccessKey)
 
     def saveFile(self, fileName, file_category_id, local_filepath, description='', facility_id=None, organization_id=None, content_type='', superuser_required=False):
         apiFile = APIBackedFile()
         if self.s3 is None:
             self.initS3()
-        return apiFile.save(self.s3, self.s3bucket, self.psql, self.systemUserID, fileName, file_category_id, local_filepath, description, facility_id, organization_id, content_type, superuser_required)
+
+        return apiFile.save(self.s3, self.psql, self.systemUserID, fileName, file_category_id, local_filepath, description, facility_id, organization_id, content_type, superuser_required)
     
 
-class S3ConnectionException(Exception):
-    pass
 
+class APIBackedFile:
 
-class APIBackedFile():
+    S3_BUCKET = 'sis-api-production'
+
     def __init__(self):
         pass
     
 
     def save(self, s3Connection, s3bucket, psqlConnection, created_by, fileName, file_category_id, local_filepath, description='', facility_id=None, organization_id=None, content_type='', superuser_required=False):
-        if s3Connection is None:
-            raise S3ConnectionException('S3 Connection not initialized!')
-        k = Key(s3bucket)
-        k.key = fileName
         base_filename = os.path.basename(fileName)
-        print (k.key)
         print ('Uploading local file: ' + str(local_filepath))
-        k.set_contents_from_filename(local_filepath, cb=self.trackProgress, num_cb=20)
+
+
+        s3Connection.upload_file(local_filepath, APIBackedFile.S3_BUCKET, fileName)
+
+
         return_id = None
         try:
             query = "select * from files where filename ='%s' order by version DESC limit 1"%(k.key)
