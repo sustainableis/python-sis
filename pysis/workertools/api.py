@@ -35,7 +35,7 @@ class APIBackedFile:
         pass
     
 
-    def save(self, s3Connection, s3bucket, psqlConnection, created_by, fileName, file_category_id, local_filepath, description='', facility_id=None, organization_id=None, content_type='', superuser_required=False):
+    def save(self, s3Connection, psqlConnection, created_by, fileName, file_category_id, local_filepath, description='', facility_id=None, organization_id=None, content_type='', superuser_required=False):
         base_filename = os.path.basename(fileName)
         print ('Uploading local file: ' + str(local_filepath))
 
@@ -45,14 +45,14 @@ class APIBackedFile:
 
         return_id = None
         try:
-            query = "select * from files where filename ='%s' order by version DESC limit 1"%(k.key)
+            query = "select * from files where filename ='%s' order by version DESC limit 1"%(fileName)
             existing_files = psqlConnection.complicatedSelectExecution(query, dictResults=True)
             if len(existing_files) > 0:
                 version = int(existing_files[0]['version']) + 1
             else:
                 version = 1
             
-            return_id = psqlConnection.insertOne("files", {'filename': k.key,
+            return_id = psqlConnection.insertOne("files", {'filename': fileName,
                                                'base_filename': base_filename,
                                                'description' : description,
                                                'content_type' : content_type,
